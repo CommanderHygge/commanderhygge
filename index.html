@@ -65,7 +65,8 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
   left:0;right:0;bottom:-1px;height:1px;
   background:linear-gradient(90deg,transparent,rgba(234,211,154,.5),transparent);
 }
-.brand{max-width:780px;margin:auto;display:flex;align-items:center;gap:12px}
+.brand{max-width:780px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand-left{display:flex;align-items:center;gap:12px;min-width:0}
 .brand-mark{
   width:44px;height:48px;
   position:relative;
@@ -104,6 +105,23 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
   text-overflow:ellipsis;
   max-width:min(68vw,560px);
 }
+.header-back{
+  min-height:38px;
+  border-radius:11px;
+  border:1px solid #4f4438;
+  background:linear-gradient(180deg,#262124,#1b181a);
+  color:var(--text);
+  padding:8px 12px;
+  font-weight:800;
+  font-size:.8rem;
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.header-back:active{transform:scale(.985)}
+@media(max-width:420px){
+  .header-back{padding:8px 10px;font-size:.76rem}
+}
+
 
 main{position:relative;z-index:1;max-width:780px;margin:auto;padding:22px 16px 44px}
 .hero{padding:13px 2px 8px}
@@ -462,6 +480,81 @@ h2{
   color:#f2e5c7;
 }
 
+
+.alt-status-row{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:4px 0 12px;
+}
+.alt-status{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border-radius:999px;
+  padding:5px 9px;
+  border:1px solid #4d443d;
+  background:#282321;
+  color:#d9cfc3;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:.58rem;
+  font-weight:900;
+}
+.alt-status.official{border-color:#66553a;color:#ead39a;background:#2b241b}
+.alt-status.recommended{border-color:#465466;color:#b8cee3;background:#1d252d}
+.alt-status.options{border-color:#5c4a63;color:#d4bfdc;background:#261f29}
+.alt-status.none{border-color:#63483f;color:#e0b8aa;background:#2b201d}
+.alt-list{display:grid;gap:10px;margin-top:10px}
+.alt-card{
+  position:relative;
+  overflow:hidden;
+  border:1px solid #403938;
+  border-radius:12px;
+  background:linear-gradient(145deg,#242022,#1b191b);
+  padding:13px;
+}
+.alt-card::before{
+  content:"";
+  position:absolute;
+  left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,#c9a45f,#7d6540);
+}
+.alt-name{
+  font-family:var(--serif);
+  color:#f2e5d4;
+  font-size:1rem;
+  font-weight:850;
+  margin:0 0 9px;
+  padding-left:2px;
+}
+.alt-detail{
+  margin-top:8px;
+  padding-top:8px;
+  border-top:1px solid rgba(255,255,255,.055);
+}
+.alt-detail:first-of-type{margin-top:0;padding-top:0;border-top:0}
+.alt-label{
+  display:block;
+  color:#9e9389;
+  text-transform:uppercase;
+  letter-spacing:.095em;
+  font-size:.57rem;
+  font-weight:900;
+  margin-bottom:3px;
+}
+.alt-text{color:#d9d0c8;font-size:.82rem;line-height:1.48}
+.alt-none{
+  border:1px solid #5a433c;
+  border-radius:11px;
+  background:#281e1c;
+  padding:12px 13px;
+  color:#ddc7bf;
+  font-size:.84rem;
+  line-height:1.5;
+}
+
 .modal{
   position:fixed;inset:0;
   background:rgba(4,3,5,.78);
@@ -652,11 +745,14 @@ footer{
 <body>
   <header class="topbar">
     <div class="brand">
-      <div class="brand-mark">CH</div>
-      <div>
-        <h1>CommanderHygge</h1>
-        <p id="header-context">Precon Pilot Guides</p>
+      <div class="brand-left">
+        <div class="brand-mark">CH</div>
+        <div>
+          <h1>CommanderHygge</h1>
+          <p id="header-context">Precon Pilot Guides</p>
+        </div>
       </div>
+      <button id="header-back" class="header-back hidden" aria-label="Back to all decks">← All decks</button>
     </div>
   </header>
 
@@ -706,7 +802,6 @@ footer{
     </section>
 
     <section id="guide-view" class="view hidden">
-      <button class="back-btn" id="back-btn">← All decks</button>
       <div id="guide-content"></div>
     </section>
   </main>
@@ -735,7 +830,7 @@ footer{
   </div>
 
   <footer>
-    <p>CommanderHygge · Prototype v0.7.1 · Unofficial fan-made pilot guides</p>
+    <p>CommanderHygge · Prototype v0.8.1 · Unofficial fan-made pilot guides</p>
   </footer>
 
   <script>
@@ -8618,10 +8713,434 @@ window.DECKS = [
 ];
 
 const decks = window.DECKS || [];
+const ALTERNATE_COMMANDERS = {
+  "first-flight": {
+    "type": "recommended",
+    "note": "Starter Commander Decks contain only one foil-etched commander. Kangee is the strongest legal in-deck backup if you want a different way to pilot the unchanged 99.",
+    "options": [
+      {
+        "name": "Kangee, Sky Warden",
+        "does": "Kangee rewards flying combat: attacking flyers hit harder and blocking flyers become tougher.",
+        "shift": "Move from Isperia’s defensive card-advantage politics to a much more proactive airborne aggro plan. Build a wide flyer board and use Kangee as your combat anthem.",
+        "try": "Choose Kangee when you want shorter, more aggressive games and fewer turns holding back for Isperia value."
+      }
+    ]
+  },
+  "grave-danger": {
+    "type": "recommended",
+    "note": "Starter Commander Decks contain only one foil-etched commander. Havengul Lich is a legal blue-black commander already inside the unchanged deck.",
+    "options": [
+      {
+        "name": "Havengul Lich",
+        "does": "Lets you spend mana to cast creature cards from graveyards and can temporarily gain their activated abilities.",
+        "shift": "Move away from Gisa and Geralf’s steady Zombie-tribal recursion and toward a graveyard toolbox that can reuse your best creatures or steal value from opposing graveyards.",
+        "try": "Choose Havengul Lich when you want a slower, more flexible value game and enjoy treating every graveyard as a resource."
+      }
+    ]
+  },
+  "chaos-incarnate": {
+    "type": "recommended",
+    "note": "Starter Commander Decks contain only one foil-etched commander. Kaervek is a legal black-red commander already included in the unchanged 99.",
+    "options": [
+      {
+        "name": "Kaervek the Merciless",
+        "does": "Punishes opponents whenever they cast spells by dealing damage based on that spell’s mana value.",
+        "shift": "Move from Kardur’s goad-and-forced-combat plan to a slower punisher/control game. Instead of making creatures attack each other, you make normal spellcasting dangerous.",
+        "try": "Choose Kaervek when the table is spell-heavy or when you want to play the deck more like a deterrent control deck than a chaos-combat deck."
+      }
+    ]
+  },
+  "draconic-destruction": {
+    "type": "none",
+    "note": "This Starter Commander Deck has only one foil-etched commander, and the unchanged 99 does not contain another legendary creature with a full red-green color identity that can legally command every card in the deck. Keep Atarka at the helm unless you change the 99."
+  },
+  "token-triumph": {
+    "type": "recommended",
+    "note": "Starter Commander Decks contain only one foil-etched commander. Maja is a legal green-white commander already inside the unchanged deck.",
+    "options": [
+      {
+        "name": "Maja, Bretagard Protector",
+        "does": "Turns land drops into creature tokens and gives your other creatures a power/toughness boost.",
+        "shift": "Move from Emmara’s tap-based token engine to a simpler landfall go-wide plan. Ramp and land drops become your token production, and Maja acts as an anthem for the army.",
+        "try": "Choose Maja when you want a more straightforward creature-swarm deck that relies less on finding ways to tap Emmara."
+      }
+    ]
+  },
+  "animated-army": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Wildsear, Scouring Maw",
+        "does": "Gives enchantment spells you cast from your hand cascade, turning each enchantment into another spell from your library.",
+        "shift": "Move from Bello animating expensive artifacts and enchantments into 4/4 attackers to an enchantment-value engine. You care more about repeatedly casting enchantments than converting them into creatures.",
+        "try": "Choose Wildsear when you want more spell-chain value and less dependence on Bello surviving combat."
+      }
+    ]
+  },
+  "family-matters": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Arthur, Marigold Knight",
+        "does": "When Arthur attacks alongside another creature, he can put a creature from the top of your library onto the battlefield tapped and attacking, then return it to your hand after combat.",
+        "shift": "Move from Zinnia’s offspring/token-copy value toward attack-triggered creature cheating. Creatures with strong enters-the-battlefield effects become especially attractive because Arthur can reuse them.",
+        "try": "Choose Arthur when you want a more aggressive combat deck with surprise attackers and repeated ETB value."
+      }
+    ]
+  },
+  "peace-offering": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Mr. Foxglove",
+        "does": "Attacking can refill your hand relative to the defending player; if you draw no cards that way, Mr. Foxglove can instead put a creature from your hand directly onto the battlefield.",
+        "shift": "Move from Ms. Bumbleflower’s table-politics/group-hug engine to a more self-focused hand-management and creature-cheating plan. Choosing who to attack becomes a resource decision.",
+        "try": "Choose Mr. Foxglove when you want less diplomacy and more direct card advantage or big-creature deployment."
+      }
+    ]
+  },
+  "squirreled-away": {
+    "type": "official",
+    "options": [
+      {
+        "name": "The Odd Acorn Gang",
+        "does": "Turns your Squirrels into combat support: they can tap to pump another Squirrel, and Squirrels that connect with players can draw you cards.",
+        "shift": "Move from Hazel’s token-copy and mana engine to direct Squirrel tribal combat. Going wide still matters, but now the reward is pumping attackers and converting combat damage into cards.",
+        "try": "Choose The Odd Acorn Gang when you want the deck to feel more like an aggressive Squirrel army and less like a token-value engine."
+      }
+    ]
+  },
+  "veloci-ramp-tor": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Wayta, Trainer Prodigy",
+        "does": "Lets your creatures fight efficiently and makes triggered abilities caused by your creatures being dealt damage trigger an additional time.",
+        "shift": "Move from Pantlaza’s discover engine to an enrage/damage-trigger deck. You deliberately damage your own Dinosaurs to double their payoff abilities instead of focusing on one discover trigger each turn.",
+        "try": "Choose Wayta when you enjoy combat tricks, fight effects and turning your Dinosaurs’ damage triggers into the main engine."
+      }
+    ]
+  },
+  "ahoy-mateys": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Don Andres, the Renegade",
+        "does": "Buffs creatures you control but do not own and rewards you with Treasure when you cast noncreature spells you do not own.",
+        "shift": "Move from Admiral Brass reanimating Pirates from your own graveyard to a theft-and-opponents-cards plan. Stolen creatures become Pirates and much stronger attackers.",
+        "try": "Choose Don Andres when you want a more unpredictable game where your opponents’ cards become part of your strategy."
+      }
+    ]
+  },
+  "blood-rites": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Carmen, Cruel Skymarcher",
+        "does": "Grows whenever players sacrifice permanents, gains you life, and can return permanents from your graveyard when she attacks as her power increases.",
+        "shift": "Move from Clavileño’s marked-Vampire death engine to a sacrifice-fueled recursive threat. Carmen can become a large commander while every sacrifice at the table helps unlock better recursion.",
+        "try": "Choose Carmen when you want a grindier aristocrats/Voltron hybrid and enjoy making sacrifice decisions matter across the whole table."
+      }
+    ]
+  },
+  "explorers-of-the-deep": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Xolatoyac, the Smiling Flood",
+        "does": "Places flood counters on lands and untaps permanents you control that have counters on them at your end step.",
+        "shift": "Move from Hakbal’s explore-driven Merfolk growth to a counter-and-untap value engine. Permanents with +1/+1 or other counters become reusable resources, and flood counters can help enable Island-related combat.",
+        "try": "Choose Xolatoyac when you want more tap/untap tricks and counter synergies instead of pure Merfolk explore tempo."
+      }
+    ]
+  },
+  "arcane-maelstrom": {
+    "type": "options",
+    "note": "Commander 2020 included several new legendary options in the same deck rather than one single featured alternate. These are the most natural WotC-designed alternatives in the unchanged 99.",
+    "options": [
+      {
+        "name": "Xyris, the Writhing Storm",
+        "does": "Creates Snake tokens when opponents draw extra cards and makes both you and a damaged opponent draw when Xyris connects in combat.",
+        "shift": "Move from Kalamax instant-copy control toward wheels, group draw and a rapidly growing Snake army. You become more proactive and political around card draw.",
+        "try": "Choose Xyris when you want token combat and chaotic card-draw turns instead of carefully timing the first instant each turn."
+      },
+      {
+        "name": "Pako, Arcane Retriever + Haldan, Avid Arcanist",
+        "does": "Pako attacks to exile cards from every library and grows from noncreature hits; Haldan lets you play the cards Pako exiled with fetch counters.",
+        "shift": "Move from spellslinger timing to attack-driven card theft. Pako becomes a growing threat while Haldan converts stolen cards into long-term value.",
+        "try": "Choose the partner pair when you want the deck to feel more like combat plus opponents’-cards value than a reactive instant deck."
+      }
+    ]
+  },
+  "ruthless-regiment": {
+    "type": "options",
+    "note": "Commander 2020 gives this deck more than one WotC-designed alternate leadership package.",
+    "options": [
+      {
+        "name": "Kelsien, the Plague",
+        "does": "Pings creatures and gains experience counters when creatures damaged by him die, making Kelsien steadily larger.",
+        "shift": "Move from Jirina’s Human go-wide anthem plan to removal-control and commander damage. Small opposing creatures become fuel for a growing Kelsien.",
+        "try": "Choose Kelsien when you want a more surgical, controlling game rather than building the widest Human board."
+      },
+      {
+        "name": "Trynn, Champion of Freedom + Silvar, Devourer of the Free",
+        "does": "Trynn creates Human tokens after you attack; Silvar sacrifices Humans to grow and become indestructible.",
+        "shift": "Move from Human tribal buffs to a token-sacrifice/Voltron engine. Humans become both attackers and protection/fuel for Silvar.",
+        "try": "Choose the partner pair when you want an aristocrats-flavored Human deck with a resilient commander threat."
+      }
+    ]
+  },
+  "symbiotic-swarm": {
+    "type": "options",
+    "note": "Commander 2020 gives this deck several WotC-designed ways to lead the same Abzan 99.",
+    "options": [
+      {
+        "name": "Tayam, Luminous Enigma",
+        "does": "Uses counters from your creatures as a resource to mill cards and return cheap permanents from your graveyard to the battlefield.",
+        "shift": "Move from Kathril’s keyword-counter burst toward a repeatable counters-plus-graveyard engine. You care more about distributing and spending counters over many turns.",
+        "try": "Choose Tayam when you prefer a grindy recursion engine and lots of small sequencing decisions."
+      },
+      {
+        "name": "Nikara, Lair Scavenger + Yannik, Scavenging Sentinel",
+        "does": "The partner pair rewards creatures with counters leaving the battlefield while Yannik temporarily exiles one of your creatures and redistributes counters.",
+        "shift": "Move from one large Kathril payoff to a more engine-like blink/sacrifice/counter plan that repeatedly turns creatures entering and leaving into cards and counters.",
+        "try": "Choose the partners when you want more moving pieces and value loops instead of building one keyword-heavy threat."
+      }
+    ]
+  },
+  "timeless-wisdom": {
+    "type": "options",
+    "note": "Commander 2020 gives this deck more than one alternate WotC-designed commander package.",
+    "options": [
+      {
+        "name": "Akim, the Soaring Wind",
+        "does": "Rewards the first token creation each turn with an extra Bird and can give your token army double strike.",
+        "shift": "Move from Gavi’s cycling engine to broader token production and combat. Cycling still helps through cards like Drake Haven, but any token maker becomes part of the main plan.",
+        "try": "Choose Akim when you want to turn the deck into a more direct go-wide combat deck."
+      },
+      {
+        "name": "Brallin, Skyshark Rider + Shabraz, the Skyshark",
+        "does": "Brallin grows and damages opponents when you discard; Shabraz grows and gains life when you draw cards.",
+        "shift": "Move from free cycling/value to turning every cycle into commander growth, life gain and damage. The same draw/discard actions become an aggressive Voltron engine.",
+        "try": "Choose the partner pair when you want cycling to translate directly into commander pressure."
+      }
+    ]
+  },
+  "buckle-up": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Shorikai, Genesis Engine",
+        "does": "A legendary Vehicle that draws and filters cards while creating Pilot tokens, giving you a repeatable artifact-value engine from the command zone.",
+        "shift": "Move from Kotori making Vehicles easier to crew and better in combat to a slower artifact-control plan built around card advantage, Pilots and a very resilient commander permanent.",
+        "try": "Choose Shorikai when you want consistency, card selection and artifact value more than Vehicle combat bonuses."
+      }
+    ]
+  },
+  "upgrades-unleashed": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Kaima, the Fractured Calm",
+        "does": "Rewards you for enchanting opponents’ creatures, goading them into combat and growing when those enchanted creatures attack.",
+        "shift": "Move from Chishiro modifying your own creatures with Auras/Equipment and +1/+1 counters to a political Aura-goad strategy aimed at opposing creatures.",
+        "try": "Choose Kaima when you want more table politics and forced combat instead of building your own modified army."
+      }
+    ]
+  },
+  "creative-energy": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Cayth, Famed Mechanist",
+        "does": "Gives your nontoken creatures fabricate and can populate or proliferate, turning creatures, tokens and counters into a repeatable value engine.",
+        "shift": "Move from Satya’s energy-fueled temporary copies in combat to permanent Servo production, token copying and counter growth. Energy matters less; board development matters more.",
+        "try": "Choose Cayth when you want a steadier artifact-token/counter deck and less reliance on attacking with Satya."
+      }
+    ]
+  },
+  "abzan-armor": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Betor, Ancestor’s Voice",
+        "does": "Uses life gained and life lost during the turn to place +1/+1 counters and return creatures from your graveyard.",
+        "shift": "Move from Felothar’s toughness-matters combat and defender-style pressure to a life-swing, counters and recursion plan. Your life total becomes an engine rather than just a buffer.",
+        "try": "Choose Betor when you want more graveyard recursion and life-management decisions instead of focusing almost entirely on toughness."
+      }
+    ]
+  },
+  "jeskai-striker": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Elsha, Threefold Master",
+        "does": "Has prowess and turns combat damage into an army of Monk tokens with prowess.",
+        "shift": "Move from Shiko and Narset’s second-spell/value sequencing to a commander-centric prowess plan. Cast noncreature spells before combat, grow Elsha, connect, then snowball with Monk tokens.",
+        "try": "Choose Elsha when you want a more explosive spellslinger-combat deck and are comfortable making your commander a visible threat."
+      }
+    ]
+  },
+  "sultai-arisen": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Teval, the Balanced Scale",
+        "does": "Attacks to mill cards and return a land from your graveyard, while cards leaving your graveyard can create Zombie Druid tokens.",
+        "shift": "Move from Kotis’s combat/casting value to a dedicated self-mill and graveyard-movement engine. Lands in the graveyard become ramp, and recursion/exile events become token production.",
+        "try": "Choose Teval when you want a grindier land-and-graveyard deck with a wider token board."
+      }
+    ]
+  },
+  "mardu-surge": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Neriv, Crackling Vanguard",
+        "does": "Brings Goblin tokens, then attacking can exile cards from your library based on the number of differently named tokens you control and let you play them on attack turns.",
+        "shift": "Move from Zurgo’s surge-and-wide-attack pressure toward token diversity and attack-triggered card advantage. Different token names become a resource, not just creature count.",
+        "try": "Choose Neriv when you want a token toolbox that refuels itself through combat rather than leaning as hard on surge sequencing."
+      }
+    ]
+  },
+  "temur-roar": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Ureni of the Unwritten",
+        "does": "A large flying, trampling Dragon that looks at the top eight cards when it enters or attacks and can put a Dragon from among them directly onto the battlefield.",
+        "shift": "Move from Eshki rewarding every large creature spell and tracking 4/6-power thresholds to a much more focused Dragon-typal cheat plan. Ramp to Ureni, then attack to turn the top of your library into free Dragons.",
+        "try": "Choose Ureni when you want the deck to feel like classic Temur Dragons: fewer threshold decisions, more huge creatures arriving for free."
+      }
+    ]
+  },
+  "silverquill-influence": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Scriv, the Obligator",
+        "does": "Creates Contract Auras on opposing creatures that encourage them to attack your other opponents and punish them for staying out of combat.",
+        "shift": "Move from Killian using Auras as flexible political tools and card advantage to a more explicit contract-and-combat-control plan. You spend more effort directing enemy creatures around the table.",
+        "try": "Choose Scriv when you enjoy politics, deals and making opponents solve your combat problems for you."
+      }
+    ]
+  },
+  "prismari-artistry": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Muddle, the Ever-Changing",
+        "does": "Casting an instant or sorcery can let Muddle become a copy of one of your nonlegendary creatures for the turn, while gaining myriad.",
+        "shift": "Move from Rootha turning your biggest spell into one large flying token to a shape-shifting combat plan. Your best creature on the battlefield becomes the template Muddle can multiply across opponents.",
+        "try": "Choose Muddle when you want spellslinger decisions to feed directly into combat and creature-copy tricks."
+      }
+    ]
+  },
+  "witherbloom-pestilence": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Gorma, the Gullet",
+        "does": "Grows as your other creatures die and can make later nontoken creatures enter with extra +1/+1 counters based on how much died that turn.",
+        "shift": "Move from Dina’s sacrifice-for-cards/drain engine to sacrifice as setup for oversized follow-up creatures. The order of sacrificing and casting becomes the main puzzle.",
+        "try": "Choose Gorma when you want your aristocrats deck to win more through huge creatures and counters than through gradual life drain."
+      }
+    ]
+  },
+  "lorehold-spirit": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Excava, the Risen Past",
+        "does": "Attacking can return a cheap artifact, creature or non-Aura enchantment from your graveyard as a 1/1 flying Spirit in addition to its other types.",
+        "shift": "Move from Quintorius rewarding many different cards leaving the graveyard with Spirit tokens to repeated attack-based reanimation of specific cheap permanents.",
+        "try": "Choose Excava when you want a more direct recursion/tempo plan where attacking your commander repeatedly rebuilds your board."
+      }
+    ]
+  },
+  "quandrix-unlimited": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Primo, the Unbounded",
+        "does": "Enters with a large pile of +1/+1 counters based on X, then rewards your base-power-0 creatures dealing combat damage by creating new Fractals and loading them with counters.",
+        "shift": "Move from Zimone discounting and rewarding your first X spell each turn to a much more creature-combat-focused Fractal plan. Counters become attackers first and cost reduction second.",
+        "try": "Choose Primo when you want a simpler Simic “make enormous creatures and attack” experience."
+      }
+    ]
+  },
+  "living-energy": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Pia Nalaar, Chief Mechanic",
+        "does": "Artifact creatures that hit opponents generate energy, and Pia can turn stored energy into a flying Vehicle token at your end step.",
+        "shift": "Move from Saheeli generating energy from artifacts/Artificers and spending it on temporary copies to a combat-centered artifact-creature and Vehicle plan that banks energy across turns.",
+        "try": "Choose Pia when you want to attack with artifact creatures and convert combat success into a growing fleet."
+      }
+    ]
+  },
+  "eternal-might": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Hashaton, Scarab’s Fist",
+        "does": "When you discard a creature card, you can spend mana to create a tapped 4/4 Zombie token copy of it.",
+        "shift": "Move from Temmet’s Zombie-wide pressure to a discard-and-copy reanimation engine. Your best creatures become templates for cheap Zombie copies instead of simply being cast normally.",
+        "try": "Choose Hashaton when you enjoy graveyard setup, discard decisions and cheating high-value creature abilities into play."
+      }
+    ]
+  },
+  "dance-of-the-elements": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Mass of Mysteries",
+        "does": "A five-color Elemental combat commander that can give another Elemental myriad at the beginning of combat.",
+        "shift": "Move from Ashling’s evoke/Elemental value engine to copying your best Elemental across all opponents during combat. ETB-heavy Elementals become especially explosive with myriad.",
+        "try": "Choose Mass of Mysteries when you want a more aggressive five-color Elemental deck built around spectacular combat turns."
+      }
+    ]
+  },
+  "blight-curse": {
+    "type": "official",
+    "options": [
+      {
+        "name": "The Reaper, King No More",
+        "does": "Places -1/-1 counters on enemy creatures and can steal a creature that dies with one of those counters on it.",
+        "shift": "Move from Auntie Ool’s broad blight/-1/-1-counter engine to a removal-and-theft control plan. Mark the creature you most want, kill it, then turn it into your own threat.",
+        "try": "Choose The Reaper when you want more targeted control and the fun of winning with opponents’ creatures."
+      }
+    ]
+  },
+  "counter-intelligence": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Inspirit, Flagship Vessel",
+        "does": "A legendary Spacecraft that builds charge counters through station, improves other artifacts as it develops and eventually becomes a flying protection engine for your artifact board.",
+        "shift": "Move from Kilo repeatedly proliferating many counter types to building one major artifact fortress. Station progress and protecting a wide artifact board become more important than maximizing every proliferate trigger.",
+        "try": "Choose Inspirit when you want a slower, sturdier artifact deck that grows toward an almost fortress-like late game."
+      }
+    ]
+  },
+  "world-shaper": {
+    "type": "official",
+    "options": [
+      {
+        "name": "Szarel, Genesis Shepherd",
+        "does": "Lets you play lands from your graveyard and turns sacrificing other nontoken permanents into +1/+1 counters on another creature.",
+        "shift": "Move from Hearthhull’s land-sacrifice/card-value plan to a recursive sacrifice-and-growth engine. Lands keep coming back while sacrificed permanents help build enormous creatures.",
+        "try": "Choose Szarel when you want more creature growth and graveyard-land recursion, with less emphasis on Hearthhull itself as the sacrifice payoff."
+      }
+    ]
+  }
+};
 const $ = s => document.querySelector(s);
 const home = $("#home-view");
 const guide = $("#guide-view");
 const headerContext = $("#header-context");
+const headerBack = $("#header-back");
 const grid = $("#deck-grid");
 const search = $("#search");
 const count = $("#deck-count");
@@ -8661,9 +9180,10 @@ function levenshtein(a,b){
 function fuzzyScore(query, deck){
   const q=normalize(query);
   if(!q) return 999;
+  const alternateNames = (ALTERNATE_COMMANDERS[deck.id]?.options||[]).map(o=>o.name);
   const fields=[
     deck.name, deck.commander, deck.set,
-    ...(deck.tags||[]), ...(deck.colors||[])
+    ...(deck.tags||[]), ...(deck.colors||[]), ...alternateNames
   ].map(normalize);
   const joined=fields.join(" ");
   if(joined.includes(q)) return 100;
@@ -8709,6 +9229,7 @@ function sectionIcon(title){
     "Early Game":"Ⅰ",
     "Mid Game":"Ⅱ",
     "Commander":"♛",
+    "Alternate Commander":"↔",
     "Key Cards":"★",
     "Interaction":"◆",
     "How to Win":"⚔",
@@ -8785,8 +9306,64 @@ clearSearch.addEventListener("click",()=>{
 });
 
 
+
+function getAlternateSection(deck){
+  const alt = ALTERNATE_COMMANDERS[deck.id];
+  if(!alt) return null;
+  let lead;
+  let question = "How does the same 99 play with a different commander?";
+  if(alt.type==="official"){
+    lead = "WotC included this as the deck’s official featured/alternate commander. You can swap commanders without changing any of the other 99 cards.";
+  } else if(alt.type==="options"){
+    lead = alt.note || "This deck includes several WotC-designed alternate leadership options that can command the unchanged 99.";
+  } else if(alt.type==="recommended"){
+    lead = alt.note || "This is a legal commander already inside the unchanged deck, but it was not sold as a separate foil alternate commander.";
+  } else {
+    lead = alt.note || "The unchanged 99 does not contain another legal commander for the full deck.";
+    question = "Can I change commanders without changing the 99?";
+  }
+  return {
+    title:"Alternate Commander",
+    question,
+    lead,
+    alternate:alt
+  };
+}
+
+function getGuideSections(deck){
+  const sections = [...deck.sections];
+  const altSection = getAlternateSection(deck);
+  if(!altSection) return sections;
+  const commanderIndex = sections.findIndex(s=>s.title==="Commander");
+  sections.splice(commanderIndex>=0 ? commanderIndex+1 : 1, 0, altSection);
+  return sections;
+}
+
+function renderAlternateCommander(alt){
+  const labels={
+    official:"Official WotC alternate",
+    options:"WotC alternate options",
+    recommended:"Recommended in-deck backup",
+    none:"No legal alternate in unchanged 99"
+  };
+  const status=`<div class="alt-status-row"><span class="alt-status ${alt.type}">${labels[alt.type]||"Alternate commander"}</span></div>`;
+  if(alt.type==="none"){
+    return `${status}<div class="alt-none">${alt.note||"No legal alternate commander is available without changing the deck."}</div>`;
+  }
+  const cards=(alt.options||[]).map(o=>`
+    <div class="alt-card">
+      <div class="alt-name">${o.name}</div>
+      <div class="alt-detail"><span class="alt-label">What it does</span><div class="alt-text">${o.does}</div></div>
+      <div class="alt-detail"><span class="alt-label">How the strategy changes</span><div class="alt-text">${o.shift}</div></div>
+      <div class="alt-detail"><span class="alt-label">Try this version if…</span><div class="alt-text">${o.try}</div></div>
+    </div>
+  `).join("");
+  return `${status}<div class="alt-list">${cards}</div>`;
+}
+
 function renderSectionBody(s,index,total){
   const lead = s.lead ? `<p class="section-lead">${s.lead}</p>` : "";
+  const alternate = s.alternate ? renderAlternateCommander(s.alternate) : "";
   const callouts = (s.callouts||[]).length ? `
     <div class="decision-grid">
       ${s.callouts.map(c=>`
@@ -8816,14 +9393,16 @@ function renderSectionBody(s,index,total){
       <button class="section-nav-btn prev" data-target="${index-1}" ${index===0?"disabled":""}>← Previous</button>
       <button class="section-nav-btn next" data-target="${index+1}" ${index===total-1?"disabled":""}>Next →</button>
     </div>`;
-  return `${lead}${callouts}${cards}${bullets}${nav}`;
+  return `${lead}${alternate}${callouts}${cards}${bullets}${nav}`;
 }
 
 function openGuide(id){
   const d=decks.find(x=>x.id===id);
   if(!d) return;
+  const guideSections = getGuideSections(d);
   headerContext.textContent = `${d.name} · Pilot Guide`;
   headerContext.classList.add("guide-context");
+  headerBack.classList.remove("hidden");
   $("#guide-content").innerHTML=`
     <div class="guide-hero" style="--deck-accent:${deckAccent(d.colors,"90deg")}">
       <p class="eyebrow">${d.set}</p>
@@ -8851,7 +9430,7 @@ function openGuide(id){
       </div>
     </div>
     <div class="accordion">
-      ${d.sections.map((s,i)=>`
+      ${guideSections.map((s,i)=>`
         <div class="acc-item">
           <button class="acc-btn" aria-expanded="${i===0?"true":"false"}">
             <span class="acc-label">
@@ -8863,7 +9442,7 @@ function openGuide(id){
             </span>
             <span>${i===0?"−":"+"}</span>
           </button>
-          <div class="acc-content ${i===0?"":"hidden"}">${renderSectionBody(s,i,d.sections.length)}</div>
+          <div class="acc-content ${i===0?"":"hidden"}">${renderSectionBody(s,i,guideSections.length)}</div>
         </div>
       `).join("")}
     </div>
@@ -8916,14 +9495,17 @@ function openGuide(id){
   window.scrollTo(0,0);
 }
 
-$("#back-btn").addEventListener("click",()=>{
+function returnToHome(){
   guide.classList.add("hidden");
   home.classList.remove("hidden");
   headerContext.textContent = "Precon Pilot Guides";
   headerContext.classList.remove("guide-context");
+  headerBack.classList.add("hidden");
   history.replaceState(null,"",location.pathname);
   window.scrollTo(0,0);
-});
+}
+
+headerBack.addEventListener("click", returnToHome);
 
 function updateRandomizerStatus(){
   const availableCount = decks.filter(d=>!takenDeckIds.has(d.id)).length;
