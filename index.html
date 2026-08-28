@@ -563,6 +563,58 @@ h2{
 }
 
 
+
+.table-setup-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin:4px 0 12px;padding:10px 11px;
+  border:1px solid #403937;border-radius:11px;
+  background:linear-gradient(145deg,#211e20,#1b191b);
+}
+.setup-load-label{color:#93897f;text-transform:uppercase;letter-spacing:.1em;font-size:.59rem;font-weight:900}
+.setup-load-value{font-family:var(--serif);color:#f1e4ce;font-weight:800;font-size:.96rem;margin-top:1px}
+.setup-token-note{color:#8f867e;font-size:.72rem;line-height:1.4;text-align:right;max-width:52%}
+.setup-list{display:grid;gap:8px;margin:10px 0 0}
+.setup-item{
+  display:grid;grid-template-columns:auto 1fr;gap:10px;
+  border:1px solid #3a3434;border-radius:10px;padding:10px 11px;
+  background:linear-gradient(145deg,#211e20,#1b191b);
+}
+.setup-qty{
+  min-width:58px;height:max-content;text-align:center;padding:5px 7px;border-radius:8px;
+  background:#2c2726;border:1px solid #473e39;color:#f1dfb9;font-weight:900;font-size:.72rem;
+}
+.setup-item-top{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:3px}
+.setup-name{font-family:var(--serif);color:#efe4d6;font-weight:800;font-size:.87rem}
+.setup-badge{padding:2px 6px;border-radius:999px;text-transform:uppercase;letter-spacing:.075em;font-size:.52rem;font-weight:950;border:1px solid #4a423e;color:#b9afa6;background:#292526}
+.setup-badge.core{border-color:#69553a;color:#ead39a;background:#2b241b}
+.setup-badge.useful{border-color:#45545f;color:#a9c5d7;background:#20282d}
+.setup-badge.optional{border-color:#4b4642;color:#9d958e;background:#252224}
+.setup-why{color:#afa59c;font-size:.78rem;line-height:1.42}
+.setup-note,.setup-included{
+  margin-top:10px;padding:9px 10px;border-radius:9px;font-size:.76rem;line-height:1.45;
+}
+.setup-note{border-left:3px solid #9b7c48;background:#221d18;color:#cbbda8}
+.setup-kit-note{
+  margin:10px 0 0;
+  padding:9px 11px;
+  border-left:3px solid #75608f;
+  border-radius:8px;
+  background:#1d1922;
+  color:#bfb2cb;
+  font-size:.72rem;
+  line-height:1.45;
+}
+.setup-universal{
+  box-shadow:inset 0 0 0 1px rgba(201,164,95,.05);
+}
+.setup-included{border-left:3px solid #607f70;background:#18211d;color:#b8cdbf}
+@media(max-width:420px){
+  .table-setup-head{align-items:flex-start;flex-direction:column}
+  .setup-token-note{text-align:left;max-width:none}
+  .setup-item{grid-template-columns:54px 1fr;gap:8px}
+  .setup-qty{min-width:54px}
+}
+
 .alt-status-row{
   display:flex;
   align-items:center;
@@ -948,7 +1000,7 @@ footer{
   </div>
 
   <footer>
-    <p>CommanderHygge · Prototype v0.9 · Unofficial fan-made pilot guides</p>
+    <p>CommanderHygge · Prototype v0.10.4 · Unofficial fan-made pilot guides</p>
   </footer>
 
   <script>
@@ -9256,6 +9308,947 @@ const ALTERNATE_COMMANDERS = {
     ]
   }
 };
+const TABLE_SETUPS = {
+  "first-flight": {
+    "load": "Light",
+    "items": [
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Gideon Jura is the deck’s planeswalker."
+      }
+    ],
+    "note": "This deck needs very little extra tracking beyond normal tokens."
+  },
+  "grave-danger": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "6–8",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Champion of the Perished, Unbreathing Horde and the deck’s Zombie/amass effects can leave several creatures with counters."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Liliana, Untouched by Death."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "General counter die",
+        "need": "core",
+        "why": "Tracks study counters on Grimoire of the Dead."
+      }
+    ]
+  },
+  "chaos-incarnate": {
+    "load": "Light",
+    "items": [
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Ob Nixilis Reignited."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "General counter die",
+        "need": "core",
+        "why": "Tracks storage counters on Molten Slagheap."
+      }
+    ]
+  },
+  "draconic-destruction": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "4–6",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Several Dragon payoffs can add permanent +1/+1 counters, including Foe-Razer Regent."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Sarkhan, the Dragonspeaker."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "General counter die",
+        "need": "core",
+        "why": "Tracks gold counters on Dragon’s Hoard."
+      }
+    ]
+  },
+  "token-triumph": {
+    "load": "Heavy",
+    "items": [
+      {
+        "qty": "10–12",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "The deck repeatedly grows creatures through cards such as Champion of Lambholt, Rishkar and other team-growth effects."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Large +1/+1 tracker",
+        "need": "useful",
+        "why": "Useful when one creature accumulates many counters and small dice become awkward."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Ajani, Caller of the Pride."
+      }
+    ]
+  },
+  "animated-army": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "6–8",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Grumgully, Path of Discovery, Primeval Bounty and Raging Ravine can leave counters on several permanents."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Domri, Anarch of Bolas is the deck’s Courageous Critters planeswalker."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Level tracker",
+        "need": "optional",
+        "why": "Handy for remembering the current level of Alchemist’s Talent."
+      }
+    ]
+  },
+  "family-matters": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "6",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Boss’s Chauffeur and Pollywog Prodigy are among the cards that can build permanent counters."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Elspeth, Sun’s Champion is included as the deck’s Courageous Critters planeswalker."
+      },
+      {
+        "qty": "4",
+        "item": "Flying-counter markers",
+        "need": "core",
+        "why": "Luminous Broodmoth can return multiple creatures with flying counters over a game."
+      },
+      {
+        "qty": "1",
+        "item": "Shield-counter marker",
+        "need": "core",
+        "why": "Shield Broker puts a shield counter on a creature."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Level tracker",
+        "need": "optional",
+        "why": "Handy for Fortune Teller’s Talent."
+      }
+    ]
+  },
+  "peace-offering": {
+    "load": "Heavy",
+    "items": [
+      {
+        "qty": "12–16",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Ms. Bumbleflower, Forgotten Ancient, Managorger Hydra, Rishkar and Kalonian Hydra make counters a major part of the deck."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Large +1/+1 tracker",
+        "need": "useful",
+        "why": "Several creatures can grow well beyond what is comfortable to show with many small dice."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Tamiyo, Field Researcher."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Growth-counter tracker",
+        "need": "core",
+        "why": "Simic Ascendancy cares about reaching twenty growth counters."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Hoofprint-counter tracker",
+        "need": "core",
+        "why": "Hoofprints of the Stag builds hoofprint counters before cashing them in."
+      },
+      {
+        "qty": "2 × d6",
+        "item": "Level trackers",
+        "need": "optional",
+        "why": "Useful for Fisher’s Talent and Wizard Class if both are active."
+      }
+    ],
+    "included": "The deck’s token cards already include the Poison counter helper; no extra poison marker is required in the tray unless you prefer one."
+  },
+  "squirreled-away": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "6",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Ravenous Squirrel, Oran-Rief and other growth effects can place counters on creatures."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Garruk, Cursed Huntsman."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Acorn-counter tracker",
+        "need": "core",
+        "why": "Chitterspitter accumulates and spends acorn counters."
+      },
+      {
+        "qty": "1 × d8",
+        "item": "Quest-counter tracker",
+        "need": "core",
+        "why": "Beastmaster Ascension needs seven quest counters."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Lore-counter die",
+        "need": "core",
+        "why": "Binding the Old Gods is a Saga."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Level tracker",
+        "need": "optional",
+        "why": "Useful for Gourmand’s Talent."
+      }
+    ]
+  },
+  "veloci-ramp-tor": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "10–12",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Bellowing Aegisaur, riot effects and several Dinosaur payoffs can spread counters across a large board."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Large +1/+1 tracker",
+        "need": "useful",
+        "why": "Useful when one Dinosaur becomes much larger than the rest."
+      },
+      {
+        "qty": "1",
+        "item": "Pantlaza-used marker",
+        "need": "optional",
+        "why": "A simple turn marker makes it easy to remember whether Pantlaza’s once-each-turn discover ability has already triggered."
+      }
+    ]
+  },
+  "arcane-maelstrom": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "6",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Kalamax grows whenever you copy an instant, and the deck contains additional +1/+1-counter effects."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Commander counter tracker",
+        "need": "useful",
+        "why": "Kalamax can become very large, so one larger die is cleaner than a pile of small dice."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Jace, Architect of Thought."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Doom-counter tracker",
+        "need": "core",
+        "why": "Lavabrink Floodgates uses doom counters."
+      },
+      {
+        "qty": "1",
+        "item": "First-instant marker",
+        "need": "optional",
+        "why": "Useful for remembering whether Kalamax has already copied your first instant this turn."
+      }
+    ]
+  },
+  "ahoy-mateys": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "4",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Francisco and explore effects can leave permanent +1/+1 counters on Pirates."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Lore-counter die",
+        "need": "core",
+        "why": "King Narfi’s Betrayal is a Saga."
+      },
+      {
+        "qty": "4",
+        "item": "Finality markers",
+        "need": "core",
+        "why": "Admiral Brass, Unsinkable can return multiple Pirates from the graveyard with finality counters over the game."
+      }
+    ]
+  },
+  "blood-rites": {
+    "load": "Heavy",
+    "items": [
+      {
+        "qty": "10–12",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Bloodtracker, Cordial Vampire, Drana, Elenda and Blade of the Bloodchief make +1/+1 counters common."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Large +1/+1 tracker",
+        "need": "useful",
+        "why": "Bloodtracker or Elenda can become very large."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Sorin, Lord of Innistrad."
+      },
+      {
+        "qty": "4",
+        "item": "Divinity markers",
+        "need": "core",
+        "why": "Kindred Boon can put divinity counters on several permanents."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Blood-counter tracker",
+        "need": "core",
+        "why": "Glass-Cast Heart accumulates blood counters."
+      },
+      {
+        "qty": "4",
+        "item": "Clavileño/Demon markers",
+        "need": "useful",
+        "why": "Clavileño permanently changes attacking Vampires into Demons and grants them a death trigger; a marker prevents those modified creatures from being forgotten."
+      }
+    ]
+  },
+  "explorers-of-the-deep": {
+    "load": "Very Heavy",
+    "items": [
+      {
+        "qty": "16–20",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Explore and the Merfolk counter engine routinely put counters on many creatures at once."
+      },
+      {
+        "qty": "2 × d20",
+        "item": "Large +1/+1 trackers",
+        "need": "useful",
+        "why": "Hakbal turns can produce several creatures with very large counter totals."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Growth-counter tracker",
+        "need": "core",
+        "why": "Simic Ascendancy cares about reaching twenty growth counters."
+      },
+      {
+        "qty": "6",
+        "item": "Flood markers",
+        "need": "core",
+        "why": "Xolatoyac, the Smiling Flood can place flood counters on multiple lands over several turns."
+      }
+    ]
+  },
+  "ruthless-regiment": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "6",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Thalia’s Lieutenant and other Human payoffs can grow several creatures."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Nahiri, the Harbinger."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Experience-counter tracker",
+        "need": "core",
+        "why": "Kelsien, the Plague gives you experience counters that stay on the player."
+      }
+    ]
+  },
+  "symbiotic-swarm": {
+    "load": "Very Heavy",
+    "items": [
+      {
+        "qty": "1 set",
+        "item": "Keyword-counter markers",
+        "need": "core",
+        "why": "Kathril and the Ikoria counter package use flying, first strike, double strike, deathtouch, hexproof, indestructible, lifelink, menace, reach, trample and vigilance counters."
+      },
+      {
+        "qty": "8",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Kathril also receives +1/+1 counters and several other cards use permanent counters."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Large +1/+1 tracker",
+        "need": "useful",
+        "why": "Kathril can collect a large number of +1/+1 counters at once."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Ajani Unyielding."
+      }
+    ],
+    "note": "Labeled keyword chips are much clearer here than trying to remember keyword counters with ordinary numbered dice."
+  },
+  "timeless-wisdom": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "6",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Shabraz, Cryptic Trilobite and Agitator Ant can all create permanent +1/+1 counters."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Chandra, Flamecaller."
+      },
+      {
+        "qty": "2 × d12",
+        "item": "General counter dice",
+        "need": "core",
+        "why": "Ominous Seas uses foreshadow counters and Hoofprints of the Stag uses hoofprint counters."
+      },
+      {
+        "qty": "3",
+        "item": "Goad markers",
+        "need": "useful",
+        "why": "Agitator Ant can goad a creature controlled by each opponent without leaving an Aura attached to show the effect."
+      }
+    ]
+  },
+  "buckle-up": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "8",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Kappa Cannoneer and the artifact package can accumulate +1/+1 counters quickly."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Large +1/+1 tracker",
+        "need": "useful",
+        "why": "Kappa Cannoneer can grow far beyond a few counters."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Jace, Architect of Thought."
+      }
+    ]
+  },
+  "upgrades-unleashed": {
+    "load": "Very Heavy",
+    "items": [
+      {
+        "qty": "16–20",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Chishiro, Kami of Celebration, Krenko, Taurean Mauler, Champion of Lambholt, Forgotten Ancient, Rishkar and many other cards make counters central to the deck."
+      },
+      {
+        "qty": "2 × d20",
+        "item": "Large +1/+1 trackers",
+        "need": "useful",
+        "why": "Several modified creatures can become extremely large at the same time."
+      }
+    ],
+    "note": "This is one of the collection’s most counter-hungry trays; do not undersupply the +1/+1 dice."
+  },
+  "creative-energy": {
+    "load": "Heavy",
+    "items": [
+      {
+        "qty": "1 × d20",
+        "item": "Energy tracker",
+        "need": "core",
+        "why": "Energy is a player counter and the deck generates/spends it constantly. Put the die on the included Energy Reserve helper card."
+      },
+      {
+        "qty": "4",
+        "item": "+1/+1 counter dice",
+        "need": "useful",
+        "why": "Fabricate and several artifact/creature effects can create +1/+1 counters."
+      },
+      {
+        "qty": "2 × d12",
+        "item": "General counter dice",
+        "need": "core",
+        "why": "Coalition Relic uses charge counters and Midnight Clock uses hour counters."
+      }
+    ],
+    "included": "The deck includes an Energy Reserve helper card; the tray only needs a die to track the number."
+  },
+  "abzan-armor": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "6",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Shadrix Silverquill, Wall of Limbs and other effects can create permanent +1/+1 counters."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Large +1/+1 tracker",
+        "need": "useful",
+        "why": "Wall of Limbs can accumulate a large counter total."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Oil-counter tracker",
+        "need": "core",
+        "why": "Staff of Compleation enters with seven oil counters and spends them for abilities."
+      }
+    ]
+  },
+  "jeskai-striker": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "1 × d12",
+        "item": "Rally-counter tracker",
+        "need": "core",
+        "why": "Aligned Heart builds rally counters."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Charge-counter tracker",
+        "need": "core",
+        "why": "Adaptive Training Post uses charge counters and caps at three."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Time-counter tracker",
+        "need": "useful",
+        "why": "Ancestral Vision uses suspend/time counters."
+      }
+    ]
+  },
+  "sultai-arisen": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "1 × d20",
+        "item": "Experience-counter tracker",
+        "need": "core",
+        "why": "Meren of Clan Nel Toth gives you experience counters. Put the die on the deck’s Experience helper card if present."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Large +1/+1 tracker",
+        "need": "core",
+        "why": "Ob Nixilis, the Fallen can grow in large +1/+1-counter jumps."
+      },
+      {
+        "qty": "4",
+        "item": "+1/+1 counter dice",
+        "need": "useful",
+        "why": "Other Sultai counter effects can leave counters on additional creatures."
+      }
+    ]
+  },
+  "mardu-surge": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "6",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Twilight Drover, Aron and other sacrifice/token payoffs can build +1/+1 counters."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Kaya, Geist Hunter."
+      }
+    ]
+  },
+  "temur-roar": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "6",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Taurean Mauler, Skarrgan Hellkite and other Dragon payoffs can accumulate +1/+1 counters."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Gold-counter tracker",
+        "need": "core",
+        "why": "Dragon’s Hoard accumulates gold counters as Dragons enter."
+      }
+    ]
+  },
+  "silverquill-influence": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "2",
+        "item": "Prepared markers",
+        "need": "core",
+        "why": "Defacing Duskmage and Eiganjo Dynastorian can become prepared; the designation stays relevant while they remain on the battlefield."
+      },
+      {
+        "qty": "4–6",
+        "item": "Goad markers",
+        "need": "core",
+        "why": "Killian can leave several opposing creatures goaded without a permanent attached to remind the table."
+      },
+      {
+        "qty": "6",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Intermediate Chirography and the Silverquill counter package can grow several creatures."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Level tracker",
+        "need": "optional",
+        "why": "Useful for Intermediate Chirography’s class level."
+      }
+    ]
+  },
+  "prismari-artistry": {
+    "load": "Light / Medium",
+    "items": [
+      {
+        "qty": "2",
+        "item": "Prepared markers",
+        "need": "core",
+        "why": "Dirgur Focusmage and Inspired Skypainter can become prepared."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Time-counter tracker",
+        "need": "core",
+        "why": "Rousing Refrain uses suspend/time counters."
+      },
+      {
+        "qty": "2–4",
+        "item": "+1/+1 counter dice",
+        "need": "optional",
+        "why": "Hall of Oracles and incidental effects can place +1/+1 counters, but counters are not the main plan."
+      }
+    ]
+  },
+  "witherbloom-pestilence": {
+    "load": "Heavy",
+    "items": [
+      {
+        "qty": "2",
+        "item": "Prepared markers",
+        "need": "core",
+        "why": "Eccentric Pestfinder and Stensian Sanguinist can become prepared."
+      },
+      {
+        "qty": "12–16",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Mycoloth, Mazirek and the sacrifice/counter package can spread or stack many +1/+1 counters."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Large +1/+1 tracker",
+        "need": "useful",
+        "why": "A single sacrifice payoff can become very large."
+      }
+    ]
+  },
+  "lorehold-spirit": {
+    "load": "Heavy",
+    "items": [
+      {
+        "qty": "3",
+        "item": "Prepared markers",
+        "need": "core",
+        "why": "Lorehold Archivist, Naktamun Lorespinner and Kirol, History Buff can become prepared."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Quintorius, History Chaser is a planeswalker commander and needs loyalty tracking from turn one."
+      },
+      {
+        "qty": "6",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Kirol, Augusta, Laelia and other Lorehold effects can create permanent creature counters."
+      },
+      {
+        "qty": "1",
+        "item": "Finality marker",
+        "need": "core",
+        "why": "Excava, the Risen Past can return a permanent with a finality counter."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Level tracker",
+        "need": "optional",
+        "why": "Useful for Advanced Reconstruction."
+      }
+    ]
+  },
+  "quandrix-unlimited": {
+    "load": "Very Heavy",
+    "items": [
+      {
+        "qty": "1",
+        "item": "Prepared marker",
+        "need": "core",
+        "why": "Yavimaya Bloomsage can become prepared."
+      },
+      {
+        "qty": "16–20",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Zimone, Kinetic Ooze, Fractals, Hydras and other X-spell payoffs make +1/+1 counters one of the deck’s main resources."
+      },
+      {
+        "qty": "2 × d20",
+        "item": "Large +1/+1 trackers",
+        "need": "useful",
+        "why": "X creatures can enter with very large counter totals."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Study-counter tracker",
+        "need": "core",
+        "why": "Lattice Library can enter with a large number of study counters."
+      },
+      {
+        "qty": "2 × d12",
+        "item": "General counter dice",
+        "need": "useful",
+        "why": "Astral Cornucopia, Mana Bloom and other counter-based mana/value permanents benefit from separate trackers."
+      }
+    ]
+  },
+  "living-energy": {
+    "load": "Heavy",
+    "items": [
+      {
+        "qty": "1 × d20",
+        "item": "Energy tracker",
+        "need": "core",
+        "why": "Energy is the deck’s main resource. Put the die on the included Energy Reserve helper card."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Saheeli, Sublime Artificer is included in the 99."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Hour-counter tracker",
+        "need": "core",
+        "why": "Midnight Clock uses hour counters."
+      },
+      {
+        "qty": "4",
+        "item": "+1/+1 counter dice",
+        "need": "useful",
+        "why": "The artifact/energy package has a handful of effects that leave permanent creature counters."
+      }
+    ],
+    "included": "Use the deck’s Energy Reserve helper card as the physical home for your energy total."
+  },
+  "eternal-might": {
+    "load": "Heavy",
+    "items": [
+      {
+        "qty": "10–12",
+        "item": "-1/-1 counter dice",
+        "need": "core",
+        "why": "Archfiend of Ifnir, Plague Belcher and related Zombie effects can put -1/-1 counters across opposing or friendly creatures."
+      },
+      {
+        "qty": "6",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Amass/Zombie Army effects and other growth cards can build permanent +1/+1 counters."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Loyalty die",
+        "need": "core",
+        "why": "Liliana, Death’s Majesty."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Corpse-counter tracker",
+        "need": "core",
+        "why": "Crowded Crypt stores corpse counters."
+      }
+    ]
+  },
+  "dance-of-the-elements": {
+    "load": "Light / Medium",
+    "items": [
+      {
+        "qty": "4",
+        "item": "+1/+1 counter dice",
+        "need": "useful",
+        "why": "Raging Ravine and a few incidental effects can leave permanent +1/+1 counters."
+      },
+      {
+        "qty": "1 × d12",
+        "item": "Hoofprint-counter tracker",
+        "need": "core",
+        "why": "Hoofprints of the Stag accumulates hoofprint counters before creating an Elemental."
+      }
+    ]
+  },
+  "blight-curse": {
+    "load": "Very Heavy",
+    "items": [
+      {
+        "qty": "20+",
+        "item": "-1/-1 counter dice",
+        "need": "core",
+        "why": "The deck is built around distributing, moving and proliferating -1/-1 counters across many creatures."
+      },
+      {
+        "qty": "2 × d12",
+        "item": "Loyalty dice",
+        "need": "core",
+        "why": "Vraska, Betrayal’s Sting and Liliana, Death Wielder can both be on the battlefield."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Lore-counter die",
+        "need": "core",
+        "why": "Binding the Old Gods is a Saga."
+      }
+    ],
+    "included": "The product includes a punch-out counter card; keep it with the deck, but a large supply of -1/-1 dice is much easier once several creatures are blighted at once."
+  },
+  "counter-intelligence": {
+    "load": "Very Heavy",
+    "items": [
+      {
+        "qty": "8–10",
+        "item": "Charge/general counter dice",
+        "need": "core",
+        "why": "Spacecraft and artifacts such as Astral Cornucopia, Darksteel Reactor, Empowered Autogenerator, Lux Cannon and Titan Forge can all need separate counters at the same time."
+      },
+      {
+        "qty": "8",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Hangarback Walker, Crystalline Crawler, Steel Overseer and Mindless Automaton use +1/+1 counters."
+      },
+      {
+        "qty": "2 × d20",
+        "item": "Large counter trackers",
+        "need": "core",
+        "why": "Darksteel Reactor wants twenty counters and other artifacts can also build high totals."
+      },
+      {
+        "qty": "1",
+        "item": "Indestructible-counter marker",
+        "need": "useful",
+        "why": "The deck contains effects that can place an indestructible counter; a labeled marker avoids confusing it with a numeric counter."
+      }
+    ],
+    "included": "The deck includes four punch-out counter cards. Use those for named states where convenient, and use dice for quantities and high counter totals."
+  },
+  "world-shaper": {
+    "load": "Medium",
+    "items": [
+      {
+        "qty": "8",
+        "item": "+1/+1 counter dice",
+        "need": "core",
+        "why": "Mazirek, Juri and the sacrifice package can grow several creatures with permanent counters."
+      },
+      {
+        "qty": "1 × d20",
+        "item": "Large +1/+1 tracker",
+        "need": "useful",
+        "why": "A sacrifice payoff can grow well into double digits."
+      },
+      {
+        "qty": "1 × d6",
+        "item": "Lore-counter die",
+        "need": "core",
+        "why": "Binding the Old Gods is a Saga."
+      }
+    ]
+  }
+};
+
 const $ = s => document.querySelector(s);
 const home = $("#home-view");
 const guide = $("#guide-view");
@@ -9350,6 +10343,7 @@ function deckAccent(colors, direction="180deg"){
 }
 function sectionIcon(title){
   const icons={
+    "Table Setup":"🎲",
     "Game Plan":"◎",
     "Opening Hand":"✋",
     "Early Game":"Ⅰ",
@@ -9456,12 +10450,26 @@ function getAlternateSection(deck){
   };
 }
 
+function getTableSetupSection(deck){
+  const setup = TABLE_SETUPS[deck.id];
+  if(!setup) return null;
+  return {
+    title:"Table Setup",
+    question:"What should I put in the tray before shuffling?",
+    lead:"Recommended physical setup for the unchanged precon. Token and helper cards already stored with the deck are not counted as tray items.",
+    tableSetup:setup
+  };
+}
+
 function getGuideSections(deck){
   const sections = [...deck.sections];
+  const setupSection = getTableSetupSection(deck);
+  if(setupSection) sections.unshift(setupSection);
   const altSection = getAlternateSection(deck);
-  if(!altSection) return sections;
-  const commanderIndex = sections.findIndex(s=>s.title==="Commander");
-  sections.splice(commanderIndex>=0 ? commanderIndex+1 : 1, 0, altSection);
+  if(altSection){
+    const commanderIndex = sections.findIndex(s=>s.title==="Commander");
+    sections.splice(commanderIndex>=0 ? commanderIndex+1 : 1, 0, altSection);
+  }
   return sections;
 }
 
@@ -9487,8 +10495,118 @@ function renderAlternateCommander(alt){
   return `${status}<div class="alt-list">${cards}</div>`;
 }
 
+
+const COMMANDERHYGGE_KIT = {
+  note:"Calibrated for your CommanderHygge case: d4/d6/d8/d10/d12/d20, dedicated loyalty dice, small temporary +1/+1 d6, large permanent +1/+1 d6, -1/-1 d6, black/white keyword d6, a 3D-printed ability-marker box, 3D-printed Prepared tokens and writable AnyTokens.",
+  keywordDice:{
+    provisional:true,
+    white:["Hexproof","Haste","Vigilance","Menace","Lifelink","Trample"],
+    blackObserved:["Flying","Reach","First Strike","Double Strike","Deathtouch","Lifelink","Hexproof"],
+    blackNeedsVerification:true
+  }
+};
+
+function leadingCount(qty, fallback="1"){
+  const match=String(qty||"").match(/^\s*(\d+)/);
+  return match ? match[1] : fallback;
+}
+
+function physicalSetupItem(item){
+  const x={...item};
+  const name=String(x.item||"");
+  const low=name.toLowerCase();
+
+  // Dedicated creature-counter dice from the physical kit.
+  if(low==="+1/+1 counter dice"){
+    x.item="Large +1/+1 d6 (permanent)";
+  } else if(low==="-1/-1 counter dice"){
+    x.item="-1/-1 d6";
+  } else if(low==="loyalty die" || low==="loyalty dice"){
+    x.qty=leadingCount(x.qty);
+    x.item=Number(x.qty)===1 ? "Loyalty die" : "Loyalty dice";
+  } else if(low==="prepared marker" || low==="prepared markers"){
+    x.item=Number(leadingCount(x.qty))===1 ? "3D Prepared token" : "3D Prepared tokens";
+  }
+
+  // Low-range numeric trackers: use the smallest die that is easy to read.
+  else if(low==="lore-counter die"){
+    x.qty=`${leadingCount(x.qty)} × d4`;
+    x.item="Saga / lore tracker";
+  } else if(low==="level tracker" || low==="level trackers"){
+    x.qty=`${leadingCount(x.qty)} × d4`;
+    x.item=Number(leadingCount(x.qty))===1 ? "Class / level tracker" : "Class / level trackers";
+  }
+
+  // Keyword abilities/counters: dedicated 3D ability markers are clearest when available.
+  // Keyword dice are the quick fallback; AnyTokens remain the universal fallback.
+  else if(low==="keyword-counter markers"){
+    x.item="3D ability markers + keyword d6 / AnyTokens";
+    x.why += " Prefer a labelled 3D ability marker for each keyword when that marker exists in the ability-marker box. Quick fallback: provisional keyword dice mapping — white: Hexproof, Haste, Vigilance, Menace, Lifelink, Trample; black observed: Flying, Reach, First Strike, Double Strike, Deathtouch, Lifelink, Hexproof. The black list currently contains 7 observed labels for a 6-sided die, so verify it later. Use an AnyToken for anything not covered.";
+  } else if(low==="flying-counter markers"){
+    x.item="3D ability marker — Flying";
+    x.why += " Prefer the labelled Flying ability marker. If it is not in the box, Flying is provisionally mapped to the black keyword d6; AnyToken is the final fallback.";
+  } else if(low==="indestructible-counter marker"){
+    x.item="3D ability marker — Indestructible";
+    x.why += " Prefer the labelled Indestructible ability marker if present. The current provisional keyword-die mapping does not include Indestructible, so use an AnyToken if no dedicated marker is available.";
+  }
+
+  // Named binary states are clearer on writable markers than on anonymous dice.
+  else if([
+    "finality marker","finality markers","shield-counter marker","goad markers","divinity markers",
+    "flood markers","clavileño/demon markers","pantlaza-used marker","first-instant marker"
+  ].includes(low)){
+    const label=name.replace(/ marker(s)?$/i,"").replace(/-counter/i,"");
+    x.item=`AnyToken — ${label}`;
+    x.why += " Write the state directly on the AnyToken so it cannot be confused with a numeric counter.";
+  }
+
+  // General low counters are best handled by normal d6; high totals keep their existing d12/d20 recommendation.
+  else if(low==="general counter die" || low==="general counter dice" || low==="charge/general counter dice"){
+    x.item="General d6 counter dice";
+  }
+
+  return x;
+}
+
+function universalCommandTaxItem(){
+  return {
+    qty:"1 × d10",
+    item:"Command tax tracker",
+    need:"core",
+    why:"Use it beside your commander to track the additional 2 mana for each previous cast from the command zone.",
+    universal:true
+  };
+}
+
+function renderTableSetup(setup){
+  const badges={core:"Core",useful:"Useful",optional:"Optional"};
+  const physicalItems=[universalCommandTaxItem(),...(setup.items||[]).map(physicalSetupItem)];
+  const items=physicalItems.map(item=>`
+    <div class="setup-item ${item.universal?"setup-universal":""}">
+      <div class="setup-qty">${item.qty}</div>
+      <div>
+        <div class="setup-item-top">
+          <span class="setup-name">${item.item}</span>
+          <span class="setup-badge ${item.need||"useful"}">${badges[item.need]||"Useful"}</span>
+        </div>
+        <div class="setup-why">${item.why}</div>
+      </div>
+    </div>`).join("");
+  return `
+    <div class="table-setup-head">
+      <div><div class="setup-load-label">Recommended tray load</div><div class="setup-load-value">${setup.load}</div></div>
+      <div class="setup-token-note">Token cards stay with the deck — this list is only dice and markers from the case.</div>
+    </div>
+    <div class="setup-list">${items}</div>
+    <div class="setup-kit-note"><strong>CommanderHygge kit:</strong> ${COMMANDERHYGGE_KIT.note}<br><strong>Ability tracking priority:</strong> 3D ability marker → keyword d6 → AnyToken. <strong>Keyword d6 — provisional:</strong> White — Hexproof, Haste, Vigilance, Menace, Lifelink, Trample. Black observed — Flying, Reach, First Strike, Double Strike, Deathtouch, Lifelink, Hexproof. <em>Black currently has 7 observed labels for a 6-sided die; verify the physical die later.</em></div>
+    ${setup.included?`<div class="setup-included"><strong>Already with the deck:</strong> ${setup.included}</div>`:""}
+    ${setup.note?`<div class="setup-note">${setup.note}</div>`:""}
+  `;
+}
+
 function renderSectionBody(s,index,total){
   const lead = s.lead ? `<p class="section-lead">${s.lead}</p>` : "";
+  const tableSetup = s.tableSetup ? renderTableSetup(s.tableSetup) : "";
   const alternate = s.alternate ? renderAlternateCommander(s.alternate) : "";
   const callouts = (s.callouts||[]).length ? `
     <div class="decision-grid">
@@ -9519,7 +10637,7 @@ function renderSectionBody(s,index,total){
       <button class="section-nav-btn prev" data-target="${index-1}" ${index===0?"disabled":""}>← Previous</button>
       <button class="section-nav-btn next" data-target="${index+1}" ${index===total-1?"disabled":""}>Next →</button>
     </div>`;
-  return `${lead}${alternate}${callouts}${cards}${bullets}${nav}`;
+  return `${lead}${tableSetup}${alternate}${callouts}${cards}${bullets}${nav}`;
 }
 
 function getSectionByTitle(sections,title){
@@ -9542,8 +10660,12 @@ function quickGuideData(deck){
   const interaction=getSectionByTitle(sections,"Interaction");
   const win=getSectionByTitle(sections,"How to Win");
   const avoid = calloutText(gamePlan,["AVOID","RED FLAG"]) || calloutText(interaction,["SPEND LESS","WATCH OUT","AVOID"]);
+  const setup=TABLE_SETUPS[deck.id];
+  const setupCore=setup ? [universalCommandTaxItem(),...(setup.items||[]).filter(i=>i.need==="core").map(physicalSetupItem)] : [universalCommandTaxItem()];
+  const setupText=setup ? `${setup.load} tray · ${setupCore.slice(0,4).map(i=>`${i.qty} ${i.item}`).join(" · ")}` : `1 × d10 Command tax tracker`;
   return [
     {label:"PLAN",text:deck.coreRule || gamePlan?.lead || deck.summary},
+    {label:"SETUP",text:setupText},
     {label:"OPENING",text:calloutText(opening,["KEEP","GOOD HAND"]) || opening?.lead || "Develop mana and your early plan."},
     {label:"COMMANDER",text:calloutText(commander,["CAST","PLAY","CAST WHEN"]) || commander?.lead || `Use ${deck.commander} when it advances your main plan.`},
     {label:"WATCH OUT",text:avoid || interaction?.lead || "Do not overextend resources without a reason."},
