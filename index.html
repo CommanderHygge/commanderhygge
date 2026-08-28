@@ -830,7 +830,7 @@ footer{
   </div>
 
   <footer>
-    <p>CommanderHygge · Prototype v0.8.1 · Unofficial fan-made pilot guides</p>
+    <p>CommanderHygge · Prototype v0.8.2 · Unofficial fan-made pilot guides</p>
   </footer>
 
   <script>
@@ -5651,7 +5651,7 @@ window.DECKS = [
     "id": "sultai-arisen",
     "name": "Sultai Arisen",
     "set": "Tarkir: Dragonstorm",
-    "commander": "Kotis, Sibsig Champion",
+    "commander": "Teval, the Balanced Scale",
     "colors": [
       "B",
       "G",
@@ -5659,209 +5659,210 @@ window.DECKS = [
     ],
     "tags": [
       "Graveyard",
-      "Reanimator",
       "Self-Mill",
+      "Lands",
+      "Zombie Druids",
       "Sultai",
-      "Kotis",
+      "Teval",
       "Tarkir"
     ],
     "difficulty": "Medium–Hard",
-    "summary": "Fill the graveyard, use Kotis to cast creatures from it by exiling spare cards, and repeatedly turn dead creatures into a second hand.",
-    "role": "Graveyard creature recursion",
-    "coreRule": "The graveyard is your resource pile: keep good creatures available while exiling the least useful cards to pay Kotis’s extra cost.",
+    "summary": "Fill the graveyard, attack with Teval to recycle lands, and turn cards leaving your graveyard into a growing army of Zombie Druids.",
+    "role": "Graveyard value and token engine",
+    "coreRule": "Cards leaving your graveyard are rewards, not losses: land recursion, reanimation and graveyard casting can all create Zombie Druids through Teval.",
     "sections": [
       {
         "title": "Game Plan",
         "question": "What is my job at the table?",
-        "lead": "Sultai Arisen mills and discards cards aggressively, then turns the graveyard into a source of creatures. Kotis lets you cast one creature from the graveyard each turn by exiling three other cards in addition to paying its cost.",
+        "lead": "Sultai Arisen wants a busy graveyard. Teval mills three cards whenever it attacks, may return a land from your graveyard tapped, and creates a 2/2 Zombie Druid whenever one or more cards leave your graveyard.",
         "callouts": [
           {
             "label": "PRIORITY",
             "tone": "good",
-            "text": "Self-mill/ramp → stocked graveyard → Kotis → cast best creature from graveyard → recur/loop value."
+            "text": "Self-mill/ramp → Teval → safe attacks → move cards out of the graveyard → build Zombie Druids → overwhelm with recursion and tokens."
           },
           {
             "label": "AVOID",
             "tone": "bad",
-            "text": "Exiling premium recursion targets or useful lands/spells blindly just to cast the first available creature."
+            "text": "Treating the graveyard as a pile that must stay untouched. The deck gets paid when cards leave it, so use those resources deliberately."
           }
         ],
         "bullets": [
-          "Your graveyard needs quantity and quality: enough spare cards to exile plus creatures worth casting.",
-          "Creature entries/casts from the graveyard grow Kotis, so recursion is both value and pressure.",
-          "Living Death and Victimize reward you for filling the graveyard faster than opponents."
+          "Teval supplies both graveyard fuel and a repeatable way to recover lands.",
+          "Reanimation, casting from the graveyard, returning lands and some exile costs can all trigger Teval.",
+          "Several cards leaving at the same time create only one Teval trigger, so separate events can make more Zombies."
         ]
       },
       {
         "title": "Opening Hand",
         "question": "Keep it or ship it?",
-        "lead": "Look for mana plus a self-mill/discard engine. Expensive creatures are fine when you have ways to place them in the graveyard.",
+        "lead": "Keep hands that can make land drops, stock the graveyard and reach Teval without stumbling on colors.",
         "callouts": [
           {
             "label": "KEEP",
             "tone": "good",
-            "text": "3–4 lands, green/black access, ramp/self-mill and at least one creature or recursion payoff."
+            "text": "3–4 lands with Sultai colors, ramp or self-mill, plus a useful graveyard payoff or recursion piece."
           },
           {
             "label": "MULLIGAN",
             "tone": "bad",
-            "text": "No graveyard setup, weak colors or a hand that only casts expensive threats fairly from hand."
+            "text": "Weak colors, no early setup, or a hand full of expensive graveyard payoffs with no way to fill the yard."
           }
         ],
         "bullets": [
-          "Stitcher’s Supplier and Satyr Wayfinder stock the graveyard cheaply.",
-          "Life from the Loam helps turn milled lands into continuing land drops and graveyard volume."
+          "Satyr Wayfinder, Stitcher’s Supplier and similar setup cards make later Teval turns stronger.",
+          "A milled land is often useful rather than lost because Teval, Life from the Loam and Conduit of Worlds can recover it."
         ]
       },
       {
         "title": "Early Game",
         "question": "What should turns 1–3 accomplish?",
-        "lead": "Fill the yard while making land drops. Early self-mill is productive even when it sends powerful cards away because the deck is designed to use them later.",
+        "lead": "Develop mana and put cards into the graveyard. You want Teval to enter a game where its first attack already has a useful land to return and future graveyard movement matters.",
         "callouts": [
           {
             "label": "GOOD START",
             "tone": "good",
-            "text": "Several cards in graveyard, including one worthwhile creature, with mana ready for Kotis or recursion."
+            "text": "Mana is developing, several cards are in the graveyard and at least one land or value card is ready to be reused."
           },
           {
             "label": "RED FLAG",
             "tone": "warn",
-            "text": "You have a graveyard full of important cards but too little total volume to exile three expendable cards safely."
+            "text": "You are milling aggressively but have no mana development or no way to turn the graveyard into value."
           }
         ],
         "bullets": [
-          "Conduit of Worlds and Phyrexian Reclamation give alternate ways to reuse cards if Kotis is removed.",
-          "Do not exile all lands from the graveyard if Life from the Loam or land recursion is part of your current engine.",
-          "Sequence mill before choosing what to recur so you see all available options."
+          "Ramp first if it lets you cast Teval on time.",
+          "Do not worry when strong creatures are milled; the deck contains multiple ways to bring creatures back.",
+          "Sequence self-mill before choosing recursion targets so you know all your options."
         ]
       },
       {
         "title": "Mid Game",
-        "question": "What should I cast from the graveyard?",
-        "lead": "Kotis turns one graveyard creature each turn into a castable resource, but the hidden cost is exiling three other graveyard cards. Choose both the target and the fuel deliberately.",
+        "question": "How do I turn the graveyard into a board?",
+        "lead": "Attack with Teval when combat is reasonably safe, then combine its land return with other cards that remove cards from your graveyard. Each separate event can add another Zombie Druid.",
         "callouts": [
           {
             "label": "PRESSURE",
             "tone": "good",
-            "text": "The creature creates meaningful ETB/value or advances your win, and the three cards exiled are genuinely expendable."
+            "text": "Teval can attack safely and you have multiple ways this turn cycle to return, cast or exile cards from your graveyard."
           },
           {
             "label": "HOLD BACK",
             "tone": "info",
-            "text": "You would exile recursion pieces, premium creatures or key lands just to cast a medium-value body."
+            "text": "Teval would die in combat and the attack trigger is not worth losing your main engine."
           }
         ],
         "bullets": [
-          "Meren of Clan Nel Toth adds another recurring creature engine and reduces dependence on Kotis.",
-          "Living Death can transform a stocked graveyard into a complete battlefield reversal.",
-          "Lord of Extinction can become enormous as all graveyards fill."
+          "Life from the Loam and land-return effects keep land drops flowing while triggering graveyard synergies.",
+          "Kotis in the 99 can cast creatures from the graveyard and creates another way to make cards leave it.",
+          "Living Death can turn a heavily stocked graveyard into a massive battlefield swing."
         ]
       },
       {
         "title": "Commander",
-        "question": "Cast Kotis now — or wait?",
-        "lead": "Once each turn, Kotis lets you cast a creature spell from your graveyard by exiling three other cards from the graveyard in addition to paying its costs. Creatures entering or being cast from your graveyard grow Kotis.",
+        "question": "Cast Teval now — or wait?",
+        "lead": "Teval is a 4/4 flyer for four mana. On attack it mills three cards and may return a land from your graveyard tapped. Whenever one or more cards leave your graveyard, it creates a 2/2 black Zombie Druid.",
         "callouts": [
           {
             "label": "CAST",
             "tone": "good",
-            "text": "Your graveyard has enough spare cards plus a creature worth paying for, ideally with immediate value."
+            "text": "You can protect Teval long enough to attack, or your graveyard is already active enough that its token trigger will start generating value."
           },
           {
             "label": "WAIT",
             "tone": "bad",
-            "text": "The graveyard contains only a few premium cards and paying the exile cost would damage your long-term plan."
+            "text": "The board makes attacking impossible and opponents can remove Teval before you get any meaningful graveyard value."
           }
         ],
         "bullets": [
-          "You can use the ability once each turn, which rewards instant/flash creature opportunities if available.",
-          "Track the three-card exile cost as carefully as mana — it can empty a graveyard faster than expected.",
-          "Kotis gets two +1/+1 counters when your graveyard creatures enter/cast, turning the engine into a combat threat."
+          "The land returned by the attack trigger itself leaves your graveyard, so it can also trigger the Zombie-making ability.",
+          "Flying helps Teval attack past many boards, but check for reach and opposing flyers before committing.",
+          "Teval rewards many small graveyard movements across a turn more than one giant simultaneous exile."
         ]
       },
       {
         "title": "Key Cards",
         "question": "Which draws should change my decisions?",
-        "lead": "These cards fill the graveyard, recover its best contents or turn a large yard into a devastating reset.",
+        "lead": "These cards either stock the graveyard, repeatedly move cards out of it or turn a full graveyard into a decisive advantage.",
         "cards": [
           {
-            "name": "Living Death",
-            "why": "Can reanimate your stocked graveyard while sweeping normal creature boards."
-          },
-          {
             "name": "Life from the Loam",
-            "why": "Recovers lands and repeatedly fuels graveyard-based plans."
+            "why": "Returns lands from the graveyard and dredges more cards into it, feeding both halves of the plan."
           },
           {
-            "name": "Victimize",
-            "why": "Trades one creature for two strong reanimation targets."
+            "name": "Teval’s Judgment",
+            "why": "Rewards repeated cards leaving your graveyard with cards, Treasure and more Zombie Druids."
           },
           {
-            "name": "Meren of Clan Nel Toth",
-            "why": "Provides repeatable creature recursion independent of Kotis."
+            "name": "Living Death",
+            "why": "Can rebuild your entire creature board from a graveyard you have deliberately stocked."
           },
           {
             "name": "Conduit of Worlds",
-            "why": "Lets the graveyard function as an extension of your hand for permanents."
+            "why": "Lets lands be played from the graveyard and provides another route to reuse permanents."
           },
           {
-            "name": "Stitcher’s Supplier / Satyr Wayfinder",
-            "why": "Cheap, efficient ways to increase graveyard volume early."
+            "name": "Kotis, Sibsig Champion",
+            "why": "Casts creatures from the graveyard and gives you another repeatable way to move cards out of it."
+          },
+          {
+            "name": "Meren of Clan Nel Toth",
+            "why": "Adds a strong recurring creature engine that keeps the value plan moving if Teval is answered."
           }
         ]
       },
       {
         "title": "Interaction",
         "question": "What deserves my answer?",
-        "lead": "Graveyard hate is the biggest structural threat. Remove it before investing more mill, and preserve alternate recursion lines when possible.",
+        "lead": "Graveyard hate is the most dangerous category of opposing card because it can erase both your stored resources and your token engine. Treat it as a priority threat.",
         "callouts": [
           {
             "label": "SAVE",
             "tone": "good",
-            "text": "Removal for Rest-in-Peace-style effects, graveyard exile, combo engines and threats that beat your slower value plan."
+            "text": "Removal for graveyard-exile permanents, combo pieces and effects that stop Teval from attacking or shut off your recursion."
           },
           {
             "label": "SPEND LESS",
             "tone": "warn",
-            "text": "Creatures that Living Death, reanimation blockers or your growing Kotis can handle later."
+            "text": "Medium creatures that your Zombie Druids, reanimated threats or normal combat can eventually handle."
           }
         ],
         "bullets": [
-          "If a graveyard wipe is imminent, use recursion now rather than losing every resource.",
-          "Phyrexian Reclamation can recover a key creature to hand before an exile effect resolves if timing allows.",
-          "Do not cast Living Death just for value if opponents’ graveyards are significantly stronger than yours."
+          "If a graveyard wipe is coming, use valuable recursion before it resolves when possible.",
+          "Compare all graveyards before casting Living Death; the spell is only a reset if opponents get more back than you.",
+          "Protect Teval when it is generating both mana and a steady stream of bodies."
         ]
       },
       {
         "title": "How to Win",
         "question": "What does a winning position look like?",
-        "lead": "Sultai Arisen wins by using the graveyard as a second hand until its repeated recursion creates a battlefield opponents cannot match.",
+        "lead": "You win by turning graveyard movement into more resources than opponents can match: extra lands, recurring threats and a steadily growing Zombie Druid army.",
         "callouts": [
           {
             "label": "WINNING PATTERN",
             "tone": "win",
-            "text": "Large graveyard + Kotis/recursion engine + premium creatures cycling back into play + enough graveyard volume to sustain costs."
+            "text": "Stocked graveyard + Teval attacking + repeated recursion/land movement + several Zombie Druids, followed by a mass-recursion or large-creature push."
           },
           {
             "label": "FINISHERS",
             "tone": "info",
-            "text": "Living Death swings, giant Lord of Extinction and repeated high-impact creature recursion overwhelm normal one-for-one interaction."
+            "text": "Living Death, Lord of Extinction, repeated high-impact recursion and a wide Zombie Druid board give you multiple ways to end the game."
           }
         ],
         "bullets": [
-          "Compare all graveyards before a mass reanimation spell.",
-          "Once your recursion engine is ahead, preserve it rather than milling recklessly into graveyard hate."
+          "Do not keep milling once you are already far ahead if graveyard hate would punish the extra exposure.",
+          "When the token board is large enough, shift from value generation to actually pressuring life totals."
         ]
       },
       {
         "title": "5 Things to Remember",
         "question": "What should I remember without reopening the whole guide?",
         "bullets": [
-          "Fill the graveyard before relying on Kotis.",
-          "Exile expendable cards, not future premium targets.",
-          "Kotis can use one graveyard creature each turn.",
-          "Graveyard hate deserves immediate attention.",
-          "Living Death is strongest when your graveyard is clearly the best one."
+          "Teval attacks to mill three and return a land from your graveyard.",
+          "Cards leaving your graveyard create Zombie Druids.",
+          "Separate graveyard-movement events can create more Teval triggers.",
+          "Graveyard hate is your highest-priority problem.",
+          "Your graveyard is meant to be used, not merely filled."
         ]
       }
     ]
@@ -6089,7 +6090,7 @@ window.DECKS = [
     "id": "temur-roar",
     "name": "Temur Roar",
     "set": "Tarkir: Dragonstorm",
-    "commander": "Eshki, Temur’s Roar",
+    "commander": "Ureni of the Unwritten",
     "colors": [
       "G",
       "U",
@@ -6097,209 +6098,209 @@ window.DECKS = [
     ],
     "tags": [
       "Dragons",
-      "Power 4+",
-      "Big Creatures",
+      "Ramp",
+      "Cheat Into Play",
       "Temur",
-      "Eshki",
+      "Ureni",
       "Tarkir"
     ],
     "difficulty": "Medium",
-    "summary": "Ramp into large creatures and Dragons; each creature spell grows Eshki, then 4-power and 6-power thresholds turn those casts into cards and table-wide damage.",
-    "role": "Big-creature ramp",
-    "coreRule": "Cast creatures in increasing size: Eshki rewards every creature, then gives extra rewards once her power reaches 4 and 6.",
+    "summary": "Ramp hard into Ureni, then use its enter and attack triggers to look eight cards deep and put huge Dragons directly onto the battlefield.",
+    "role": "Dragon ramp and cheat engine",
+    "coreRule": "Your first goal is seven mana: every time Ureni enters or attacks, it can turn the top eight cards of your library into a free Dragon.",
     "sections": [
       {
         "title": "Game Plan",
         "question": "What is my job at the table?",
-        "lead": "Temur Roar ramps hard and casts large creatures. Eshki turns each creature spell into a +1/+1 counter, draws when she is at least 4 power and blasts each opponent when she is at least 6.",
+        "lead": "Temur Roar is a Dragon deck first. Spend the early game ramping, cast Ureni, and let its enter and attack triggers put expensive Dragons onto the battlefield without paying their mana costs.",
         "callouts": [
           {
             "label": "PRIORITY",
             "tone": "good",
-            "text": "Ramp → Eshki → creature chain → cross 4/6 power thresholds → attack with huge Dragons."
+            "text": "Ramp/fixing → Ureni → free Dragon on entry → protect or give Ureni a safe attack → another free Dragon → overwhelm the table."
           },
           {
             "label": "AVOID",
             "tone": "bad",
-            "text": "Casting your whole hand before Eshki or spending all ramp without leaving enough creatures to trigger the engine."
+            "text": "Keeping a hand full of spectacular Dragons but no ramp. Seven-mana commanders punish slow starts."
           }
         ],
         "bullets": [
-          "Creature spells are both threats and engine triggers once Eshki is active.",
-          "Large Dragons naturally satisfy other 4-power-matters cards and provide evasive combat.",
-          "Temur Ascendancy-style haste/card effects make your big creatures immediately useful."
+          "Ureni triggers when it enters, so you can gain value even if opponents remove it before combat.",
+          "The deck has enough Dragons that looking at eight cards is usually meaningful, but a miss is still possible.",
+          "Haste effects make Ureni much more explosive because you can get both the enter and attack triggers in one turn."
         ]
       },
       {
         "title": "Opening Hand",
         "question": "Keep it or ship it?",
-        "lead": "The deck needs ramp more than early aggression. A strong hand reaches five-plus mana quickly and has at least one payoff creature.",
+        "lead": "Prioritize mana acceleration above almost everything else. A modest hand with ramp is better than a hand containing three exciting seven-mana Dragons.",
         "callouts": [
           {
             "label": "KEEP",
             "tone": "good",
-            "text": "3–4 lands, green mana, ramp, plus one midrange creature or Dragon to cast after setup."
+            "text": "3–4 lands, green mana, at least one ramp piece, good color fixing and preferably one payoff or Dragon-support card."
           },
           {
             "label": "MULLIGAN",
             "tone": "bad",
-            "text": "A hand full of six- to eight-mana Dragons with no acceleration or poor three-color access."
+            "text": "Two lands plus expensive Dragons, poor green access or no realistic route to seven mana."
           }
         ],
         "bullets": [
-          "Prioritize green sources because most of your ramp and setup starts there.",
-          "A mana-heavy hand is acceptable if it clearly casts Eshki and a follow-up creature ahead of curve."
+          "Farseek, Kodama’s Reach, Migration Path, Arcane Signet and the Talismans are exactly what you want early.",
+          "Dragon’s Hoard is both mana and later card advantage once Dragons start entering."
         ]
       },
       {
         "title": "Early Game",
-        "question": "What should turns 1–3 accomplish?",
-        "lead": "Spend the first turns building mana. The life total you preserve by playing a small blocker is often less important than reaching your engine one turn earlier.",
+        "question": "What should turns 1–4 accomplish?",
+        "lead": "Make land drops and ramp. You are preparing one huge pivot turn rather than trying to win early combat.",
         "callouts": [
           {
             "label": "GOOD START",
             "tone": "good",
-            "text": "Two ramp effects or one strong accelerator, colors fixed, and a large creature ready for turns 4–5."
+            "text": "You are ahead on mana, all three colors are available and Ureni is realistically one or two turns away."
           },
           {
             "label": "RED FLAG",
             "tone": "warn",
-            "text": "You kept a “Dragon hand” but are still making one land per turn with nothing castable."
+            "text": "You are casting medium Dragons instead of ramping while Ureni remains several turns away."
           }
         ],
         "bullets": [
-          "Temur Ascendancy is an excellent setup enchantment before the heavy creature chain begins.",
-          "Do not waste premium interaction on small threats while you are still developing mana.",
-          "If you can cast Eshki and another creature in one turn, that is much safer than passing with the commander alone."
+          "Use early removal only for threats that will prevent you from reaching your big turns.",
+          "Temur Ascendancy and Dragon Tempest are valuable setup because haste makes later Dragons — including Ureni — much more dangerous.",
+          "Do not expose every support piece if a board wipe is likely before your payoff turn."
         ]
       },
       {
         "title": "Mid Game",
-        "question": "How do I cross Eshki’s thresholds?",
-        "lead": "Eshki begins growing with every creature spell. Once her power is at least 4 you draw from those casts; at 6 or more she also deals damage equal to her power to each opponent.",
+        "question": "What happens once Ureni lands?",
+        "lead": "Casting Ureni immediately looks at the top eight cards for a Dragon. If Ureni survives to attack, you do it again, so one commander can quickly represent multiple enormous bodies.",
         "callouts": [
           {
             "label": "PRESSURE",
             "tone": "good",
-            "text": "You can cast multiple creatures in one turn and move Eshki through the 4-power and 6-power breakpoints."
+            "text": "Ureni enters, finds a strong Dragon and can attack safely or with haste for another trigger."
           },
           {
             "label": "HOLD BACK",
             "tone": "info",
-            "text": "Eshki would be removed before your first follow-up creature and you have no protection or alternate engine."
+            "text": "A lethal blocker or obvious combat trick would trade Ureni away before its attack trigger is worth the risk."
           }
         ],
         "bullets": [
-          "Dragon Tempest and Temur Ascendancy give your large creatures immediate impact.",
-          "Lathliss, Dragon Queen turns Dragons into additional Dragon bodies.",
-          "Scourge of the Throne and other attack payoffs can create massive combat turns once the board is established."
+          "Choose the Dragon that changes the board most, not automatically the one with the highest power.",
+          "Dragonlord Atarka can clear creatures; Atarka, World Render can make an established Dragon board lethal.",
+          "Lathliss and Dragon Tempest reward every additional Dragon Ureni puts into play."
         ]
       },
       {
         "title": "Commander",
-        "question": "Cast Eshki now — or wait?",
-        "lead": "Whenever you cast a creature spell, Eshki gets a +1/+1 counter. If her power is at least 4 you draw a card; if it is at least 6 she also deals damage equal to her power to each opponent.",
+        "question": "Cast Ureni now — or wait?",
+        "lead": "Ureni is a 7/7 flying trampler for seven mana. Whenever it enters or attacks, look at the top eight cards of your library and you may put a Dragon creature from among them directly onto the battlefield.",
         "callouts": [
           {
             "label": "CAST",
             "tone": "good",
-            "text": "You can follow Eshki with at least one creature soon and begin crossing the draw/damage thresholds."
+            "text": "You can pay seven mana and the free Dragon trigger is valuable immediately, even if Ureni may be removed afterward."
           },
           {
             "label": "WAIT",
             "tone": "bad",
-            "text": "You have no creatures to follow up, so opponents get a full turn cycle to remove the engine for no value."
+            "text": "Casting Ureni would leave you dead on the backswing or you know you need protection/interaction first to survive the turn cycle."
           }
         ],
         "bullets": [
-          "The power check happens as the trigger resolves after the counter is placed, so creature casts naturally move Eshki toward the thresholds.",
-          "Once at 6 power, every creature spell threatens the whole table without combat.",
-          "Do not forget Eshki herself can become a large attacker after several triggers."
+          "The enter trigger is guaranteed value opportunity before opponents can simply remove Ureni with sorcery-speed interaction.",
+          "Dragon Tempest or Temur Ascendancy can turn Ureni into an immediate attacker for a second trigger.",
+          "Commander tax matters a lot at seven mana, so avoid throwing Ureni away in poor combat."
         ]
       },
       {
         "title": "Key Cards",
         "question": "Which draws should change my decisions?",
-        "lead": "These cards accelerate the creature chain or make every large Dragon produce immediate combat/card value.",
+        "lead": "These cards either get Ureni online sooner or multiply the value of every Dragon that enters.",
         "cards": [
           {
-            "name": "Temur Ascendancy",
-            "why": "Gives big creatures haste and draws when creatures with power 4+ enter."
-          },
-          {
             "name": "Dragon Tempest",
-            "why": "Adds haste and turns Dragons entering into direct damage."
+            "why": "Gives flying creatures haste and turns Dragon entries into direct damage."
           },
           {
-            "name": "Atarka, World Render",
-            "why": "Makes attacking Dragons dramatically more lethal with double strike."
+            "name": "Temur Ascendancy",
+            "why": "Provides haste plus card draw from your many power-4-or-greater creatures."
           },
           {
-            "name": "Dragonlord Atarka",
-            "why": "A huge flying threat that also removes creatures/planeswalkers on entry."
+            "name": "Hellkite Courser",
+            "why": "Can put Ureni from the command zone onto the battlefield with haste for an enter trigger and an immediate attack trigger."
           },
           {
             "name": "Lathliss, Dragon Queen",
-            "why": "Creates additional Dragon tokens as nontoken Dragons enter."
+            "why": "Creates additional 5/5 Dragons when your nontoken Dragons enter."
           },
           {
-            "name": "Selvala’s Stampede",
-            "why": "Can put multiple huge permanents onto the battlefield at once in multiplayer."
+            "name": "Atarka, World Render",
+            "why": "Makes attacking Dragons deal enormous amounts of combat damage through double strike."
+          },
+          {
+            "name": "Dragonlord Atarka",
+            "why": "A premium Ureni hit that arrives as a huge flyer and removes opposing creatures or planeswalkers."
           }
         ]
       },
       {
         "title": "Interaction",
         "question": "What deserves my answer?",
-        "lead": "Your big creatures can dominate normal combat, so reserve removal for engines, combo pieces and threats that stop your mana or creature chain.",
+        "lead": "Your plan is mana-intensive, so use interaction on cards that would either end the game before you stabilize or stop your Dragon engine entirely.",
         "callouts": [
           {
             "label": "SAVE",
             "tone": "good",
-            "text": "Flexible removal/counters for board wipes, combo turns, graveyard/stack engines and permanents that neutralize large attackers."
+            "text": "Removal/counters for board wipes, combo pieces, prison effects and threats that kill you before Ureni can take over."
           },
           {
             "label": "SPEND LESS",
             "tone": "warn",
-            "text": "Medium creatures that your Dragons can block, race or remove via Dragonlord Atarka/Dragon Tempest."
+            "text": "Medium creatures that your incoming Dragons can simply outsize in combat."
           }
         ],
         "bullets": [
-          "Eshki’s 6-power trigger becomes repeatable table-wide damage and can remove the need to fight through blockers.",
-          "A board wipe hurts because your deck is mana-intensive; keep one or two follow-up creatures in hand.",
-          "Reflections of Littjara naming Dragon can multiply your largest creature spells if it survives."
+          "Reality Shift, Rapid Hybridization, Beast Within and Chaos Warp are flexible emergency answers.",
+          "If you expect a board wipe, avoid committing every Dragon from your hand just because Ureni has already built a strong board.",
+          "Protect haste/value engines when they are turning each Ureni cycle into two Dragon triggers instead of one."
         ]
       },
       {
         "title": "How to Win",
         "question": "What does a winning position look like?",
-        "lead": "Temur Roar wins by turning every creature cast into multiple resources: a threat, Eshki growth, cards and eventually direct damage to all opponents.",
+        "lead": "Temur Roar closes games by converting one seven-mana commander into a chain of free Dragons, then using haste, Dragon ETBs and combat multipliers to make the board lethal.",
         "callouts": [
           {
             "label": "WINNING PATTERN",
             "tone": "win",
-            "text": "Ramp established + Eshki at 6+ power + multiple creature spells in hand, or a broad Dragon board with haste/combat payoffs."
+            "text": "Ureni + one or two successful triggers + Dragon Tempest/Temur Ascendancy/Lathliss support → attack with an air force opponents cannot race."
           },
           {
             "label": "FINISHERS",
             "tone": "info",
-            "text": "Repeated Eshki damage triggers, Atarka double-strike attacks and Dragon Tempest/Lathliss snowballs close games."
+            "text": "Atarka, World Render, large Dragon swarms, repeated Ureni attacks and Dragon Tempest damage end games quickly once the engine starts."
           }
         ],
         "bullets": [
-          "Once Eshki reaches 6 power, count direct damage from your remaining creature spells before committing to combat.",
-          "Against heavy removal, lean on haste/ETB value so every expensive creature does something immediately."
+          "Once you are ahead on board, stop ramping for its own sake and use mana to protect the winning position.",
+          "Attack the player least able to block Ureni so the trigger keeps generating free Dragons."
         ]
       },
       {
         "title": "5 Things to Remember",
         "question": "What should I remember without reopening the whole guide?",
         "bullets": [
-          "Ramp first; this deck is mana-hungry.",
-          "Every creature spell grows Eshki.",
-          "At 4+ power, creature casts draw cards.",
-          "At 6+ power, creature casts also damage every opponent.",
-          "Keep enough creatures in hand to continue the engine after Eshki lands."
+          "Ramp is more important than keeping a hand full of Dragons.",
+          "Ureni triggers both when it enters and when it attacks.",
+          "Look eight cards deep and put a Dragon directly onto the battlefield.",
+          "Haste can give you two Ureni triggers in the same turn.",
+          "Do not throw a seven-mana commander away in bad combat."
         ]
       }
     ]
@@ -8276,7 +8277,7 @@ window.DECKS = [
     "id": "counter-intelligence",
     "name": "Counter Intelligence",
     "set": "Edge of Eternities",
-    "commander": "Kilo, Apogee Mind",
+    "commander": "Inspirit, Flagship Vessel",
     "colors": [
       "U",
       "R",
@@ -8285,208 +8286,209 @@ window.DECKS = [
     "tags": [
       "Artifacts",
       "Counters",
-      "Proliferate",
+      "Spacecraft",
+      "Station",
       "Jeskai",
-      "Kilo",
+      "Inspirit",
       "Edge of Eternities"
     ],
     "difficulty": "Medium–Hard",
-    "summary": "Put counters on artifacts and creatures, tap Kilo repeatedly to proliferate them, and turn charge, +1/+1 and station counters into compounding engines.",
-    "role": "Artifact counter-proliferate",
-    "coreRule": "Kilo proliferates whenever it becomes tapped — build several different valuable counters before tapping it so one trigger advances the whole board.",
+    "summary": "Station Inspirit, place charge and +1/+1 counters across your artifacts, and reach eight charge counters to turn your artifact board into a protected late-game fortress.",
+    "role": "Artifact counter and Spacecraft engine",
+    "coreRule": "Get Inspirit to at least one charge counter quickly, then use each combat to grow another artifact; at eight, your other artifacts gain hexproof and indestructible.",
     "sections": [
       {
         "title": "Game Plan",
         "question": "What is my job at the table?",
-        "lead": "Counter Intelligence is an artifact/counter deck where many permanents use different counter types. Kilo has haste and proliferates whenever it becomes tapped, so crew/station/attack/tap effects can advance every useful counter at once.",
+        "lead": "Counter Intelligence builds an artifact board that improves through charge counters, +1/+1 counters and proliferate. Inspirit uses station to come online, then adds counters to another artifact every combat and eventually protects nearly your entire artifact engine.",
         "callouts": [
           {
             "label": "PRIORITY",
             "tone": "good",
-            "text": "Counter permanents → Kilo → tap Kilo safely → proliferate several resources → unlock artifact engines/Spacecraft."
+            "text": "Early artifacts/creatures → station Inspirit to 1+ → grow charge or +1/+1 counters each combat → proliferate efficiently → reach 8+ and protect the artifact board."
           },
           {
             "label": "AVOID",
             "tone": "bad",
-            "text": "Proliferating when only one trivial counter exists; set up multiple counter types first so each trigger has real value."
+            "text": "Rushing to eight charge counters while you have no meaningful artifact board to protect or no follow-up pressure."
           }
         ],
         "bullets": [
-          "Charge counters, +1/+1 counters, station progress and special win counters can all benefit from proliferate.",
-          "Haste means Kilo can often generate a proliferate trigger on the turn it enters.",
-          "Do not attack Kilo into obvious death merely to tap it if another tap/crew/station route is available."
+          "Station taps another creature at sorcery speed and adds charge counters equal to that creature’s power.",
+          "At 1+, Inspirit can add a +1/+1 counter or two charge counters to another artifact at the beginning of combat on your turn.",
+          "At 8+, Inspirit becomes a 5/5 flyer and your other artifacts have hexproof and indestructible."
         ]
       },
       {
         "title": "Opening Hand",
         "question": "Keep it or ship it?",
-        "lead": "You want artifacts that naturally receive counters plus mana and an early way to tap/crew/station.",
+        "lead": "You want mana, an early creature that can station Inspirit, and artifacts that actually benefit from counters.",
         "callouts": [
           {
             "label": "KEEP",
             "tone": "good",
-            "text": "3–4 lands, Jeskai fixing, a counter-bearing artifact/permanent and ramp or a tap enabler."
+            "text": "3–4 lands with Jeskai fixing, a cheap creature or artifact creature, ramp and at least one counter-bearing artifact/payoff."
           },
           {
             "label": "MULLIGAN",
             "tone": "bad",
-            "text": "A hand of proliferate effects with no counters to proliferate, or expensive artifacts with no acceleration."
+            "text": "Expensive artifacts with no acceleration, or counter payoffs without a creature to station Inspirit and start the engine."
           }
         ],
         "bullets": [
-          "Everflowing Chalice and Astral Cornucopia turn counters directly into mana and scale well with proliferate.",
-          "Steel Overseer gives the artifact-creature board +1/+1 counters that future Kilo triggers can multiply."
+          "Everflowing Chalice and Astral Cornucopia are excellent because charge counters become more mana.",
+          "Small artifact creatures are useful twice: they build your board and can be tapped to station Inspirit."
         ]
       },
       {
         "title": "Early Game",
         "question": "What should turns 1–3 accomplish?",
-        "lead": "Seed the battlefield with counters before spending proliferate triggers. One good Kilo tap should advance more than one permanent.",
+        "lead": "Develop mana and artifacts, then cast Inspirit with a realistic plan to station it. Even one charge counter unlocks the beginning-of-combat counter ability.",
         "callouts": [
           {
             "label": "GOOD START",
             "tone": "good",
-            "text": "Two or more permanents already have useful counters and Kilo can tap without dying."
+            "text": "Inspirit reaches 1+ quickly and you already control another artifact worth growing."
           },
           {
             "label": "RED FLAG",
             "tone": "warn",
-            "text": "Kilo is attacking just to proliferate one insignificant counter while opponents can block profitably."
+            "text": "You spend multiple turns stationing with no useful artifact target or no way to capitalize on the counters."
           }
         ],
         "bullets": [
-          "Use mana artifacts with charge counters as early scalable resources.",
-          "Station Spacecraft while developing counter engines so proliferate can help accelerate thresholds.",
-          "Hangarback Walker remains useful at many sizes and creates a board if it dies."
+          "Choose station creatures whose power gets you across a threshold efficiently.",
+          "Putting two charge counters on another artifact can be stronger than one +1/+1 counter when it unlocks an ability.",
+          "Kilo in the 99 is especially synergistic: tapping Kilo to station can also trigger Kilo’s proliferate ability."
         ]
       },
       {
         "title": "Mid Game",
-        "question": "What should one proliferate trigger advance?",
-        "lead": "Before tapping Kilo, scan the battlefield: identify every counter you control that can be increased and decide whether the trigger crosses any important threshold.",
+        "question": "Which counter should Inspirit add?",
+        "lead": "At the beginning of combat, decide whether another artifact needs raw size or two charge counters. The correct choice is usually the one that crosses an important threshold immediately.",
         "callouts": [
           {
             "label": "PRESSURE",
             "tone": "good",
-            "text": "One proliferate increases mana, creature size and a station/charge/win-condition permanent at the same time."
+            "text": "Two charge counters turn on a mana/removal/token engine, or a +1/+1 counter materially improves an artifact creature that can attack or block."
           },
           {
             "label": "HOLD BACK",
             "tone": "info",
-            "text": "The only available counter is low-impact and risking Kilo is not worth one increment."
+            "text": "You are adding counters with no purpose while a different artifact could reach a powerful activation threshold."
           }
         ],
         "bullets": [
-          "Lux Cannon becomes real removal once charge counters reach the activation threshold.",
-          "Darksteel Reactor creates a long-term alternate win condition that proliferate can accelerate.",
-          "Titan Forge and other charge-counter artifacts convert repeated proliferation into large threats."
+          "Lux Cannon and Titan Forge reward concentrated charge counters.",
+          "Steel Overseer spreads +1/+1 counters across artifact creatures, giving proliferate more targets later.",
+          "Deepglow Skate, Tekuthal and other proliferate effects can accelerate Inspirit itself and the rest of the board at once."
         ]
       },
       {
         "title": "Commander",
-        "question": "Cast Kilo now — or wait?",
-        "lead": "Kilo has haste. Whenever Kilo becomes tapped, you proliferate, letting you choose any number of permanents/players with counters and add another of each kind already there.",
+        "question": "Cast Inspirit now — or wait?",
+        "lead": "Inspirit is a three-mana legendary Spacecraft. Station puts charge counters on it by tapping another creature at sorcery speed. At 1+ it grows another artifact each combat; at 8+ it is a 5/5 flyer and your other artifacts have hexproof and indestructible.",
         "callouts": [
           {
             "label": "CAST",
             "tone": "good",
-            "text": "Your battlefield already has useful counters or you can tap Kilo immediately to advance an important threshold."
+            "text": "You have a creature available to station it and at least one other artifact that benefits from the first combat trigger."
           },
           {
             "label": "WAIT",
             "tone": "bad",
-            "text": "You have no counters worth increasing and another setup artifact would make the first Kilo trigger much stronger."
+            "text": "You have no station creature, no artifact to grow and another setup play would make Inspirit immediately productive next turn."
           }
         ],
         "bullets": [
-          "Attack is only one way to tap Kilo; use crew/station/tap abilities when they are safer.",
-          "Proliferate affects each chosen counter type already present, so diversified counters create enormous efficiency.",
-          "Protect Kilo when repeated tapping is powering your whole board rather than spending it as a disposable attacker."
+          "Inspirit’s 8+ protection applies to other artifacts, not Inspirit itself, so the commander still needs protection from removal.",
+          "You do not need to reach 8 immediately; the 1+ ability can create value for several turns first.",
+          "Because station is sorcery-speed, plan your threshold before moving to combat."
         ]
       },
       {
         "title": "Key Cards",
         "question": "Which draws should change my decisions?",
-        "lead": "These cards reward repeated proliferation with mana, removal, creatures or an alternate victory condition.",
+        "lead": "These cards turn counters into mana, removal, board growth or a direct route to victory.",
         "cards": [
           {
+            "name": "Kilo, Apogee Mind",
+            "why": "Tapping Kilo — including for station — proliferates, making it a perfect support engine inside the 99."
+          },
+          {
             "name": "Everflowing Chalice / Astral Cornucopia",
-            "why": "Charge counters become mana, so proliferate directly increases future resources."
+            "why": "Charge counters become mana, and Inspirit/proliferate can keep increasing their output."
           },
           {
             "name": "Steel Overseer",
-            "why": "Seeds +1/+1 counters across artifact creatures for later proliferation."
+            "why": "Seeds +1/+1 counters across artifact creatures so later proliferation scales the whole board."
           },
           {
             "name": "Lux Cannon",
-            "why": "Repeated charge counters eventually become repeatable permanent removal."
+            "why": "Charge counters eventually turn into repeatable permanent removal."
           },
           {
             "name": "Darksteel Reactor",
-            "why": "Provides a durable alternate win condition that proliferate accelerates."
+            "why": "Creates a durable alternate win condition that your counter engines can accelerate."
           },
           {
-            "name": "Titan Forge",
-            "why": "Converts accumulated charge counters into large Construct tokens."
-          },
-          {
-            "name": "Deepglow Skate / Tekuthal, Inquiry Dominus",
-            "why": "Powerful counter multipliers that can create huge jumps in one turn."
+            "name": "Cyberdrive Awakener",
+            "why": "Can transform a wide board of utility artifacts into a sudden flying attack that closes the game."
           }
         ]
       },
       {
         "title": "Interaction",
         "question": "What deserves my answer?",
-        "lead": "Some of your interaction lives inside counter artifacts. Protect those engines and use separate removal for threats that will end the game before your counters mature.",
+        "lead": "Your board becomes resilient once Inspirit reaches eight, so the most dangerous moment is before that protection is online — or when opponents target Inspirit itself.",
         "callouts": [
           {
             "label": "SAVE",
             "tone": "good",
-            "text": "Counters/removal for board wipes, artifact hate, combo engines and effects that remove counters or shut down activated abilities."
+            "text": "Interaction for board wipes, mass artifact exile, combo pieces and spot removal aimed at Inspirit when the 8+ protection matters."
           },
           {
             "label": "SPEND LESS",
             "tone": "warn",
-            "text": "Medium permanents if Lux Cannon or your growing artifact creatures can handle them with time."
+            "text": "Medium permanents that Lux Cannon, a growing artifact army or normal combat can handle soon."
           }
         ],
         "bullets": [
-          "Karn’s Bastion gives a land-based proliferate option that is harder to remove than a creature engine.",
-          "If opponents target a charge-counter permanent, consider whether you can use its ability before it leaves.",
-          "Do not rely on a slow alternate win if the table is presenting lethal combat; stabilize first."
+          "Swords to Plowshares, Dispatch, Swan Song and Chaos Warp give you efficient answers while the engine develops.",
+          "Hexproof and indestructible do not stop sacrifice/exile-all effects, so read sweepers carefully.",
+          "If a charge-counter artifact is about to be removed, use its activated ability first when possible."
         ]
       },
       {
         "title": "How to Win",
         "question": "What does a winning position look like?",
-        "lead": "Counter Intelligence wins when each Kilo tap advances several independent engines until mana, board size and artifact abilities all scale beyond normal removal.",
+        "lead": "The deck wins once its artifact engines become difficult to interact with and the same counters that generated value turn into creatures, removal or an alternate victory condition.",
         "callouts": [
           {
             "label": "WINNING PATTERN",
             "tone": "win",
-            "text": "Kilo + 3+ relevant counter-bearing permanents + safe repeatable tap method, producing multiple thresholds from every proliferate."
+            "text": "Inspirit at 8+ + a wide artifact board + several mature counter engines → protect the board while Cyberdrive Awakener, large artifact creatures or repeated activations end the game."
           },
           {
             "label": "FINISHERS",
             "tone": "info",
-            "text": "Darksteel Reactor, Titan Forge armies and highly grown artifact creatures provide different closing routes."
+            "text": "Cyberdrive Awakener, Titan Forge armies, a charged Darksteel Reactor and large artifact creatures give you different closing routes."
           }
         ],
         "bullets": [
-          "Choose the fastest credible win route once your engine is established; proliferating everything forever is not itself the goal.",
-          "If Darksteel Reactor becomes the plan, protect time and life total rather than overcommitting attackers."
+          "Once the artifact fortress is established, identify the fastest actual win instead of adding counters forever.",
+          "Keep Inspirit alive; losing it can suddenly make the entire protected artifact board vulnerable again."
         ]
       },
       {
         "title": "5 Things to Remember",
         "question": "What should I remember without reopening the whole guide?",
         "bullets": [
-          "Put counters on several permanents before proliferating.",
-          "Kilo proliferates whenever it becomes tapped.",
-          "Kilo has haste, so the engine can start immediately.",
-          "Use safer tap methods than attacking when possible.",
-          "Know which counter threshold your next proliferate will cross."
+          "Station Inspirit with another creature at sorcery speed.",
+          "One charge counter unlocks the combat counter ability.",
+          "Each combat can add one +1/+1 counter or two charge counters to another artifact.",
+          "At eight, your other artifacts gain hexproof and indestructible.",
+          "Kilo is excellent support in the 99 because tapping it proliferates."
         ]
       }
     ]
@@ -8985,10 +8987,10 @@ const ALTERNATE_COMMANDERS = {
     "type": "official",
     "options": [
       {
-        "name": "Teval, the Balanced Scale",
-        "does": "Attacks to mill cards and return a land from your graveyard, while cards leaving your graveyard can create Zombie Druid tokens.",
-        "shift": "Move from Kotis’s combat/casting value to a dedicated self-mill and graveyard-movement engine. Lands in the graveyard become ramp, and recursion/exile events become token production.",
-        "try": "Choose Teval when you want a grindier land-and-graveyard deck with a wider token board."
+        "name": "Kotis, Sibsig Champion",
+        "does": "Once during each of your turns, Kotis can let you cast a creature from your graveyard by exiling three other cards from it, and creatures entering from the graveyard grow Kotis.",
+        "shift": "Move from Teval’s land-recursion and Zombie-Druid engine to a creature-focused graveyard toolbox. You spend graveyard cards as fuel to repeatedly cast your best creatures and build Kotis into a real combat threat.",
+        "try": "Choose Kotis when you want more direct creature recursion and a growing commander, with fewer decisions centered on land recovery and token production."
       }
     ]
   },
@@ -9007,10 +9009,10 @@ const ALTERNATE_COMMANDERS = {
     "type": "official",
     "options": [
       {
-        "name": "Ureni of the Unwritten",
-        "does": "A large flying, trampling Dragon that looks at the top eight cards when it enters or attacks and can put a Dragon from among them directly onto the battlefield.",
-        "shift": "Move from Eshki rewarding every large creature spell and tracking 4/6-power thresholds to a much more focused Dragon-typal cheat plan. Ramp to Ureni, then attack to turn the top of your library into free Dragons.",
-        "try": "Choose Ureni when you want the deck to feel like classic Temur Dragons: fewer threshold decisions, more huge creatures arriving for free."
+        "name": "Eshki, Temur’s Roar",
+        "does": "Whenever you cast a creature spell, Eshki gets a +1/+1 counter. Creature spells with power 4 or greater also draw a card, and power 6 or greater can make Eshki damage every opponent based on its power.",
+        "shift": "Move from a dedicated Dragon-cheat plan to a broader big-creature casting engine. You care about actually casting creatures with the right power thresholds, growing Eshki and turning large spells into cards and table-wide damage.",
+        "try": "Choose Eshki when you want a cheaper commander, more sequencing around 4/6-power thresholds and a big-creature deck that is less dependent on Dragon typal."
       }
     ]
   },
@@ -9117,10 +9119,10 @@ const ALTERNATE_COMMANDERS = {
     "type": "official",
     "options": [
       {
-        "name": "Inspirit, Flagship Vessel",
-        "does": "A legendary Spacecraft that builds charge counters through station, improves other artifacts as it develops and eventually becomes a flying protection engine for your artifact board.",
-        "shift": "Move from Kilo repeatedly proliferating many counter types to building one major artifact fortress. Station progress and protecting a wide artifact board become more important than maximizing every proliferate trigger.",
-        "try": "Choose Inspirit when you want a slower, sturdier artifact deck that grows toward an almost fortress-like late game."
+        "name": "Kilo, Apogee Mind",
+        "does": "Kilo has haste and proliferates whenever it becomes tapped, so attacking, stationing or other tap effects can advance every useful counter on your board.",
+        "shift": "Move from Inspirit’s slower Spacecraft-and-protection plan to a faster proliferate engine. You want several different counter types in play, then repeatedly tap Kilo to grow all of them at once.",
+        "try": "Choose Kilo when you want more combo-like counter sequencing and faster proliferation, with less emphasis on building Inspirit into an artifact fortress."
       }
     ]
   },
