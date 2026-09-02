@@ -348,6 +348,67 @@ h2{
   font-size:.69rem
 }
 
+
+.deck-sort-controls{
+  display:flex;
+  gap:8px;
+  margin:0 0 18px;
+  padding:4px;
+  border:1px solid #3f3837;
+  background:#181619;
+  border-radius:13px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.deck-sort-btn{
+  flex:1 0 auto;
+  min-height:40px;
+  border:1px solid transparent;
+  border-radius:9px;
+  background:transparent;
+  color:#a79d94;
+  padding:8px 12px;
+  font-weight:800;
+  font-size:.78rem;
+  white-space:nowrap;
+}
+.deck-sort-btn.active{
+  color:#f2e5c7;
+  border-color:#5a4a34;
+  background:linear-gradient(180deg,#2a241c,#211d19);
+  box-shadow:inset 0 1px rgba(255,255,255,.04);
+}
+.deck-sort-btn:disabled{
+  opacity:.48;
+  cursor:not-allowed;
+}
+.deck-sort-note{
+  margin:-8px 2px 17px;
+  color:#8e847c;
+  font-size:.72rem;
+  line-height:1.4;
+}
+.strength-pending{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+}
+.strength-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  border:1px solid #4a4039;
+  background:#242023;
+  color:#d8cec4;
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:.69rem;
+  font-weight:800;
+}
+.strength-badge.unrated{opacity:.62}
+
+.strength-badge strong{color:var(--accent2);font-size:.76rem}
+
 .deck-series{margin:0 0 24px}
 .deck-series:last-child{margin-bottom:0}
 .deck-series-header{
@@ -1056,6 +1117,13 @@ footer{
         <span id="deck-count" class="count"></span>
       </div>
 
+      <div class="deck-sort-controls" role="group" aria-label="Sort deck list">
+        <button id="sort-set" class="deck-sort-btn active" data-sort="set">By Set</button>
+        <button id="sort-difficulty" class="deck-sort-btn" data-sort="difficulty">Difficulty</button>
+        <button id="sort-strength" class="deck-sort-btn" data-sort="strength">Strength</button>
+      </div>
+      <p id="deck-sort-note" class="deck-sort-note hidden"></p>
+
       <div id="deck-grid" class="deck-groups"></div>
       <p id="no-results" class="no-results hidden">No decks found. Try a shorter search or search by commander.</p>
     </section>
@@ -1137,13 +1205,14 @@ footer{
   </div>
 
   <footer>
-    <p>CommanderHygge · Prototype v0.14 · Unofficial fan-made pilot guides</p>
+    <p>CommanderHygge · Prototype v0.17 · Unofficial fan-made pilot guides</p>
   </footer>
 
   <script>
 window.DECKS = [
   {
     "id": "first-flight",
+    "strengthScore": 360,
     "name": "First Flight",
     "set": "Starter Commander Decks",
     "commander": "Isperia, Supreme Judge",
@@ -1363,6 +1432,7 @@ window.DECKS = [
   },
   {
     "id": "grave-danger",
+    "strengthScore": 360,
     "name": "Grave Danger",
     "set": "Starter Commander Decks",
     "commander": "Gisa and Geralf",
@@ -1578,6 +1648,7 @@ window.DECKS = [
   },
   {
     "id": "chaos-incarnate",
+    "strengthScore": 408,
     "name": "Chaos Incarnate",
     "set": "Starter Commander Decks",
     "commander": "Kardur, Doomscourge",
@@ -1793,6 +1864,7 @@ window.DECKS = [
   },
   {
     "id": "draconic-destruction",
+    "strengthScore": 368,
     "name": "Draconic Destruction",
     "set": "Starter Commander Decks",
     "commander": "Atarka, World Render",
@@ -2008,6 +2080,7 @@ window.DECKS = [
   },
   {
     "id": "token-triumph",
+    "strengthScore": 359,
     "name": "Token Triumph",
     "set": "Starter Commander Decks",
     "commander": "Emmara, Soul of the Accord",
@@ -2223,6 +2296,7 @@ window.DECKS = [
   },
   {
     "id": "animated-army",
+    "strengthScore": 479,
     "name": "Animated Army",
     "set": "Bloomburrow",
     "commander": "Bello, Bard of the Brambles",
@@ -2443,6 +2517,7 @@ window.DECKS = [
   },
   {
     "id": "family-matters",
+    "strengthScore": 466,
     "name": "Family Matters",
     "set": "Bloomburrow",
     "commander": "Zinnia, Valley's Voice",
@@ -2664,6 +2739,7 @@ window.DECKS = [
   },
   {
     "id": "peace-offering",
+    "strengthScore": 512,
     "name": "Peace Offering",
     "set": "Bloomburrow",
     "commander": "Ms. Bumbleflower",
@@ -2885,6 +2961,7 @@ window.DECKS = [
   },
   {
     "id": "squirreled-away",
+    "strengthScore": 479,
     "name": "Squirreled Away",
     "set": "Bloomburrow",
     "commander": "Hazel of the Rootbloom",
@@ -3105,6 +3182,7 @@ window.DECKS = [
   },
   {
     "id": "veloci-ramp-tor",
+    "strengthScore": 413,
     "name": "Veloci-ramp-tor",
     "set": "The Lost Caverns of Ixalan",
     "commander": "Pantlaza, Sun-Favored",
@@ -3335,6 +3413,7 @@ window.DECKS = [
   },
   {
     "id": "arcane-maelstrom",
+    "strengthScore": 373,
     "name": "Arcane Maelstrom",
     "set": "Commander 2020 / Ikoria",
     "commander": "Kalamax, the Stormsire",
@@ -3561,6 +3640,7 @@ window.DECKS = [
   },
   {
     "id": "ahoy-mateys",
+    "strengthScore": 455,
     "name": "Ahoy Mateys",
     "set": "The Lost Caverns of Ixalan",
     "commander": "Admiral Brass, Unsinkable",
@@ -3781,6 +3861,7 @@ window.DECKS = [
   },
   {
     "id": "blood-rites",
+    "strengthScore": 495,
     "name": "Blood Rites",
     "set": "The Lost Caverns of Ixalan",
     "commander": "Clavileño, First of the Blessed",
@@ -4000,6 +4081,7 @@ window.DECKS = [
   },
   {
     "id": "explorers-of-the-deep",
+    "strengthScore": 481,
     "name": "Explorers of the Deep",
     "set": "The Lost Caverns of Ixalan",
     "commander": "Hakbal of the Surging Soul",
@@ -4219,6 +4301,7 @@ window.DECKS = [
   },
   {
     "id": "ruthless-regiment",
+    "strengthScore": 443,
     "name": "Ruthless Regiment",
     "set": "Commander 2020 / Ikoria",
     "commander": "Jirina Kudro",
@@ -4439,6 +4522,7 @@ window.DECKS = [
   },
   {
     "id": "symbiotic-swarm",
+    "strengthScore": 356,
     "name": "Symbiotic Swarm",
     "set": "Commander 2020 / Ikoria",
     "commander": "Kathril, Aspect Warper",
@@ -4659,6 +4743,7 @@ window.DECKS = [
   },
   {
     "id": "timeless-wisdom",
+    "strengthScore": 359,
     "name": "Timeless Wisdom",
     "set": "Commander 2020 / Ikoria",
     "commander": "Gavi, Nest Warden",
@@ -4879,6 +4964,7 @@ window.DECKS = [
   },
   {
     "id": "buckle-up",
+    "strengthScore": 431,
     "name": "Buckle Up",
     "set": "Kamigawa: Neon Dynasty",
     "commander": "Kotori, Pilot Prodigy",
@@ -5098,6 +5184,7 @@ window.DECKS = [
   },
   {
     "id": "upgrades-unleashed",
+    "strengthScore": 415,
     "name": "Upgrades Unleashed",
     "set": "Kamigawa: Neon Dynasty",
     "commander": "Chishiro, the Shattered Blade",
@@ -5318,6 +5405,7 @@ window.DECKS = [
   },
   {
     "id": "creative-energy",
+    "strengthScore": 402,
     "name": "Creative Energy",
     "set": "Modern Horizons 3",
     "commander": "Satya, Aetherflux Genius",
@@ -5538,6 +5626,7 @@ window.DECKS = [
   },
   {
     "id": "abzan-armor",
+    "strengthScore": 438,
     "name": "Abzan Armor",
     "set": "Tarkir: Dragonstorm",
     "commander": "Felothar the Steadfast",
@@ -5758,6 +5847,7 @@ window.DECKS = [
   },
   {
     "id": "jeskai-striker",
+    "strengthScore": 525,
     "name": "Jeskai Striker",
     "set": "Tarkir: Dragonstorm",
     "commander": "Shiko and Narset, Unified",
@@ -5978,6 +6068,7 @@ window.DECKS = [
   },
   {
     "id": "sultai-arisen",
+    "strengthScore": 464,
     "name": "Sultai Arisen",
     "set": "Tarkir: Dragonstorm",
     "commander": "Teval, the Balanced Scale",
@@ -6199,6 +6290,7 @@ window.DECKS = [
   },
   {
     "id": "mardu-surge",
+    "strengthScore": 514,
     "name": "Mardu Surge",
     "set": "Tarkir: Dragonstorm",
     "commander": "Zurgo Stormrender",
@@ -6419,6 +6511,7 @@ window.DECKS = [
   },
   {
     "id": "temur-roar",
+    "strengthScore": 434,
     "name": "Temur Roar",
     "set": "Tarkir: Dragonstorm",
     "commander": "Ureni of the Unwritten",
@@ -6854,7 +6947,8 @@ window.DECKS = [
         ]
       }
     ],
-    "difficultyScore": 4
+    "difficultyScore": 4,
+    "strengthScore": 494
   },
   {
     "id": "prismari-artistry",
@@ -7073,7 +7167,8 @@ window.DECKS = [
         ]
       }
     ],
-    "difficultyScore": 4
+    "difficultyScore": 4,
+    "strengthScore": 450
   },
   {
     "id": "witherbloom-pestilence",
@@ -7292,7 +7387,8 @@ window.DECKS = [
         ]
       }
     ],
-    "difficultyScore": 3
+    "difficultyScore": 3,
+    "strengthScore": 511
   },
   {
     "id": "lorehold-spirit",
@@ -7511,7 +7607,8 @@ window.DECKS = [
         ]
       }
     ],
-    "difficultyScore": 4
+    "difficultyScore": 4,
+    "strengthScore": 457
   },
   {
     "id": "quandrix-unlimited",
@@ -7730,7 +7827,8 @@ window.DECKS = [
         ]
       }
     ],
-    "difficultyScore": 4
+    "difficultyScore": 4,
+    "strengthScore": 484
   },
   {
     "id": "living-energy",
@@ -7950,7 +8048,8 @@ window.DECKS = [
         ]
       }
     ],
-    "difficultyScore": 4
+    "difficultyScore": 4,
+    "strengthScore": 436
   },
   {
     "id": "eternal-might",
@@ -8170,7 +8269,8 @@ window.DECKS = [
         ]
       }
     ],
-    "difficultyScore": 4
+    "difficultyScore": 4,
+    "strengthScore": 467
   },
   {
     "id": "dance-of-the-elements",
@@ -8392,7 +8492,8 @@ window.DECKS = [
         ]
       }
     ],
-    "difficultyScore": 4
+    "difficultyScore": 4,
+    "strengthScore": 404
   },
   {
     "id": "blight-curse",
@@ -8612,10 +8713,12 @@ window.DECKS = [
         ]
       }
     ],
-    "difficultyScore": 4
+    "difficultyScore": 4,
+    "strengthScore": 420
   },
   {
     "id": "counter-intelligence",
+    "strengthScore": 477,
     "name": "Counter Intelligence",
     "set": "Edge of Eternities",
     "commander": "Inspirit, Flagship Vessel",
@@ -8837,6 +8940,7 @@ window.DECKS = [
   },
   {
     "id": "world-shaper",
+    "strengthScore": 461,
     "name": "World Shaper",
     "set": "Edge of Eternities",
     "commander": "Hearthhull, the Worldseed",
@@ -10433,6 +10537,10 @@ const grid = $("#deck-grid");
 const search = $("#search");
 const count = $("#deck-count");
 const noResults = $("#no-results");
+const sortButtons = [...document.querySelectorAll(".deck-sort-btn")];
+const sortStrengthBtn = $("#sort-strength");
+const deckSortNote = $("#deck-sort-note");
+let currentDeckSort = "set";
 const modal = $("#random-modal");
 const quickModal = $("#quick-modal");
 const cardModal = $("#card-modal");
@@ -10880,62 +10988,147 @@ function sectionIcon(title){
   };
   return icons[title] || "•";
 }
-function renderDecks(list){
-  const groups = [];
-  const bySet = new Map();
+function deckCardHtml(d){
+  const strength = Number.isFinite(d.strengthScore)
+    ? `<span class="strength-badge">Strength <strong>${d.strengthScore}/1000</strong></span>`
+    : `<span class="strength-badge unrated">Strength <strong>—</strong></span>`;
+  return `
+    <button class="deck-card" data-id="${d.id}" style="--deck-accent:${deckAccent(d.colors)}">
+      <div class="deck-card-top">
+        <div>
+          <h4>${d.name}</h4>
+          <p class="deck-set">${d.commander}</p>
+        </div>
+        ${pips(d.colors)}
+      </div>
+      <div class="deck-rating-row">
+        <span class="rating-badge">Pilot difficulty <strong>${d.difficultyScore}/5</strong></span>
+        ${strength}
+      </div>
+      <p class="deck-summary">${d.summary}</p>
+      <div class="tags">${d.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+    </button>`;
+}
+
+function setGroups(list){
+  const groups=[];
+  const bySet=new Map();
   list.forEach(d=>{
     if(!bySet.has(d.set)){
-      const group={set:d.set,decks:[]};
+      const group={title:d.set,decks:[]};
       bySet.set(d.set,group);
       groups.push(group);
     }
     bySet.get(d.set).decks.push(d);
   });
+  return groups;
+}
+
+function difficultyGroups(list){
+  const labels={
+    1:"1/5 · Easy",
+    2:"2/5 · Easy–Medium",
+    3:"3/5 · Medium",
+    4:"4/5 · Hard",
+    5:"5/5 · Very Hard"
+  };
+  return [1,2,3,4,5]
+    .map(score=>({
+      title:labels[score],
+      decks:list.filter(d=>d.difficultyScore===score).sort((a,b)=>a.name.localeCompare(b.name))
+    }))
+    .filter(group=>group.decks.length);
+}
+
+function strengthGroups(list){
+  const scored=list.filter(d=>Number.isFinite(d.strengthScore))
+    .sort((a,b)=>b.strengthScore-a.strengthScore || a.name.localeCompare(b.name));
+  const unrated=list.filter(d=>!Number.isFinite(d.strengthScore))
+    .sort((a,b)=>a.name.localeCompare(b.name));
+  const groups=[];
+  if(scored.length) groups.push({title:"Strongest → weakest",decks:scored});
+  if(unrated.length) groups.push({title:"Not rated yet",decks:unrated});
+  return groups;
+}
+
+function renderDecks(list){
+  let groups;
+  if(currentDeckSort==="difficulty") groups=difficultyGroups(list);
+  else if(currentDeckSort==="strength") groups=strengthGroups(list);
+  else groups=setGroups(list);
 
   grid.innerHTML = groups.map(group=>`
     <section class="deck-series">
       <div class="deck-series-header">
-        <h4 class="deck-series-title">${group.set}</h4>
+        <h4 class="deck-series-title">${group.title}</h4>
         <span class="deck-series-count">${group.decks.length} deck${group.decks.length===1?"":"s"}</span>
       </div>
       <div class="deck-grid">
-        ${group.decks.map(d=>`
-          <button class="deck-card" data-id="${d.id}" style="--deck-accent:${deckAccent(d.colors)}">
-            <div class="deck-card-top">
-              <div>
-                <h4>${d.name}</h4>
-                <p class="deck-set">${d.commander}</p>
-              </div>
-              ${pips(d.colors)}
-            </div>
-            <div class="deck-rating-row">
-              <span class="rating-badge">Pilot difficulty <strong>${d.difficultyScore}/5</strong></span>
-            </div>
-            <p class="deck-summary">${d.summary}</p>
-            <div class="tags">${d.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join("")}</div>
-          </button>
-        `).join("")}
+        ${group.decks.map(deckCardHtml).join("")}
       </div>
     </section>
   `).join("");
 
   count.textContent = `${list.length} deck${list.length===1?"":"s"}`;
-  noResults.classList.toggle("hidden", list.length>0);
+  noResults.classList.toggle("hidden", list.length>0 && groups.length>0);
   document.querySelectorAll(".deck-card").forEach(btn=>{
     btn.addEventListener("click",()=>openGuide(btn.dataset.id));
   });
 }
 
-function filterDecks(){
+function filteredDecks(){
   const q=search.value.trim();
-  if(!q){ renderDecks(decks); return; }
-  const results=decks
+  if(!q) return [...decks];
+  return decks
     .map(d=>({d,score:fuzzyScore(q,d)}))
     .filter(x=>x.score>=0)
     .sort((a,b)=>b.score-a.score)
     .map(x=>x.d);
-  renderDecks(results);
 }
+
+function filterDecks(){
+  renderDecks(filteredDecks());
+}
+
+function updateDeckSortUI(){
+  sortButtons.forEach(btn=>btn.classList.toggle("active",btn.dataset.sort===currentDeckSort));
+  const ratedCount = decks.filter(d=>Number.isFinite(d.strengthScore)).length;
+  const unratedCount = decks.length-ratedCount;
+  const strengthAvailable = ratedCount>0;
+  sortStrengthBtn.disabled = !strengthAvailable;
+  sortStrengthBtn.title = strengthAvailable
+    ? (unratedCount
+        ? `${ratedCount} decks have an EDH /1000 snapshot score; ${unratedCount} are not rated yet.`
+        : `All ${ratedCount} decks have an EDH /1000 snapshot score.`)
+    : "Strength sorting will activate when EDH /1000 scores are added.";
+  if(currentDeckSort==="difficulty"){
+    deckSortNote.textContent = "Pilot difficulty: easiest to hardest. Decks are alphabetical within each level.";
+    deckSortNote.classList.remove("hidden");
+  } else if(currentDeckSort==="strength"){
+    deckSortNote.textContent = unratedCount
+      ? `EDH strength snapshot: strongest to weakest for ${ratedCount} rated decks. ${unratedCount} not-rated deck${unratedCount===1?"":"s"} appear at the bottom.`
+      : `EDH strength snapshot: all ${ratedCount} decks, strongest to weakest.`;
+    deckSortNote.classList.remove("hidden");
+  } else if(strengthAvailable && unratedCount){
+    deckSortNote.textContent = `${ratedCount} of ${decks.length} decks currently have an EDH /1000 strength score.`;
+    deckSortNote.classList.remove("hidden");
+  } else if(!strengthAvailable){
+    deckSortNote.textContent = "Strength sorting is ready, but no EDH /1000 scores have been added yet.";
+    deckSortNote.classList.remove("hidden");
+  } else {
+    deckSortNote.classList.add("hidden");
+  }
+}
+
+sortButtons.forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    if(btn.disabled) return;
+    currentDeckSort=btn.dataset.sort;
+    updateDeckSortUI();
+    filterDecks();
+  });
+});
+
 const clearSearch = $("#clear-search");
 function updateSearchUI(){
   clearSearch.classList.toggle("hidden", !search.value);
@@ -11239,6 +11432,7 @@ function openGuide(id){
           <p class="card-link-scan-note">Card names across the full guide are checked against Scryfall.</p>
           <div class="guide-rating-row">
             <span class="guide-rating">Pilot Difficulty <strong>${d.difficultyScore}/5</strong> · ${d.difficulty}</span>
+            <span class="guide-rating">Strength <strong>${Number.isFinite(d.strengthScore)?`${d.strengthScore}/1000`:"—"}</strong></span>
           </div>
         </div>
         ${pips(d.colors)}
@@ -11376,7 +11570,7 @@ function roll(){
   result.innerHTML=`
     <h3 id="random-title" class="random-name">${currentRandom.name}</h3>
     <p class="random-commander">${currentRandom.commander}</p>
-    <p class="random-meta">${currentRandom.set} · Pilot Difficulty ${currentRandom.difficultyScore}/5</p>
+    <p class="random-meta">${currentRandom.set} · Pilot Difficulty ${currentRandom.difficultyScore}/5 · Strength ${Number.isFinite(currentRandom.strengthScore)?`${currentRandom.strengthScore}/1000`:"—"}</p>
     ${pips(currentRandom.colors)}
     <div class="tags random-tags">
       ${currentRandom.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join("")}
@@ -11473,6 +11667,7 @@ $("#open-random").addEventListener("click",()=>{
   if(currentRandom){ modal.classList.add("hidden"); openGuide(currentRandom.id); }
 });
 
+updateDeckSortUI();
 renderDecks(decks);
 updateRandomizerStatus();
 const hash=location.hash.replace("#","");
