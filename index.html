@@ -899,7 +899,8 @@ h2{
   opacity:.85;
 }
 .card-ref-btn:active{transform:scale(.985)}
-.key-card-name .card-ref-btn{width:100%;justify-content:space-between}
+.key-card-name .card-ref-btn{width:auto;max-width:100%;justify-content:space-between;margin:2px 2px 2px 0}
+.key-card-name{line-height:1.8}
 .commander-ref{
   margin-top:6px;
   font-size:.92rem;
@@ -911,6 +912,12 @@ h2{
   width:100%;
   justify-content:space-between;
   font-size:.95rem;
+}
+
+.card-link-scan-note{
+  color:#81776f;
+  font-size:.69rem;
+  margin:5px 0 0;
 }
 .card-hint{
   margin:8px 0 0;
@@ -1130,7 +1137,7 @@ footer{
   </div>
 
   <footer>
-    <p>CommanderHygge · Prototype v0.13 · Unofficial fan-made pilot guides</p>
+    <p>CommanderHygge · Prototype v0.14 · Unofficial fan-made pilot guides</p>
   </footer>
 
   <script>
@@ -10457,21 +10464,29 @@ function escapeHtml(str){
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#39;");
 }
-function cardRefButton(name, extraClass=""){
-  const safeName = escapeHtml(name);
+function normalizeCardApiName(name){
+  return String(name || "").replace(/[’‘]/g,"'").trim();
+}
+function cardRefButton(name, extraClass="", displayName=null){
+  const canonicalName = normalizeCardApiName(name);
+  const label = displayName ?? name;
+  const safeName = escapeHtml(canonicalName);
+  const safeLabel = escapeHtml(label);
   const cls = ["card-ref-btn", extraClass].filter(Boolean).join(" ");
-  return `<button type="button" class="${cls}" data-card-name="${safeName}" aria-label="View ${safeName} on Scryfall">`+
-    `<span>${safeName}</span><span class="card-ref-icon" aria-hidden="true">↗</span></button>`;
+  return `<button type="button" class="${cls}" data-card-name="${safeName}" aria-label="View ${safeLabel} on Scryfall">`+
+    `<span>${safeLabel}</span><span class="card-ref-icon" aria-hidden="true">↗</span></button>`;
 }
 function nl2br(str){
   return escapeHtml(str || "").split("\n").join("<br>");
 }
 function scryfallSearchUrl(name){
-  return `https://scryfall.com/search?q=${encodeURIComponent(`!"${name}"`)}`;
+  const apiName = normalizeCardApiName(name);
+  return `https://scryfall.com/search?q=${encodeURIComponent(`!"${apiName}"`)}`;
 }
 async function loadCardPreview(name){
-  if(!cardPreviewCache.has(name)){
-    const request = fetch(`https://api.scryfall.com/cards/named?exact=${encodeURIComponent(name)}`)
+  const apiName = normalizeCardApiName(name);
+  if(!cardPreviewCache.has(apiName)){
+    const request = fetch(`https://api.scryfall.com/cards/named?exact=${encodeURIComponent(apiName)}`)
       .then(async response=>{
         const data = await response.json();
         if(!response.ok || data.object === "error"){
@@ -10479,9 +10494,9 @@ async function loadCardPreview(name){
         }
         return data;
       });
-    cardPreviewCache.set(name, request);
+    cardPreviewCache.set(apiName, request);
   }
-  return cardPreviewCache.get(name);
+  return cardPreviewCache.get(apiName);
 }
 function renderCardPreview(data){
   const faces = data.image_uris
@@ -10526,12 +10541,20 @@ function closeCardPreview(){
   cardModal.classList.add("hidden");
 }
 
+function cardNamesFromGuideLabel(label){
+  return String(label||"")
+    .split(/\s+\/\s+/)
+    .map(part=>part.trim().replace(/\s+effects$/i,"").trim())
+    .filter(Boolean);
+}
 function allKnownCardNames(){
   const names = new Set();
   decks.forEach(deck=>{
     if(deck.commander) names.add(deck.commander);
     (deck.sections||[]).forEach(section=>{
-      (section.cards||[]).forEach(card=>{ if(card.name) names.add(card.name); });
+      (section.cards||[]).forEach(card=>{
+        cardNamesFromGuideLabel(card.name).forEach(name=>names.add(name));
+      });
     });
   });
   Object.values(ALTERNATE_COMMANDERS||{}).forEach(alt=>{
@@ -10540,21 +10563,241 @@ function allKnownCardNames(){
   return [...names].sort((a,b)=>b.length-a.length);
 }
 const KNOWN_CARD_NAMES = allKnownCardNames();
+
+function cardLookupKey(value){
+  return normalizeCardApiName(value)
+    .toLowerCase()
+    .replace(/\s+/g," ")
+    .trim();
+}
+function leadershipCardNames(){
+  const leaders=new Set(decks.map(deck=>deck.commander).filter(Boolean));
+  Object.values(ALTERNATE_COMMANDERS||{}).forEach(alt=>{
+    (alt.options||[]).forEach(option=>{ if(option.name) leaders.add(option.name); });
+  });
+  return leaders;
+}
+function buildStaticCardAliases(){
+  const aliases = new Map();
+  const leaders=leadershipCardNames();
+  const titleWords=new Set(["Ms.","Mr.","Dr.","Admiral","Captain","General","Auntie"]);
+  KNOWN_CARD_NAMES.forEach(name=>{
+    aliases.set(name,name);
+    const base=name.includes(",") ? name.split(",")[0].trim() : name.trim();
+    if(base.length>=4 && base!==name) aliases.set(base,name);
+    const titled=name.match(/^(?:Ms\.|Mr\.|Dr\.)\s+(.+)$/);
+    if(titled && titled[1].length>=4) aliases.set(titled[1],name);
+    if(leaders.has(name)){
+      const words=base.split(/\s+/).filter(Boolean);
+      let first=words[0]||"";
+      if(titleWords.has(first) && words.length>1) first=words[1];
+      if(first.length>=4) aliases.set(first,name);
+    }
+  });
+  return aliases;
+}
+const STATIC_CARD_ALIASES = buildStaticCardAliases();
+const GUIDE_MANUAL_CARD_ALIASES = new Map([
+  ["Selvala","Selvala, Explorer Returned"],
+  ["Tekuthal","Tekuthal, Inquiry Dominus"]
+]);
+GUIDE_MANUAL_CARD_ALIASES.forEach((target,alias)=>STATIC_CARD_ALIASES.set(alias,target));
+const DYNAMIC_CARD_ALIASES = new Map();
+const CARD_CANDIDATE_CACHE = new Map();
+
+function currentCardAliases(){
+  const merged=new Map(STATIC_CARD_ALIASES);
+  DYNAMIC_CARD_ALIASES.forEach((target,alias)=>merged.set(alias,target));
+  return [...merged.entries()].sort((a,b)=>b[0].length-a[0].length);
+}
 function linkNamedCards(textValue){
   const original = String(textValue ?? "");
   let html = escapeHtml(original);
   const placeholders = [];
-  for(const name of KNOWN_CARD_NAMES){
-    const escapedName = escapeHtml(name);
-    if(!html.includes(escapedName)) continue;
+  for(const [alias,target] of currentCardAliases()){
+    const escapedAlias = escapeHtml(alias);
+    if(!html.includes(escapedAlias)) continue;
     const token = `@@CARDREF${placeholders.length}@@`;
-    html = html.split(escapedName).join(token);
-    placeholders.push({token,name});
+    html = html.split(escapedAlias).join(token);
+    placeholders.push({token,alias,target});
   }
-  placeholders.forEach(({token,name})=>{
-    html = html.split(token).join(cardRefButton(name,"inline-card-ref"));
+  placeholders.forEach(({token,alias,target})=>{
+    html = html.split(token).join(cardRefButton(target,"inline-card-ref",alias));
   });
   return html;
+}
+
+const CARD_CONNECTORS = new Set(["of","the","and","to","in","for","from","at","on","with","without","into","upon","a","an","or","by"]);
+const CARD_SINGLE_STOPWORDS = new Set([
+  "Good","Start","Red","Flag","Political","Note","Use","Do","If","When","Once","Keep","Save","Hold","Preserve","Notice","Play","Fix","Build","Develop","Establish","Your","You","Ramp","Attack","Mana","Cards","Card","Creatures","Creature","Tokens","Token","Lands","Land","Commander","Board","Removal","Interaction","Flying","Trample","Haste","Vigilance","Menace","Reach","Hexproof","Indestructible","Deathtouch","Lifelink","First","Double","Strike","Dragons","Dragon","Vampires","Vampire","Merfolk","Zombies","Zombie","Humans","Human","Pirates","Pirate","Dinosaurs","Dinosaur","Elementals","Elemental","Artifacts","Artifact","Auras","Aura","Pests","Pest","Spirits","Spirit","Energy","Treasure","Treasures","Early","Mid","Late","Turns","Turn","Small","Cheap","Two","Three","Four","Five","All","The","Put","Make","Create","Choose","Putting","Even","Life","Cycle","Mill","Treat","Avoid","Set","Get","Let","Spread",
+  "Explore","Discover","Prepared","Cycling","Offspring","Proliferate","Convoke","Delve","Populate","Evolve","Investigate","Surveil","Scry","Connive","Amass","Goad","Station","Threshold","Morbid","Magecraft","Landfall","Metalcraft","Historic","Sacrifice","Counters","Counter","Defender","Defenders","Vehicles","Vehicle","Thopters","Thopter","Bird","Elf","Snake","Voltron","Artificers","Artificer"
+]);
+
+function isCapitalCardToken(word){
+  return /^[A-Z0-9]/.test(word) && !/^[A-Z]{2,}$/.test(word);
+}
+function extractPotentialCardNames(textValue){
+  const source=String(textValue||"");
+  const tokens=[];
+  const re=/[A-Za-z0-9][A-Za-z0-9'’\-]*/g;
+  let match;
+  while((match=re.exec(source))!==null){
+    tokens.push({word:match[0],start:match.index,end:re.lastIndex});
+  }
+  const candidates=new Set();
+  for(let i=0;i<tokens.length;i++){
+    const first=tokens[i];
+    if(!isCapitalCardToken(first.word)) continue;
+    if(first.word.length>=3 && !CARD_SINGLE_STOPWORDS.has(first.word)){
+      candidates.add(first.word);
+    }
+    let previousEnd=first.end;
+    for(let j=i+1;j<Math.min(tokens.length,i+8);j++){
+      const token=tokens[j];
+      const gap=source.slice(previousEnd,token.start);
+      if(/[.!?;:/\\\n()\[\]{}→—]/.test(gap)) break;
+      if(CARD_CONNECTORS.has(token.word.toLowerCase())){
+        previousEnd=token.end;
+        continue;
+      }
+      if(!isCapitalCardToken(token.word)) break;
+      const candidate=source.slice(first.start,token.end).replace(/\s+/g," ").trim();
+      if(candidate.length>=3) candidates.add(candidate);
+      previousEnd=token.end;
+    }
+  }
+  return [...candidates];
+}
+function guideTextValues(deck,sections){
+  const values=[deck.summary,deck.role,deck.coreRule];
+  sections.forEach(section=>{
+    values.push(section.lead);
+    (section.callouts||[]).forEach(c=>values.push(c.text));
+    (section.bullets||[]).forEach(b=>values.push(b));
+    (section.cards||[]).forEach(c=>values.push(c.name,c.why));
+    if(section.alternate){
+      values.push(section.alternate.note);
+      (section.alternate.options||[]).forEach(o=>values.push(o.name,o.does,o.shift,o.try));
+    }
+    if(section.tableSetup){
+      values.push(section.tableSetup.included,section.tableSetup.note);
+      (section.tableSetup.items||[]).forEach(i=>values.push(i.why));
+    }
+  });
+  return values.filter(Boolean);
+}
+function guideCardCandidates(deck,sections){
+  const candidates=new Set();
+  guideTextValues(deck,sections).forEach(value=>{
+    extractPotentialCardNames(value).forEach(candidate=>candidates.add(candidate));
+  });
+  const knownKeys=new Set(currentCardAliases().map(([alias])=>cardLookupKey(alias)));
+  return [...candidates].filter(candidate=>!knownKeys.has(cardLookupKey(candidate)));
+}
+async function resolveCardCandidateChunk(chunk){
+  const identifiers=chunk.map(name=>({name:normalizeCardApiName(name)}));
+  const response=await fetch("https://api.scryfall.com/cards/collection",{
+    method:"POST",
+    headers:{"Content-Type":"application/json","Accept":"application/json"},
+    body:JSON.stringify({identifiers})
+  });
+  if(!response.ok) throw new Error(`Scryfall collection lookup failed (${response.status})`);
+  return response.json();
+}
+async function resolveGuideCardCandidates(deck,sections){
+  const candidates=guideCardCandidates(deck,sections);
+  const unresolved=candidates.filter(name=>!CARD_CANDIDATE_CACHE.has(cardLookupKey(name)));
+  for(let start=0;start<unresolved.length;start+=70){
+    const chunk=unresolved.slice(start,start+70);
+    try{
+      const result=await resolveCardCandidateChunk(chunk);
+      const foundByKey=new Map();
+      (result.data||[]).forEach(card=>{
+        const target=card.name;
+        foundByKey.set(cardLookupKey(card.name),target);
+        (card.card_faces||[]).forEach(face=>{
+          if(face.name) foundByKey.set(cardLookupKey(face.name),target);
+        });
+      });
+      chunk.forEach(candidate=>{
+        const key=cardLookupKey(candidate);
+        const target=foundByKey.get(key)||null;
+        CARD_CANDIDATE_CACHE.set(key,target);
+        if(target) DYNAMIC_CARD_ALIASES.set(candidate,target);
+      });
+    }catch(error){
+      console.warn("Could not complete Scryfall guide-name audit",error);
+      return;
+    }
+  }
+}
+function createCardRefElement(target,label){
+  const button=document.createElement("button");
+  button.type="button";
+  button.className="card-ref-btn inline-card-ref";
+  button.dataset.cardName=normalizeCardApiName(target);
+  button.setAttribute("aria-label",`View ${label} on Scryfall`);
+  const nameSpan=document.createElement("span");
+  nameSpan.textContent=label;
+  const icon=document.createElement("span");
+  icon.className="card-ref-icon";
+  icon.setAttribute("aria-hidden","true");
+  icon.textContent="↗";
+  button.append(nameSpan,icon);
+  return button;
+}
+function validAliasBoundary(text,index,length){
+  const before=index>0?text[index-1]:"";
+  const after=index+length<text.length?text[index+length]:"";
+  return (!before||!/[A-Za-z0-9]/.test(before)) && (!after||!/[A-Za-z0-9]/.test(after));
+}
+function nextDynamicAliasMatch(text,entries){
+  let best=null;
+  for(const [alias,target] of entries){
+    let index=text.indexOf(alias);
+    while(index>=0 && !validAliasBoundary(text,index,alias.length)){
+      index=text.indexOf(alias,index+1);
+    }
+    if(index<0) continue;
+    if(!best || index<best.index || (index===best.index && alias.length>best.alias.length)){
+      best={index,alias,target};
+    }
+  }
+  return best;
+}
+function applyDynamicCardLinks(root){
+  if(!root||!DYNAMIC_CARD_ALIASES.size) return;
+  const entries=[...DYNAMIC_CARD_ALIASES.entries()].sort((a,b)=>b[0].length-a[0].length);
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
+    acceptNode(node){
+      if(!node.nodeValue||!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      const parent=node.parentElement;
+      if(!parent||parent.closest("button,a,script,style")) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  const nodes=[];
+  while(walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+    let remaining=node.nodeValue;
+    let match=nextDynamicAliasMatch(remaining,entries);
+    if(!match) return;
+    const fragment=document.createDocumentFragment();
+    while(match){
+      if(match.index>0) fragment.append(document.createTextNode(remaining.slice(0,match.index)));
+      fragment.append(createCardRefElement(match.target,match.alias));
+      remaining=remaining.slice(match.index+match.alias.length);
+      match=nextDynamicAliasMatch(remaining,entries);
+    }
+    if(remaining) fragment.append(document.createTextNode(remaining));
+    node.replaceWith(fragment);
+  });
+}
+async function auditAndLinkGuideCards(deck,sections){
+  await resolveGuideCardCandidates(deck,sections);
+  if(currentGuideDeck?.id!==deck.id) return;
+  applyDynamicCardLinks($("#guide-content"));
+  if(!quickModal.classList.contains("hidden")) applyDynamicCardLinks($("#quick-content"));
 }
 
 function levenshtein(a,b){
@@ -10910,7 +11153,7 @@ function renderSectionBody(s,index,total){
     <div class="key-card-list">
       ${s.cards.map(c=>`
         <div class="key-card">
-          <div class="key-card-name">${cardRefButton(c.name, "key-card-ref")}</div>
+          <div class="key-card-name">${linkNamedCards(c.name)}</div>
           <div class="key-card-why">${linkNamedCards(c.why)}</div>
         </div>
       `).join("")}
@@ -10972,6 +11215,8 @@ function openQuickGuide(deck){
       <div class="quick-text">${linkNamedCards(item.text)}</div>
     </div>`).join("");
   quickModal.classList.remove("hidden");
+  applyDynamicCardLinks($("#quick-content"));
+  auditAndLinkGuideCards(deck,getGuideSections(deck));
 }
 
 function openGuide(id){
@@ -10991,6 +11236,7 @@ function openGuide(id){
             ${cardRefButton(d.commander, "commander-ref")}
           </div>
           <p class="card-hint">Tap named cards to open a Scryfall preview.</p>
+          <p class="card-link-scan-note">Card names across the full guide are checked against Scryfall.</p>
           <div class="guide-rating-row">
             <span class="guide-rating">Pilot Difficulty <strong>${d.difficultyScore}/5</strong> · ${d.difficulty}</span>
           </div>
@@ -11076,6 +11322,8 @@ function openGuide(id){
       openSection(Number(btn.dataset.target), true);
     });
   });
+
+  auditAndLinkGuideCards(d,guideSections);
 
   history.replaceState(null,"",`#${id}`);
   window.scrollTo(0,0);
