@@ -329,6 +329,14 @@ h2{
 .pip-B{background:radial-gradient(circle at 35% 30%,#958996,#4b434c);color:#fff}
 .pip-R{background:radial-gradient(circle at 35% 30%,#f1ad8e,#ad5945)}
 .pip-G{background:radial-gradient(circle at 35% 30%,#b2d6ac,#5a8e68)}
+
+.deck-rating-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.rating-badge{display:inline-flex;align-items:center;gap:5px;border:1px solid #4b423d;background:#282326;color:#d7ccc0;padding:5px 8px;border-radius:999px;font-size:.69rem;font-weight:800}
+.rating-badge strong{color:var(--accent2);font-size:.76rem}
+.guide-rating-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.guide-rating{border:1px solid #4b423d;background:rgba(255,255,255,.025);padding:7px 9px;border-radius:9px;color:#bfb4aa;font-size:.75rem;font-weight:750}
+.guide-rating strong{color:#f0dfb9}
+
 .deck-summary{color:#d3cbc2;line-height:1.47;font-size:.89rem;margin:13px 0}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
 .tag{
@@ -860,6 +868,100 @@ h2{
   text-underline-offset:2px;
 }
 
+
+.card-ref-btn{
+  appearance:none;
+  border:1px solid #5a4a34;
+  background:linear-gradient(180deg,#2a241c,#211d19);
+  color:#f2e5c7;
+  border-radius:10px;
+  padding:6px 10px;
+  font:inherit;
+  font-weight:800;
+  line-height:1.2;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  text-align:left;
+}
+.card-ref-btn .card-ref-icon{
+  font-size:.84em;
+  opacity:.85;
+}
+.card-ref-btn:active{transform:scale(.985)}
+.key-card-name .card-ref-btn{width:100%;justify-content:space-between}
+.commander-ref{
+  margin-top:6px;
+  font-size:.92rem;
+}
+.alt-name{
+  margin-bottom:8px;
+}
+.alt-name .card-ref-btn{
+  width:100%;
+  justify-content:space-between;
+  font-size:.95rem;
+}
+.card-hint{
+  margin:8px 0 0;
+  color:#948980;
+  font-size:.74rem;
+}
+.card-preview-modal .modal-card{
+  max-width:560px;
+}
+.card-preview-wrap{
+  display:grid;
+  gap:14px;
+}
+.card-preview-status{
+  color:#948980;
+  font-size:.82rem;
+}
+.card-preview-image-list{
+  display:grid;
+  gap:12px;
+}
+.card-preview-figure{
+  margin:0;
+}
+.card-preview-image{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:18px;
+  border:1px solid #463a2d;
+  box-shadow:0 14px 28px rgba(0,0,0,.22);
+  background:#171517;
+}
+.card-preview-caption{
+  margin-top:5px;
+  color:#8f857d;
+  font-size:.74rem;
+  text-align:center;
+}
+.card-preview-meta{
+  color:#d4cbc2;
+  font-size:.88rem;
+  line-height:1.55;
+  display:grid;
+  gap:8px;
+}
+.card-preview-error{
+  color:#e7c7c7;
+  background:rgba(120,40,40,.14);
+  border:1px solid rgba(180,80,80,.25);
+  border-radius:12px;
+  padding:12px;
+  line-height:1.5;
+}
+.modal-link-btn{
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
 footer{
   position:relative;z-index:1;
   max-width:780px;margin:auto;
@@ -984,6 +1086,24 @@ footer{
     </div>
   </div>
 
+  <div id="card-modal" class="modal hidden card-preview-modal" role="dialog" aria-modal="true" aria-labelledby="card-title">
+    <div class="modal-card">
+      <button id="close-card" class="modal-close" aria-label="Close">×</button>
+      <div class="random-modal-head">
+        <p class="eyebrow">Scryfall Card Preview</p>
+        <h3 id="card-title" class="random-name">Card</h3>
+        <div id="card-subtitle" class="randomizer-status">Loading…</div>
+      </div>
+      <div id="card-content" class="card-preview-wrap">
+        <div class="card-preview-status">Loading card image…</div>
+      </div>
+      <div class="modal-actions">
+        <a id="card-open-link" class="primary-btn modal-link-btn" href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Open on Scryfall</a>
+        <button id="close-card-bottom" class="secondary-btn">Back to Guide</button>
+      </div>
+    </div>
+  </div>
+
   <div id="four-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="four-title">
     <div class="modal-card">
       <button id="close-four" class="modal-close" aria-label="Close">×</button>
@@ -1000,7 +1120,7 @@ footer{
   </div>
 
   <footer>
-    <p>CommanderHygge · Prototype v0.10.4 · Unofficial fan-made pilot guides</p>
+    <p>CommanderHygge · Prototype v0.12 · Unofficial fan-made pilot guides</p>
   </footer>
 
   <script>
@@ -1221,7 +1341,8 @@ window.DECKS = [
       }
     ],
     "role": "Evasive tempo-control",
-    "coreRule": "Build enough pressure to matter — then keep cards and mana back."
+    "coreRule": "Build enough pressure to matter — then keep cards and mana back.",
+    "difficultyScore": 2
   },
   {
     "id": "grave-danger",
@@ -1435,7 +1556,8 @@ window.DECKS = [
           "Your deck can win through combat, drain or rebuilding after a wipe."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 2
   },
   {
     "id": "chaos-incarnate",
@@ -1453,7 +1575,7 @@ window.DECKS = [
       "Rakdos",
       "Kardur"
     ],
-    "difficulty": "Medium",
+    "difficulty": "Easy–Medium",
     "summary": "Force opponents to fight each other, punish the resulting chaos, and survive until your damage engines finish the table.",
     "role": "Combat manipulator",
     "coreRule": "Your best combat step is often someone else's — make opponents spend creatures and life on each other before you commit your own resources.",
@@ -1649,7 +1771,8 @@ window.DECKS = [
           "Your finishing damage is strongest after the table has already softened itself up."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 2
   },
   {
     "id": "draconic-destruction",
@@ -1863,7 +1986,8 @@ window.DECKS = [
           "Keep at least one Dragon in reserve when your battlefield is already scary enough."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 1
   },
   {
     "id": "token-triumph",
@@ -2077,7 +2201,8 @@ window.DECKS = [
           "One team-wide finisher is often all a wide token board needs."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 2
   },
   {
     "id": "animated-army",
@@ -2296,7 +2421,8 @@ window.DECKS = [
           "Your engines are still useful permanents even when Bello is gone."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 3
   },
   {
     "id": "family-matters",
@@ -2316,7 +2442,7 @@ window.DECKS = [
       "Zinnia",
       "Bloomburrow"
     ],
-    "difficulty": "Medium",
+    "difficulty": "Hard",
     "summary": "Pay for offspring on the creatures that are worth copying, double useful enters abilities, and build a wide board of small creatures that makes Zinnia hit hard.",
     "role": "ETB-value token swarm",
     "coreRule": "Do not pay offspring automatically — spend the extra 2 only when a 1/1 copy of that creature gives you meaningful abilities, triggers or board impact.",
@@ -2516,7 +2642,8 @@ window.DECKS = [
           "A wide board is valuable, but do not walk every creature into a board wipe."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "peace-offering",
@@ -2536,7 +2663,7 @@ window.DECKS = [
       "Bumbleflower",
       "Bloomburrow"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Hard",
     "summary": "Use table politics to hand out cards selectively, grow your creatures with +1/+1 counters, and trigger Ms. Bumbleflower twice on your turns to refill your own hand.",
     "role": "Political growth engine",
     "coreRule": "Choose who gets the extra card carefully, and when Bumbleflower is online try to cast two spells on your turn so the second trigger draws you two cards.",
@@ -2736,7 +2863,8 @@ window.DECKS = [
           "Politics is how you reach the late game — big creatures are how you finish it."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "squirreled-away",
@@ -2955,7 +3083,8 @@ window.DECKS = [
           "You can win with combat or with sacrifice/drain — recognize which route is better this game."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 3
   },
   {
     "id": "veloci-ramp-tor",
@@ -2975,7 +3104,7 @@ window.DECKS = [
       "Pantlaza",
       "Ixalan"
     ],
-    "difficulty": "Medium",
+    "difficulty": "Easy–Medium",
     "summary": "Ramp hard, land oversized Dinosaurs, and use Pantlaza's discover trigger to turn every big body into extra value.",
     "sections": [
       {
@@ -3184,7 +3313,8 @@ window.DECKS = [
       }
     ],
     "role": "Proactive ramp threat",
-    "coreRule": "Accelerate first; spend your Pantlaza discover on the best Dinosaur you can reasonably sequence."
+    "coreRule": "Accelerate first; spend your Pantlaza discover on the best Dinosaur you can reasonably sequence.",
+    "difficultyScore": 2
   },
   {
     "id": "arcane-maelstrom",
@@ -3204,7 +3334,7 @@ window.DECKS = [
       "Kalamax",
       "Ikoria"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Hard",
     "summary": "Keep Kalamax tapped, cast your first instant on each turn for double value, and turn copied spells into a growing commander and overwhelming advantage.",
     "sections": [
       {
@@ -3409,7 +3539,8 @@ window.DECKS = [
       }
     ],
     "role": "Reactive spellslinger",
-    "coreRule": "Your first instant each turn is a resource — do not waste it while Kalamax is untapped."
+    "coreRule": "Your first instant each turn is a resource — do not waste it while Kalamax is untapped.",
+    "difficultyScore": 4
   },
   {
     "id": "ahoy-mateys",
@@ -3628,7 +3759,8 @@ window.DECKS = [
           "Protect the graveyard from hate when it becomes your main resource."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 3
   },
   {
     "id": "blood-rites",
@@ -3846,7 +3978,8 @@ window.DECKS = [
           "Use board wipes only when your death triggers make the reset favorable."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 3
   },
   {
     "id": "explorers-of-the-deep",
@@ -3865,7 +3998,7 @@ window.DECKS = [
       "Hakbal",
       "Ixalan"
     ],
-    "difficulty": "Easy–Medium",
+    "difficulty": "Medium",
     "summary": "Build a Merfolk board, let Hakbal make every Merfolk explore before combat, and snowball those triggers into counters, lands and card selection.",
     "role": "Merfolk counter snowball",
     "coreRule": "More Merfolk means more explore triggers; build the tribe before Hakbal turns every combat into an engine.",
@@ -4064,7 +4197,8 @@ window.DECKS = [
           "Herald of Secret Streams can turn a developed board into immediate lethal."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 3
   },
   {
     "id": "ruthless-regiment",
@@ -4084,7 +4218,7 @@ window.DECKS = [
       "Jirina",
       "Ikoria"
     ],
-    "difficulty": "Easy–Medium",
+    "difficulty": "Medium",
     "summary": "Go wide with Humans, use Jirina to add bodies and a huge power boost, then turn one coordinated attack into lethal damage.",
     "role": "Human go-wide aggro",
     "coreRule": "Build the Human army first; Jirina is the anthem that turns quantity into damage.",
@@ -4283,7 +4417,8 @@ window.DECKS = [
           "Shared Animosity can make your damage far larger than it looks."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 3
   },
   {
     "id": "symbiotic-swarm",
@@ -4303,7 +4438,7 @@ window.DECKS = [
       "Kathril",
       "Ikoria"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Hard",
     "summary": "Fill the graveyard with creatures carrying different keywords, then let Kathril distribute those abilities and become a giant, hard-to-answer threat.",
     "role": "Graveyard keyword toolbox",
     "coreRule": "The graveyard must contain different useful keywords before Kathril enters; setup determines how powerful the commander becomes.",
@@ -4502,7 +4637,8 @@ window.DECKS = [
           "You can pivot from commander damage to reanimation when needed."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "timeless-wisdom",
@@ -4522,7 +4658,7 @@ window.DECKS = [
       "Gavi",
       "Ikoria"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Very Hard",
     "summary": "Cycle cards for almost no cost, trigger payoffs on multiple turns, and turn discarded cyclers into tokens, damage, cards and tempo.",
     "role": "Cycling value-control",
     "coreRule": "With Gavi out, your first cycling ability each turn costs 0 — use every turn cycle, not just your own.",
@@ -4721,7 +4857,8 @@ window.DECKS = [
           "Protect Gavi and the payoff engines more than the tokens they create."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 5
   },
   {
     "id": "buckle-up",
@@ -4939,7 +5076,8 @@ window.DECKS = [
           "Cyberdrive Awakener can turn harmless artifacts into lethal flyers."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 3
   },
   {
     "id": "upgrades-unleashed",
@@ -4959,7 +5097,7 @@ window.DECKS = [
       "Chishiro",
       "Kamigawa"
     ],
-    "difficulty": "Medium",
+    "difficulty": "Hard",
     "summary": "Modify creatures with Auras, Equipment and counters, let Chishiro create menace Spirits, then grow every modified creature at each end step.",
     "role": "Modified-creature snowball",
     "coreRule": "Every Aura or Equipment advances two plans at once: it upgrades a creature and makes another body through Chishiro.",
@@ -5158,7 +5296,8 @@ window.DECKS = [
           "Champion of Lambholt and extra combat are your best ways through blockers."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "creative-energy",
@@ -5178,7 +5317,7 @@ window.DECKS = [
       "Satya",
       "Modern Horizons 3"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Hard",
     "summary": "Generate energy, attack with Satya to copy your best creature, and decide whether each temporary copy is worth paying energy to keep.",
     "role": "Energy copy-value engine",
     "coreRule": "Satya makes attack copies; spend energy only on tokens whose continued value is better than powering your next explosive turn.",
@@ -5377,7 +5516,8 @@ window.DECKS = [
           "Energy is a shared budget — save it for the strongest payoff."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "abzan-armor",
@@ -5596,7 +5736,8 @@ window.DECKS = [
           "Tower Defense can be a finisher, not just a defensive trick."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 3
   },
   {
     "id": "jeskai-striker",
@@ -5815,7 +5956,8 @@ window.DECKS = [
           "Cheap spells are valuable because they control sequencing."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "sultai-arisen",
@@ -5836,7 +5978,7 @@ window.DECKS = [
       "Teval",
       "Tarkir"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Hard",
     "summary": "Fill the graveyard, attack with Teval to recycle lands, and turn cards leaving your graveyard into a growing army of Zombie Druids.",
     "role": "Graveyard value and token engine",
     "coreRule": "Cards leaving your graveyard are rewards, not losses: land recursion, reanimation and graveyard casting can all create Zombie Druids through Teval.",
@@ -6035,7 +6177,8 @@ window.DECKS = [
           "Your graveyard is meant to be used, not merely filled."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "mardu-surge",
@@ -6254,7 +6397,8 @@ window.DECKS = [
           "Attack repeatedly — the deck is built to replace what disappears."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 3
   },
   {
     "id": "temur-roar",
@@ -6473,7 +6617,8 @@ window.DECKS = [
           "Do not throw a seven-mana commander away in bad combat."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 3
   },
   {
     "id": "silverquill-influence",
@@ -6492,7 +6637,7 @@ window.DECKS = [
       "Killian",
       "Strixhaven"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Hard",
     "summary": "Enchant creatures around the table, goad opposing threats into each other, and use Killian to turn Aura-based politics into cards and a protected attacker.",
     "role": "Aura politics-control",
     "coreRule": "Your Auras do not all belong on your own creatures — enchanting opposing creatures can force combat, draw cards and redirect pressure.",
@@ -6691,7 +6836,8 @@ window.DECKS = [
           "Save your biggest Aura for a creature likely to survive and connect."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "prismari-artistry",
@@ -6710,7 +6856,7 @@ window.DECKS = [
       "Rootha",
       "Strixhaven"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Hard",
     "summary": "Cast large instants and sorceries, then let Rootha turn the biggest spell you cast each turn into a matching flying, hasty Elemental attacker.",
     "role": "Big-spell tempo",
     "coreRule": "The mana value of your biggest instant or sorcery sets the size of Rootha’s combat token — one large spell can be both value and a huge attacker.",
@@ -6909,7 +7055,8 @@ window.DECKS = [
           "Do not waste every large spell on minor problems."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "witherbloom-pestilence",
@@ -7127,7 +7274,8 @@ window.DECKS = [
           "Repeatable token makers are the fuel that makes everything else work."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 3
   },
   {
     "id": "lorehold-spirit",
@@ -7146,7 +7294,7 @@ window.DECKS = [
       "Quintorius",
       "Strixhaven"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Hard",
     "summary": "Move cards out of your graveyard to create 3/2 Spirit tokens, then turn recursion, flashback-style effects and graveyard utility into a growing army.",
     "role": "Graveyard-to-token value",
     "coreRule": "Cards leaving your graveyard are triggers, not bookkeeping — sequence recursion and exile effects to create Spirits before you need them.",
@@ -7345,7 +7493,8 @@ window.DECKS = [
           "The -4 is a real finisher with a wide Spirit board."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "quandrix-unlimited",
@@ -7364,7 +7513,7 @@ window.DECKS = [
       "Zimone",
       "Strixhaven"
     ],
-    "difficulty": "Medium",
+    "difficulty": "Hard",
     "summary": "Grow Zimone with your first X spell each turn, then use those counters to discount future X spells until Hydras, draw spells and scalable artifacts overwhelm the table.",
     "role": "X-spell counter engine",
     "coreRule": "Your first X spell each turn grows Zimone and gets cheaper as she grows — sequence one meaningful X spell every turn cycle when possible.",
@@ -7563,7 +7712,8 @@ window.DECKS = [
           "Protect a highly grown Zimone — she represents a large future mana discount."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "living-energy",
@@ -7583,7 +7733,7 @@ window.DECKS = [
       "Saheeli",
       "Aetherdrift"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Hard",
     "summary": "Generate energy by casting artifacts and Artificers, then spend it at combat to make hasty 5/5 artifact copies of your best permanents.",
     "role": "Energy artifact engine",
     "coreRule": "Every artifact/Artificer builds energy; Saheeli turns three energy into a temporary 5/5 copy, so choose permanents with strong text as well as strong bodies.",
@@ -7782,7 +7932,8 @@ window.DECKS = [
           "Save energy when a future payoff is stronger than a small activation now."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "eternal-might",
@@ -7802,7 +7953,7 @@ window.DECKS = [
       "Temmet",
       "Aetherdrift"
     ],
-    "difficulty": "Medium",
+    "difficulty": "Hard",
     "summary": "Attack with Temmet to loot, use every draw to pump your Zombie army, and turn the graveyard into a second source of creatures and value.",
     "role": "Zombie reanimator-aggro",
     "coreRule": "Drawing cards is also a combat pump: attack with Temmet, loot deliberately, and make every extra draw strengthen the Zombies that turn.",
@@ -8001,7 +8152,8 @@ window.DECKS = [
           "Protect the graveyard from exile more than from normal creature removal."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "dance-of-the-elements",
@@ -8222,7 +8374,8 @@ window.DECKS = [
           "Pay WUBRG only to keep copies worth the resource commitment."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "blight-curse",
@@ -8242,7 +8395,7 @@ window.DECKS = [
       "Auntie Ool",
       "Lorwyn"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Hard",
     "summary": "Spread -1/-1 counters across creatures, draw when your own creatures are blighted, and make opponents lose life whenever their creatures receive those counters.",
     "role": "Counter-based attrition control",
     "coreRule": "Every -1/-1 counter should create extra value: cards on your creatures, life loss on opposing creatures, or a chain reaction through counter payoffs.",
@@ -8441,7 +8594,8 @@ window.DECKS = [
           "Proliferate only after the right counters are already placed."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "counter-intelligence",
@@ -8462,7 +8616,7 @@ window.DECKS = [
       "Inspirit",
       "Edge of Eternities"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Hard",
     "summary": "Station Inspirit, place charge and +1/+1 counters across your artifacts, and reach eight charge counters to turn your artifact board into a protected late-game fortress.",
     "role": "Artifact counter and Spacecraft engine",
     "coreRule": "Get Inspirit to at least one charge counter quickly, then use each combat to grow another artifact; at eight, your other artifacts gain hexproof and indestructible.",
@@ -8661,7 +8815,8 @@ window.DECKS = [
           "Kilo is excellent support in the 99 because tapping it proliferates."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 4
   },
   {
     "id": "world-shaper",
@@ -8681,7 +8836,7 @@ window.DECKS = [
       "Hearthhull",
       "Edge of Eternities"
     ],
-    "difficulty": "Medium–Hard",
+    "difficulty": "Medium",
     "summary": "Sacrifice lands for cards and damage, recur them in batches, and let landfall engines turn what looks like a cost into repeated value.",
     "role": "Land-sacrifice recursion",
     "coreRule": "A sacrificed land is not gone forever — trade lands for cards/damage only when your recursion plan can turn the graveyard into a future burst.",
@@ -8880,7 +9035,8 @@ window.DECKS = [
           "Mass land recursion is both recovery and a finisher with landfall payoffs."
         ]
       }
-    ]
+    ],
+    "difficultyScore": 3
   }
 ];
 
@@ -10262,7 +10418,13 @@ const count = $("#deck-count");
 const noResults = $("#no-results");
 const modal = $("#random-modal");
 const quickModal = $("#quick-modal");
+const cardModal = $("#card-modal");
 const fourModal = $("#four-modal");
+const cardTitle = $("#card-title");
+const cardSubtitle = $("#card-subtitle");
+const cardContent = $("#card-content");
+const cardOpenLink = $("#card-open-link");
+const cardPreviewCache = new Map();
 let currentRandom = null;
 let currentGuideDeck = null;
 let fourDrawDecks = [];
@@ -10276,6 +10438,83 @@ function normalize(str){
     .trim();
 }
 function compact(str){ return normalize(str).replace(/\s+/g,""); }
+
+function escapeHtml(str){
+  return String(str ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+function cardRefButton(name, extraClass=""){
+  const safeName = escapeHtml(name);
+  const cls = ["card-ref-btn", extraClass].filter(Boolean).join(" ");
+  return `<button type="button" class="${cls}" data-card-name="${safeName}" aria-label="View ${safeName} on Scryfall">`+
+    `<span>${safeName}</span><span class="card-ref-icon" aria-hidden="true">↗</span></button>`;
+}
+function nl2br(str){
+  return escapeHtml(str || "").split("\n").join("<br>");
+}
+function scryfallSearchUrl(name){
+  return `https://scryfall.com/search?q=${encodeURIComponent(`!"${name}"`)}`;
+}
+async function loadCardPreview(name){
+  if(!cardPreviewCache.has(name)){
+    const request = fetch(`https://api.scryfall.com/cards/named?exact=${encodeURIComponent(name)}`)
+      .then(async response=>{
+        const data = await response.json();
+        if(!response.ok || data.object === "error"){
+          throw new Error(data.details || "Card not found on Scryfall.");
+        }
+        return data;
+      });
+    cardPreviewCache.set(name, request);
+  }
+  return cardPreviewCache.get(name);
+}
+function renderCardPreview(data){
+  const faces = data.image_uris
+    ? [{name:data.name, image:data.image_uris.normal || data.image_uris.large || data.image_uris.png}]
+    : (data.card_faces||[])
+        .filter(face=>face.image_uris)
+        .map(face=>({name:face.name, image:face.image_uris.normal || face.image_uris.large || face.image_uris.png}));
+  const imageBlock = faces.length
+    ? `<div class="card-preview-image-list">${faces.map((face,index)=>`
+        <figure class="card-preview-figure">
+          <img class="card-preview-image" src="${face.image}" alt="${escapeHtml(face.name)}">
+          ${faces.length>1 ? `<figcaption class="card-preview-caption">${escapeHtml(face.name)}</figcaption>` : ""}
+        </figure>`).join("")}</div>`
+    : `<div class="card-preview-error">Scryfall returned card data, but no display image was available for this card.</div>`;
+  const metaParts = [];
+  if(data.mana_cost) metaParts.push(`<div><strong>Mana cost:</strong> ${escapeHtml(data.mana_cost)}</div>`);
+  if(data.type_line) metaParts.push(`<div><strong>Type:</strong> ${escapeHtml(data.type_line)}</div>`);
+  if(data.oracle_text) metaParts.push(`<div><strong>Rules text:</strong><br>${nl2br(data.oracle_text)}</div>`);
+  return `${imageBlock}${metaParts.length ? `<div class="card-preview-meta">${metaParts.join("")}</div>` : ""}`;
+}
+async function openCardPreview(name){
+  if(!name) return;
+  cardTitle.textContent = name;
+  cardSubtitle.textContent = "Loading from Scryfall…";
+  cardOpenLink.href = scryfallSearchUrl(name);
+  cardContent.innerHTML = `<div class="card-preview-status">Loading card image…</div>`;
+  cardModal.classList.remove("hidden");
+  try{
+    const data = await loadCardPreview(name);
+    if(cardTitle.textContent !== name) return;
+    const subtitleParts = [data.set_name, data.rarity].filter(Boolean);
+    cardSubtitle.textContent = subtitleParts.join(" · ") || "Loaded from Scryfall";
+    cardOpenLink.href = data.scryfall_uri || scryfallSearchUrl(name);
+    cardContent.innerHTML = renderCardPreview(data);
+  }catch(error){
+    if(cardTitle.textContent !== name) return;
+    cardSubtitle.textContent = "Preview unavailable";
+    cardContent.innerHTML = `<div class="card-preview-error">Could not load this card preview right now.<br>${escapeHtml(error.message || "Please use the Scryfall link instead.")}</div>`;
+  }
+}
+function closeCardPreview(){
+  cardModal.classList.add("hidden");
+}
 
 function levenshtein(a,b){
   a=compact(a); b=compact(b);
@@ -10385,6 +10624,9 @@ function renderDecks(list){
               </div>
               ${pips(d.colors)}
             </div>
+            <div class="deck-rating-row">
+              <span class="rating-badge">Pilot difficulty <strong>${d.difficultyScore}/5</strong></span>
+            </div>
             <p class="deck-summary">${d.summary}</p>
             <div class="tags">${d.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join("")}</div>
           </button>
@@ -10486,7 +10728,7 @@ function renderAlternateCommander(alt){
   }
   const cards=(alt.options||[]).map(o=>`
     <div class="alt-card">
-      <div class="alt-name">${o.name}</div>
+      <div class="alt-name">${cardRefButton(o.name, "alt-card-ref")}</div>
       <div class="alt-detail"><span class="alt-label">What it does</span><div class="alt-text">${o.does}</div></div>
       <div class="alt-detail"><span class="alt-label">How the strategy changes</span><div class="alt-text">${o.shift}</div></div>
       <div class="alt-detail"><span class="alt-label">Try this version if…</span><div class="alt-text">${o.try}</div></div>
@@ -10627,7 +10869,7 @@ function renderSectionBody(s,index,total){
     <div class="key-card-list">
       ${s.cards.map(c=>`
         <div class="key-card">
-          <div class="key-card-name">${c.name}</div>
+          <div class="key-card-name">${cardRefButton(c.name, "key-card-ref")}</div>
           <div class="key-card-why">${c.why}</div>
         </div>
       `).join("")}
@@ -10705,9 +10947,11 @@ function openGuide(id){
         <div>
           <h2>${d.name}</h2>
           <div class="guide-meta">
-            <strong>${d.commander}</strong>
-            <span>•</span>
-            <span>${d.difficulty}</span>
+            ${cardRefButton(d.commander, "commander-ref")}
+          </div>
+          <p class="card-hint">Tap highlighted card names to open a Scryfall preview.</p>
+          <div class="guide-rating-row">
+            <span class="guide-rating">Pilot Difficulty <strong>${d.difficultyScore}/5</strong> · ${d.difficulty}</span>
           </div>
         </div>
         ${pips(d.colors)}
@@ -10843,7 +11087,7 @@ function roll(){
   result.innerHTML=`
     <h3 id="random-title" class="random-name">${currentRandom.name}</h3>
     <p class="random-commander">${currentRandom.commander}</p>
-    <p class="random-meta">${currentRandom.set} · ${currentRandom.difficulty}</p>
+    <p class="random-meta">${currentRandom.set} · Pilot Difficulty ${currentRandom.difficultyScore}/5</p>
     ${pips(currentRandom.colors)}
     <div class="tags random-tags">
       ${currentRandom.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join("")}
@@ -10908,6 +11152,16 @@ fourModal.addEventListener("click",e=>{ if(e.target===fourModal) fourModal.class
 $("#close-quick").addEventListener("click",()=>quickModal.classList.add("hidden"));
 $("#close-quick-bottom").addEventListener("click",()=>quickModal.classList.add("hidden"));
 quickModal.addEventListener("click",e=>{ if(e.target===quickModal) quickModal.classList.add("hidden"); });
+
+document.addEventListener("click",e=>{
+  const trigger = e.target.closest(".card-ref-btn");
+  if(!trigger) return;
+  openCardPreview(trigger.dataset.cardName);
+});
+
+$("#close-card").addEventListener("click",closeCardPreview);
+$("#close-card-bottom").addEventListener("click",closeCardPreview);
+cardModal.addEventListener("click",e=>{ if(e.target===cardModal) closeCardPreview(); });
 
 $("#random-btn").addEventListener("click",()=>{
   roll();
