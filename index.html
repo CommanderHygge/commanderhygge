@@ -884,6 +884,16 @@ h2{
   gap:6px;
   text-align:left;
 }
+.inline-card-ref{
+  display:inline-flex;
+  width:auto;
+  padding:2px 6px;
+  margin:0 1px;
+  border-radius:7px;
+  font-size:.96em;
+  vertical-align:baseline;
+}
+
 .card-ref-btn .card-ref-icon{
   font-size:.84em;
   opacity:.85;
@@ -1120,7 +1130,7 @@ footer{
   </div>
 
   <footer>
-    <p>CommanderHygge · Prototype v0.12 · Unofficial fan-made pilot guides</p>
+    <p>CommanderHygge · Prototype v0.13 · Unofficial fan-made pilot guides</p>
   </footer>
 
   <script>
@@ -10516,6 +10526,37 @@ function closeCardPreview(){
   cardModal.classList.add("hidden");
 }
 
+function allKnownCardNames(){
+  const names = new Set();
+  decks.forEach(deck=>{
+    if(deck.commander) names.add(deck.commander);
+    (deck.sections||[]).forEach(section=>{
+      (section.cards||[]).forEach(card=>{ if(card.name) names.add(card.name); });
+    });
+  });
+  Object.values(ALTERNATE_COMMANDERS||{}).forEach(alt=>{
+    (alt.options||[]).forEach(option=>{ if(option.name) names.add(option.name); });
+  });
+  return [...names].sort((a,b)=>b.length-a.length);
+}
+const KNOWN_CARD_NAMES = allKnownCardNames();
+function linkNamedCards(textValue){
+  const original = String(textValue ?? "");
+  let html = escapeHtml(original);
+  const placeholders = [];
+  for(const name of KNOWN_CARD_NAMES){
+    const escapedName = escapeHtml(name);
+    if(!html.includes(escapedName)) continue;
+    const token = `@@CARDREF${placeholders.length}@@`;
+    html = html.split(escapedName).join(token);
+    placeholders.push({token,name});
+  }
+  placeholders.forEach(({token,name})=>{
+    html = html.split(token).join(cardRefButton(name,"inline-card-ref"));
+  });
+  return html;
+}
+
 function levenshtein(a,b){
   a=compact(a); b=compact(b);
   const m=a.length,n=b.length;
@@ -10729,9 +10770,9 @@ function renderAlternateCommander(alt){
   const cards=(alt.options||[]).map(o=>`
     <div class="alt-card">
       <div class="alt-name">${cardRefButton(o.name, "alt-card-ref")}</div>
-      <div class="alt-detail"><span class="alt-label">What it does</span><div class="alt-text">${o.does}</div></div>
-      <div class="alt-detail"><span class="alt-label">How the strategy changes</span><div class="alt-text">${o.shift}</div></div>
-      <div class="alt-detail"><span class="alt-label">Try this version if…</span><div class="alt-text">${o.try}</div></div>
+      <div class="alt-detail"><span class="alt-label">What it does</span><div class="alt-text">${linkNamedCards(o.does)}</div></div>
+      <div class="alt-detail"><span class="alt-label">How the strategy changes</span><div class="alt-text">${linkNamedCards(o.shift)}</div></div>
+      <div class="alt-detail"><span class="alt-label">Try this version if…</span><div class="alt-text">${linkNamedCards(o.try)}</div></div>
     </div>
   `).join("");
   return `${status}<div class="alt-list">${cards}</div>`;
@@ -10831,7 +10872,7 @@ function renderTableSetup(setup){
           <span class="setup-name">${item.item}</span>
           <span class="setup-badge ${item.need||"useful"}">${badges[item.need]||"Useful"}</span>
         </div>
-        <div class="setup-why">${item.why}</div>
+        <div class="setup-why">${linkNamedCards(item.why)}</div>
       </div>
     </div>`).join("");
   return `
@@ -10841,13 +10882,13 @@ function renderTableSetup(setup){
     </div>
     <div class="setup-list">${items}</div>
     <div class="setup-kit-note"><strong>CommanderHygge kit:</strong> ${COMMANDERHYGGE_KIT.note}<br><strong>Ability tracking priority:</strong> 3D ability marker → keyword d6 → AnyToken. <strong>Keyword d6 — provisional:</strong> White — Hexproof, Haste, Vigilance, Menace, Lifelink, Trample. Black observed — Flying, Reach, First Strike, Double Strike, Deathtouch, Lifelink, Hexproof. <em>Black currently has 7 observed labels for a 6-sided die; verify the physical die later.</em></div>
-    ${setup.included?`<div class="setup-included"><strong>Already with the deck:</strong> ${setup.included}</div>`:""}
-    ${setup.note?`<div class="setup-note">${setup.note}</div>`:""}
+    ${setup.included?`<div class="setup-included"><strong>Already with the deck:</strong> ${linkNamedCards(setup.included)}</div>`:""}
+    ${setup.note?`<div class="setup-note">${linkNamedCards(setup.note)}</div>`:""}
   `;
 }
 
 function renderSectionBody(s,index,total){
-  const lead = s.lead ? `<p class="section-lead">${s.lead}</p>` : "";
+  const lead = s.lead ? `<p class="section-lead">${linkNamedCards(s.lead)}</p>` : "";
   const tableSetup = s.tableSetup ? renderTableSetup(s.tableSetup) : "";
   const alternate = s.alternate ? renderAlternateCommander(s.alternate) : "";
   const callouts = (s.callouts||[]).length ? `
@@ -10855,14 +10896,14 @@ function renderSectionBody(s,index,total){
       ${s.callouts.map(c=>`
         <div class="decision-box ${c.tone||"info"}">
           <div class="decision-label">${c.label}</div>
-          <div class="decision-text">${c.text}</div>
+          <div class="decision-text">${linkNamedCards(c.text)}</div>
         </div>
       `).join("")}
     </div>` : "";
   const bullets = (s.bullets||[]).length ? `
     <div class="action-list">
       ${s.bullets.map((b,i)=>`
-        <div class="action-row"><span class="action-dot">${i+1}</span><span>${b}</span></div>
+        <div class="action-row"><span class="action-dot">${i+1}</span><span>${linkNamedCards(b)}</span></div>
       `).join("")}
     </div>` : "";
   const cards = (s.cards||[]).length ? `
@@ -10870,7 +10911,7 @@ function renderSectionBody(s,index,total){
       ${s.cards.map(c=>`
         <div class="key-card">
           <div class="key-card-name">${cardRefButton(c.name, "key-card-ref")}</div>
-          <div class="key-card-why">${c.why}</div>
+          <div class="key-card-why">${linkNamedCards(c.why)}</div>
         </div>
       `).join("")}
     </div>` : "";
@@ -10928,7 +10969,7 @@ function openQuickGuide(deck){
   $("#quick-content").innerHTML=data.map(item=>`
     <div class="quick-row">
       <div class="quick-label">${item.label}</div>
-      <div class="quick-text">${item.text}</div>
+      <div class="quick-text">${linkNamedCards(item.text)}</div>
     </div>`).join("");
   quickModal.classList.remove("hidden");
 }
@@ -10949,22 +10990,22 @@ function openGuide(id){
           <div class="guide-meta">
             ${cardRefButton(d.commander, "commander-ref")}
           </div>
-          <p class="card-hint">Tap highlighted card names to open a Scryfall preview.</p>
+          <p class="card-hint">Tap named cards to open a Scryfall preview.</p>
           <div class="guide-rating-row">
             <span class="guide-rating">Pilot Difficulty <strong>${d.difficultyScore}/5</strong> · ${d.difficulty}</span>
           </div>
         </div>
         ${pips(d.colors)}
       </div>
-      <p class="guide-summary">${d.summary}</p>
+      <p class="guide-summary">${linkNamedCards(d.summary)}</p>
       <div class="pilot-snapshot">
         <div class="pilot-snapshot-card">
           <span class="pilot-snapshot-label">Your role</span>
-          <span class="pilot-snapshot-value">${d.role||"Pilot the deck's main plan"}</span>
+          <span class="pilot-snapshot-value">${linkNamedCards(d.role||"Pilot the deck's main plan")}</span>
         </div>
         <div class="pilot-snapshot-card">
           <span class="pilot-snapshot-label">Core rule</span>
-          <span class="pilot-snapshot-value">${d.coreRule||d.summary}</span>
+          <span class="pilot-snapshot-value">${linkNamedCards(d.coreRule||d.summary)}</span>
         </div>
       </div>
       <div class="guide-toolbar">
