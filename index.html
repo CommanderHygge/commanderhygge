@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="theme-color" content="#0d0c10">
   <title>CommanderHygge – Precon Pilot Guides</title>
   <style>
@@ -932,6 +935,9 @@ h2{
 
 .card-ref-btn{
   appearance:none;
+  text-decoration:none;
+  -webkit-tap-highlight-color:rgba(201,164,95,.18);
+  touch-action:manipulation;
   border:1px solid #5a4a34;
   background:linear-gradient(180deg,#2a241c,#211d19);
   color:#f2e5c7;
@@ -1183,7 +1189,7 @@ footer{
         <div class="card-preview-status">Loading card image…</div>
       </div>
       <div class="modal-actions">
-        <a id="card-open-link" class="primary-btn modal-link-btn" href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Open on Scryfall</a>
+        <a id="card-open-link" class="primary-btn modal-link-btn" href="https://scryfall.com" rel="noopener noreferrer">Open on Scryfall</a>
         <button id="close-card-bottom" class="secondary-btn">Back to Guide</button>
       </div>
     </div>
@@ -1205,7 +1211,7 @@ footer{
   </div>
 
   <footer>
-    <p>CommanderHygge · Prototype v0.17 · Unofficial fan-made pilot guides</p>
+    <p>CommanderHygge · Prototype v0.18 · Unofficial fan-made pilot guides</p>
   </footer>
 
   <script>
@@ -10577,12 +10583,13 @@ function normalizeCardApiName(name){
 }
 function cardRefButton(name, extraClass="", displayName=null){
   const canonicalName = normalizeCardApiName(name);
-  const label = displayName ?? name;
+  const label = displayName !== null && displayName !== undefined ? displayName : name;
   const safeName = escapeHtml(canonicalName);
   const safeLabel = escapeHtml(label);
+  const safeHref = escapeHtml(scryfallSearchUrl(canonicalName));
   const cls = ["card-ref-btn", extraClass].filter(Boolean).join(" ");
-  return `<button type="button" class="${cls}" data-card-name="${safeName}" aria-label="View ${safeLabel} on Scryfall">`+
-    `<span>${safeLabel}</span><span class="card-ref-icon" aria-hidden="true">↗</span></button>`;
+  return `<a href="${safeHref}" class="${cls}" data-card-name="${safeName}" aria-label="View ${safeLabel} on Scryfall">`+
+    `<span>${safeLabel}</span><span class="card-ref-icon" aria-hidden="true">↗</span></a>`;
 }
 function nl2br(str){
   return escapeHtml(str || "").split("\n").join("<br>");
@@ -10802,57 +10809,59 @@ function guideCardCandidates(deck,sections){
   const knownKeys=new Set(currentCardAliases().map(([alias])=>cardLookupKey(alias)));
   return [...candidates].filter(candidate=>!knownKeys.has(cardLookupKey(candidate)));
 }
-async function resolveCardCandidateChunk(chunk){
-  const identifiers=chunk.map(name=>({name:normalizeCardApiName(name)}));
-  const response=await fetch("https://api.scryfall.com/cards/collection",{
-    method:"POST",
-    headers:{"Content-Type":"application/json","Accept":"application/json"},
-    body:JSON.stringify({identifiers})
-  });
-  if(!response.ok) throw new Error(`Scryfall collection lookup failed (${response.status})`);
-  return response.json();
+let SCRYFALL_CARD_NAME_CATALOG_PROMISE = null;
+function loadScryfallCardNameCatalog(){
+  if(!SCRYFALL_CARD_NAME_CATALOG_PROMISE){
+    SCRYFALL_CARD_NAME_CATALOG_PROMISE = fetch("https://api.scryfall.com/catalog/card-names",{
+      method:"GET",
+      headers:{"Accept":"application/json"}
+    }).then(async response=>{
+      const result=await response.json();
+      if(!response.ok || !Array.isArray(result.data)){
+        throw new Error(`Scryfall card-name catalog failed (${response.status})`);
+      }
+      const catalog=new Map();
+      result.data.forEach(name=>catalog.set(cardLookupKey(name),name));
+      return catalog;
+    }).catch(error=>{
+      // Allow a later guide open to retry if an in-app browser temporarily blocks the request.
+      SCRYFALL_CARD_NAME_CATALOG_PROMISE = null;
+      throw error;
+    });
+  }
+  return SCRYFALL_CARD_NAME_CATALOG_PROMISE;
 }
 async function resolveGuideCardCandidates(deck,sections){
   const candidates=guideCardCandidates(deck,sections);
   const unresolved=candidates.filter(name=>!CARD_CANDIDATE_CACHE.has(cardLookupKey(name)));
-  for(let start=0;start<unresolved.length;start+=70){
-    const chunk=unresolved.slice(start,start+70);
-    try{
-      const result=await resolveCardCandidateChunk(chunk);
-      const foundByKey=new Map();
-      (result.data||[]).forEach(card=>{
-        const target=card.name;
-        foundByKey.set(cardLookupKey(card.name),target);
-        (card.card_faces||[]).forEach(face=>{
-          if(face.name) foundByKey.set(cardLookupKey(face.name),target);
-        });
-      });
-      chunk.forEach(candidate=>{
-        const key=cardLookupKey(candidate);
-        const target=foundByKey.get(key)||null;
-        CARD_CANDIDATE_CACHE.set(key,target);
-        if(target) DYNAMIC_CARD_ALIASES.set(candidate,target);
-      });
-    }catch(error){
-      console.warn("Could not complete Scryfall guide-name audit",error);
-      return;
-    }
+  if(!unresolved.length) return;
+  try{
+    const catalog=await loadScryfallCardNameCatalog();
+    unresolved.forEach(candidate=>{
+      const key=cardLookupKey(candidate);
+      const target=catalog.get(key)||null;
+      CARD_CANDIDATE_CACHE.set(key,target);
+      if(target) DYNAMIC_CARD_ALIASES.set(candidate,target);
+    });
+  }catch(error){
+    console.warn("Could not complete Scryfall guide-name audit",error);
   }
 }
 function createCardRefElement(target,label){
-  const button=document.createElement("button");
-  button.type="button";
-  button.className="card-ref-btn inline-card-ref";
-  button.dataset.cardName=normalizeCardApiName(target);
-  button.setAttribute("aria-label",`View ${label} on Scryfall`);
+  const link=document.createElement("a");
+  link.className="card-ref-btn inline-card-ref";
+  link.dataset.cardName=normalizeCardApiName(target);
+  link.href=scryfallSearchUrl(target);
+  link.setAttribute("aria-label",`View ${label} on Scryfall`);
   const nameSpan=document.createElement("span");
   nameSpan.textContent=label;
   const icon=document.createElement("span");
   icon.className="card-ref-icon";
   icon.setAttribute("aria-hidden","true");
   icon.textContent="↗";
-  button.append(nameSpan,icon);
-  return button;
+  link.appendChild(nameSpan);
+  link.appendChild(icon);
+  return link;
 }
 function validAliasBoundary(text,index,length){
   const before=index>0?text[index-1]:"";
@@ -10898,7 +10907,7 @@ function applyDynamicCardLinks(root){
       match=nextDynamicAliasMatch(remaining,entries);
     }
     if(remaining) fragment.append(document.createTextNode(remaining));
-    node.replaceWith(fragment);
+    if(node.parentNode) node.parentNode.replaceChild(fragment,node);
   });
 }
 async function auditAndLinkGuideCards(deck,sections){
@@ -11428,8 +11437,8 @@ function openGuide(id){
           <div class="guide-meta">
             ${cardRefButton(d.commander, "commander-ref")}
           </div>
-          <p class="card-hint">Tap named cards to open a Scryfall preview.</p>
-          <p class="card-link-scan-note">Card names across the full guide are checked against Scryfall.</p>
+          <p class="card-hint">Tap named cards for a Scryfall preview. If preview is blocked, the card link still opens Scryfall.</p>
+          <p class="card-link-scan-note">Card names across the full guide are checked with Scryfall using an Android-friendly GET lookup.</p>
           <div class="guide-rating-row">
             <span class="guide-rating">Pilot Difficulty <strong>${d.difficultyScore}/5</strong> · ${d.difficulty}</span>
             <span class="guide-rating">Strength <strong>${Number.isFinite(d.strengthScore)?`${d.strengthScore}/1000`:"—"}</strong></span>
@@ -11636,10 +11645,26 @@ $("#close-quick").addEventListener("click",()=>quickModal.classList.add("hidden"
 $("#close-quick-bottom").addEventListener("click",()=>quickModal.classList.add("hidden"));
 quickModal.addEventListener("click",e=>{ if(e.target===quickModal) quickModal.classList.add("hidden"); });
 
+function findCardRefTrigger(startNode){
+  let node=startNode;
+  while(node && node!==document){
+    if(node.matches && node.matches(".card-ref-btn")) return node;
+    node=node.parentElement;
+  }
+  return null;
+}
 document.addEventListener("click",e=>{
-  const trigger = e.target.closest(".card-ref-btn");
+  const trigger = findCardRefTrigger(e.target);
   if(!trigger) return;
-  openCardPreview(trigger.dataset.cardName);
+  // Keep normal browser behavior for long-press/new-tab gestures and modifier clicks.
+  if(e.button && e.button!==0) return;
+  if(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const cardName=trigger.dataset ? trigger.dataset.cardName : trigger.getAttribute("data-card-name");
+  if(!cardName) return;
+  // Progressive enhancement: the underlying element is already a real Scryfall link.
+  // If this handler never runs in an old/in-app browser, the native link still works.
+  e.preventDefault();
+  openCardPreview(cardName);
 });
 
 $("#close-card").addEventListener("click",closeCardPreview);
