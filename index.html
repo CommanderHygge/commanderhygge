@@ -1046,6 +1046,241 @@ h2{
   justify-content:center;
 }
 
+
+.life-card{
+  border-color:#4f3b3d;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(181,74,83,.11),transparent 13rem),
+    linear-gradient(145deg,#252022,#191719);
+}
+.life-card-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:13px;
+}
+.life-card-row h3{margin:0 0 4px}
+.life-card-row p{margin:0;color:var(--muted);font-size:.84rem;line-height:1.4}
+.heart-mark{
+  width:43px;height:43px;flex:0 0 43px;
+  display:grid;place-items:center;
+  border:1px solid #604044;
+  border-radius:12px;
+  background:#2c1e21;
+  color:#e7a1a8;
+  font-size:1.35rem;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.02);
+}
+.life-counter-btn{
+  width:100%;
+  min-height:46px;
+  border-radius:12px;
+  border:1px solid #744b50;
+  padding:12px 16px;
+  font-weight:850;
+  color:#f7e7e8;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.05),transparent 44%),
+    linear-gradient(135deg,#6f3c43,#9b535d);
+  box-shadow:inset 0 1px rgba(255,255,255,.12),0 7px 18px rgba(0,0,0,.2);
+}
+.life-counter-btn:active{transform:scale(.985)}
+body.life-mode main{
+  max-width:1100px;
+  padding:10px 8px max(10px,env(safe-area-inset-bottom));
+}
+body.life-mode footer{display:none}
+.life-view-shell{
+  min-height:calc(100dvh - 74px);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.life-controls{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:0 2px;
+}
+.life-controls-left{
+  min-width:0;
+}
+.life-controls .eyebrow{margin-bottom:2px}
+.life-controls-title{
+  margin:0;
+  font-family:var(--serif);
+  font-size:1.08rem;
+  color:#f7efe4;
+}
+.life-controls-actions{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.life-tool-btn{
+  min-height:38px;
+  border-radius:10px;
+  border:1px solid #463d3b;
+  background:linear-gradient(180deg,#262225,#1c191c);
+  color:#ddd4cc;
+  padding:8px 10px;
+  font-size:.75rem;
+  font-weight:800;
+  white-space:nowrap;
+}
+.life-tool-btn:disabled{opacity:.38;cursor:default}
+.life-tool-btn.danger-armed{
+  border-color:#9d555d;
+  background:linear-gradient(180deg,#69363d,#4b282d);
+  color:#fff1f2;
+}
+.life-grid{
+  flex:1 1 auto;
+  min-height:500px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:repeat(2,minmax(220px,1fr));
+  gap:8px;
+}
+.life-player{
+  --player-accent:#9c7650;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  border:1px solid #423a3a;
+  border-radius:16px;
+  background:
+    radial-gradient(circle at 50% 20%,color-mix(in srgb,var(--player-accent) 18%,transparent),transparent 60%),
+    linear-gradient(160deg,#211e21,#151416);
+  box-shadow:0 10px 24px rgba(0,0,0,.22);
+  transition:transform .2s ease,opacity .2s ease,filter .2s ease;
+}
+.life-player::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;height:4px;
+  background:var(--player-accent);
+  opacity:.85;
+}
+.life-player:nth-child(1){--player-accent:#7f9db5}
+.life-player:nth-child(2){--player-accent:#b77c69}
+.life-player:nth-child(3){--player-accent:#83a37c}
+.life-player:nth-child(4){--player-accent:#a58aaf}
+.life-grid.table-oriented .life-player:nth-child(-n+2){transform:rotate(180deg)}
+.life-player.life-out{filter:saturate(.45);opacity:.78}
+.life-player-name{
+  width:calc(100% - 20px);
+  margin:10px 10px 0;
+  padding:5px 7px;
+  border:0;
+  border-bottom:1px solid rgba(255,255,255,.11);
+  outline:0;
+  background:transparent;
+  color:#eee5dc;
+  text-align:center;
+  font-weight:800;
+  font-size:clamp(.76rem,2.8vw,.96rem);
+}
+.life-player-name:focus{border-bottom-color:var(--player-accent)}
+.life-main-row{
+  flex:1 1 auto;
+  min-height:0;
+  display:grid;
+  grid-template-columns:minmax(42px,.8fr) minmax(72px,1.35fr) minmax(42px,.8fr);
+  align-items:stretch;
+  padding:4px 5px 0;
+}
+.life-change-btn{
+  border:0;
+  border-radius:12px;
+  background:transparent;
+  color:#aaa09a;
+  font-size:clamp(1.75rem,9vw,3.7rem);
+  font-weight:300;
+  line-height:1;
+  touch-action:manipulation;
+}
+.life-change-btn:active{
+  background:rgba(255,255,255,.055);
+  color:#fff;
+}
+.life-total{
+  display:grid;
+  place-items:center;
+  min-width:0;
+  font-family:var(--serif);
+  font-variant-numeric:tabular-nums;
+  font-size:clamp(3.1rem,16vw,7.5rem);
+  font-weight:800;
+  line-height:.92;
+  letter-spacing:-.06em;
+  color:#fff8ee;
+  text-shadow:0 5px 24px rgba(0,0,0,.36);
+  user-select:none;
+}
+.life-out .life-total{color:#d9a3a7}
+.life-quick-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  padding:0 8px 8px;
+}
+.life-quick-btn{
+  min-height:36px;
+  border:1px solid #3f3838;
+  border-radius:10px;
+  background:rgba(255,255,255,.025);
+  color:#bdb3ac;
+  font-weight:850;
+  font-size:.78rem;
+  touch-action:manipulation;
+}
+.life-quick-btn:active{background:rgba(255,255,255,.075);color:#fff}
+.life-session-note{
+  margin:0 2px;
+  color:#756d68;
+  font-size:.67rem;
+  line-height:1.35;
+  text-align:center;
+}
+.life-toast{
+  position:fixed;
+  left:50%;
+  bottom:max(18px,env(safe-area-inset-bottom));
+  transform:translateX(-50%);
+  z-index:80;
+  border:1px solid #544744;
+  border-radius:999px;
+  background:rgba(24,21,23,.94);
+  color:#e8dfd6;
+  padding:8px 13px;
+  font-size:.75rem;
+  font-weight:800;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);
+  pointer-events:none;
+}
+@media(max-width:520px){
+  body.life-mode main{padding-left:5px;padding-right:5px}
+  .life-grid{gap:5px;grid-template-rows:repeat(2,minmax(205px,1fr))}
+  .life-player{border-radius:13px}
+  .life-controls-actions{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}
+  .life-tool-btn{padding:7px 5px;font-size:.68rem}
+}
+@media(max-height:690px){
+  .life-grid{grid-template-rows:repeat(2,minmax(178px,1fr));min-height:390px}
+  .life-player-name{margin-top:7px}
+  .life-quick-btn{min-height:30px}
+}
+@supports not (background:color-mix(in srgb,red 20%,transparent)){
+  .life-player{background:linear-gradient(160deg,#211e21,#151416)}
+}
+
 footer{
   position:relative;z-index:1;
   max-width:780px;margin:auto;
@@ -1113,11 +1348,23 @@ footer{
             <button id="draw-four-btn" class="table-draw-btn">♟ Draw 4 Decks for the Table</button>
           </div>
         </section>
+
+        <section class="action-card life-card" aria-labelledby="life-card-title">
+          <div class="action-kicker">3 · Track the game</div>
+          <div class="life-card-row">
+            <div>
+              <h3 id="life-card-title">4-Player Life Counter</h3>
+              <p>Start at 40 life. No login and no saved player data.</p>
+            </div>
+            <div class="heart-mark" aria-hidden="true">♥</div>
+          </div>
+          <button id="life-counter-btn" class="life-counter-btn">♥ Open Life Counter</button>
+        </section>
       </div>
 
       <div class="section-title-row">
         <div>
-          <p class="browse-kicker">3 · Prefer to browse?</p>
+          <p class="browse-kicker">4 · Prefer to browse?</p>
           <h3>All decks</h3>
         </div>
         <span id="deck-count" class="count"></span>
@@ -1136,6 +1383,78 @@ footer{
 
     <section id="guide-view" class="view hidden">
       <div id="guide-content"></div>
+    </section>
+
+    <section id="life-view" class="view hidden" aria-label="Four-player life counter">
+      <div class="life-view-shell">
+        <div class="life-controls">
+          <div class="life-controls-left">
+            <p class="eyebrow">Commander life tracker</p>
+            <h2 class="life-controls-title">4 players · 40 starting life</h2>
+          </div>
+          <div class="life-controls-actions">
+            <button id="life-rotate" class="life-tool-btn" type="button">↻ Rotate top</button>
+            <button id="life-undo" class="life-tool-btn" type="button" disabled>↶ Undo</button>
+            <button id="life-reset" class="life-tool-btn" type="button">New game</button>
+          </div>
+        </div>
+
+        <div id="life-grid" class="life-grid">
+          <article class="life-player" data-player="0">
+            <input class="life-player-name" value="Player 1" maxlength="18" aria-label="Player 1 name">
+            <div class="life-main-row">
+              <button class="life-change-btn" type="button" data-player="0" data-delta="-1" aria-label="Player 1 minus 1 life">−</button>
+              <div class="life-total" data-life-total="0" aria-live="polite">40</div>
+              <button class="life-change-btn" type="button" data-player="0" data-delta="1" aria-label="Player 1 plus 1 life">+</button>
+            </div>
+            <div class="life-quick-row">
+              <button class="life-quick-btn" type="button" data-player="0" data-delta="-5">−5</button>
+              <button class="life-quick-btn" type="button" data-player="0" data-delta="5">+5</button>
+            </div>
+          </article>
+
+          <article class="life-player" data-player="1">
+            <input class="life-player-name" value="Player 2" maxlength="18" aria-label="Player 2 name">
+            <div class="life-main-row">
+              <button class="life-change-btn" type="button" data-player="1" data-delta="-1" aria-label="Player 2 minus 1 life">−</button>
+              <div class="life-total" data-life-total="1" aria-live="polite">40</div>
+              <button class="life-change-btn" type="button" data-player="1" data-delta="1" aria-label="Player 2 plus 1 life">+</button>
+            </div>
+            <div class="life-quick-row">
+              <button class="life-quick-btn" type="button" data-player="1" data-delta="-5">−5</button>
+              <button class="life-quick-btn" type="button" data-player="1" data-delta="5">+5</button>
+            </div>
+          </article>
+
+          <article class="life-player" data-player="2">
+            <input class="life-player-name" value="Player 3" maxlength="18" aria-label="Player 3 name">
+            <div class="life-main-row">
+              <button class="life-change-btn" type="button" data-player="2" data-delta="-1" aria-label="Player 3 minus 1 life">−</button>
+              <div class="life-total" data-life-total="2" aria-live="polite">40</div>
+              <button class="life-change-btn" type="button" data-player="2" data-delta="1" aria-label="Player 3 plus 1 life">+</button>
+            </div>
+            <div class="life-quick-row">
+              <button class="life-quick-btn" type="button" data-player="2" data-delta="-5">−5</button>
+              <button class="life-quick-btn" type="button" data-player="2" data-delta="5">+5</button>
+            </div>
+          </article>
+
+          <article class="life-player" data-player="3">
+            <input class="life-player-name" value="Player 4" maxlength="18" aria-label="Player 4 name">
+            <div class="life-main-row">
+              <button class="life-change-btn" type="button" data-player="3" data-delta="-1" aria-label="Player 4 minus 1 life">−</button>
+              <div class="life-total" data-life-total="3" aria-live="polite">40</div>
+              <button class="life-change-btn" type="button" data-player="3" data-delta="1" aria-label="Player 4 plus 1 life">+</button>
+            </div>
+            <div class="life-quick-row">
+              <button class="life-quick-btn" type="button" data-player="3" data-delta="-5">−5</button>
+              <button class="life-quick-btn" type="button" data-player="3" data-delta="5">+5</button>
+            </div>
+          </article>
+        </div>
+
+        <p class="life-session-note">Session only: life totals and names are kept only while this page remains open. Nothing is uploaded or saved.</p>
+      </div>
     </section>
   </main>
 
@@ -1210,8 +1529,10 @@ footer{
     </div>
   </div>
 
+  <div id="life-toast" class="life-toast hidden" role="status"></div>
+
   <footer>
-    <p>CommanderHygge · Prototype v0.18 · Unofficial fan-made pilot guides</p>
+    <p>CommanderHygge · Prototype v0.19 · Unofficial fan-made pilot guides</p>
   </footer>
 
   <script>
@@ -10535,6 +10856,12 @@ const TABLE_SETUPS = {
 const $ = s => document.querySelector(s);
 const home = $("#home-view");
 const guide = $("#guide-view");
+const lifeView = $("#life-view");
+const lifeGrid = $("#life-grid");
+const lifeUndoBtn = $("#life-undo");
+const lifeResetBtn = $("#life-reset");
+const lifeRotateBtn = $("#life-rotate");
+const lifeToast = $("#life-toast");
 const headerContext = $("#header-context");
 const headerBack = $("#header-back");
 const headerProgressTrack = $("#header-progress-track");
@@ -10560,6 +10887,12 @@ let currentRandom = null;
 let currentGuideDeck = null;
 let fourDrawDecks = [];
 const takenDeckIds = new Set();
+const lifeTotals = [40,40,40,40];
+const lifeHistory = [];
+let lifeTableOriented = false;
+let lifeResetArmed = false;
+let lifeResetTimer = null;
+let lifeToastTimer = null;
 
 function normalize(str){
   return (str || "")
@@ -11421,11 +11754,96 @@ function openQuickGuide(deck){
   auditAndLinkGuideCards(deck,getGuideSections(deck));
 }
 
+
+function showLifeToast(message){
+  lifeToast.textContent = message;
+  lifeToast.classList.remove("hidden");
+  clearTimeout(lifeToastTimer);
+  lifeToastTimer = setTimeout(()=>lifeToast.classList.add("hidden"),1700);
+}
+function renderLifePlayer(index){
+  const total = lifeTotals[index];
+  const totalEl = document.querySelector(`[data-life-total="${index}"]`);
+  const playerEl = document.querySelector(`.life-player[data-player="${index}"]`);
+  if(totalEl) totalEl.textContent = total;
+  if(playerEl) playerEl.classList.toggle("life-out", total <= 0);
+}
+function updateLifeUndoState(){
+  lifeUndoBtn.disabled = lifeHistory.length === 0;
+}
+function changeLife(index,delta){
+  if(!Number.isInteger(index) || index < 0 || index >= lifeTotals.length) return;
+  const previous = lifeTotals[index];
+  const next = previous + delta;
+  lifeTotals[index] = next;
+  lifeHistory.push({index,previous,next});
+  if(lifeHistory.length > 100) lifeHistory.shift();
+  renderLifePlayer(index);
+  updateLifeUndoState();
+}
+function undoLifeChange(){
+  const action = lifeHistory.pop();
+  if(!action) return;
+  lifeTotals[action.index] = action.previous;
+  renderLifePlayer(action.index);
+  updateLifeUndoState();
+  showLifeToast("Last life change undone");
+}
+function resetLifeTotals(){
+  lifeTotals.fill(40);
+  lifeHistory.length = 0;
+  lifeTotals.forEach((_,index)=>renderLifePlayer(index));
+  updateLifeUndoState();
+  lifeResetArmed = false;
+  lifeResetBtn.classList.remove("danger-armed");
+  lifeResetBtn.textContent = "New game";
+  clearTimeout(lifeResetTimer);
+  showLifeToast("All players reset to 40");
+}
+function armLifeReset(){
+  if(lifeResetArmed){
+    resetLifeTotals();
+    return;
+  }
+  lifeResetArmed = true;
+  lifeResetBtn.classList.add("danger-armed");
+  lifeResetBtn.textContent = "Tap again to reset";
+  clearTimeout(lifeResetTimer);
+  lifeResetTimer = setTimeout(()=>{
+    lifeResetArmed = false;
+    lifeResetBtn.classList.remove("danger-armed");
+    lifeResetBtn.textContent = "New game";
+  },2600);
+}
+function toggleLifeOrientation(){
+  lifeTableOriented = !lifeTableOriented;
+  lifeGrid.classList.toggle("table-oriented",lifeTableOriented);
+  lifeRotateBtn.textContent = lifeTableOriented ? "↻ Normal view" : "↻ Rotate top";
+}
+function openLifeCounter(){
+  home.classList.add("hidden");
+  guide.classList.add("hidden");
+  lifeView.classList.remove("hidden");
+  document.body.classList.add("life-mode");
+  headerContext.textContent = "4-Player Life Counter";
+  headerContext.classList.add("guide-context");
+  headerBack.textContent = "← Home";
+  headerBack.classList.remove("hidden");
+  headerProgressTrack.classList.add("hidden");
+  headerProgressBar.style.width = "0%";
+  currentGuideDeck = null;
+  history.replaceState(null,"",`${location.pathname}#life-counter`);
+  window.scrollTo(0,0);
+}
+
 function openGuide(id){
   const d=decks.find(x=>x.id===id);
   if(!d) return;
   const guideSections = getGuideSections(d);
   currentGuideDeck = d;
+  lifeView.classList.add("hidden");
+  document.body.classList.remove("life-mode");
+  headerBack.textContent = "← All decks";
   headerBack.classList.remove("hidden");
   updateGuideProgress(d,0,guideSections.length);
   $("#guide-content").innerHTML=`
@@ -11480,6 +11898,7 @@ function openGuide(id){
     </div>
   `;
   home.classList.add("hidden");
+  lifeView.classList.add("hidden");
   guide.classList.remove("hidden");
 
   const accButtons = [...document.querySelectorAll(".acc-btn")];
@@ -11534,9 +11953,12 @@ function openGuide(id){
 
 function returnToHome(){
   guide.classList.add("hidden");
+  lifeView.classList.add("hidden");
   home.classList.remove("hidden");
+  document.body.classList.remove("life-mode");
   headerContext.textContent = "Precon Pilot Guides";
   headerContext.classList.remove("guide-context");
+  headerBack.textContent = "← All decks";
   headerBack.classList.add("hidden");
   headerProgressTrack.classList.add("hidden");
   headerProgressBar.style.width = "0%";
@@ -11671,6 +12093,16 @@ $("#close-card").addEventListener("click",closeCardPreview);
 $("#close-card-bottom").addEventListener("click",closeCardPreview);
 cardModal.addEventListener("click",e=>{ if(e.target===cardModal) closeCardPreview(); });
 
+$("#life-counter-btn").addEventListener("click",openLifeCounter);
+lifeUndoBtn.addEventListener("click",undoLifeChange);
+lifeResetBtn.addEventListener("click",armLifeReset);
+lifeRotateBtn.addEventListener("click",toggleLifeOrientation);
+lifeGrid.addEventListener("click",event=>{
+  const button = event.target.closest("[data-delta][data-player]");
+  if(!button) return;
+  changeLife(Number(button.dataset.player),Number(button.dataset.delta));
+});
+
 $("#random-btn").addEventListener("click",()=>{
   roll();
   modal.classList.remove("hidden");
@@ -11696,7 +12128,11 @@ updateDeckSortUI();
 renderDecks(decks);
 updateRandomizerStatus();
 const hash=location.hash.replace("#","");
-if(hash && decks.some(d=>d.id===hash)) openGuide(hash);
+if(hash==="life-counter"){
+  openLifeCounter();
+} else if(hash && decks.some(d=>d.id===hash)){
+  openGuide(hash);
+}
 
 </script>
 </body>
